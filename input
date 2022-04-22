@@ -1,0 +1,5 @@
+# initial conditions
+#sigma_kick,maximum time(Myr) (4)
+265.d0,50.,50.,50.,50.
+#K1,K2,KL1,KL2,Kq1,Kq2
+0.1,0.1,0.028,0.028,0.004667,0.004667

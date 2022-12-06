@@ -1,1 +1,3 @@
 output/*
+my_lib.cp38*
+__pycache__/

@@ -18,4 +18,10 @@ Running
 python Stellartriples.py
 ```
 
-simulates a random hierarchical stellar triple.
+simulates a random hierarchical stellar triple. 
+
+To store the result create an output directory before:
+
+```
+mkdir output
+```

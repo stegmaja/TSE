@@ -15,6 +15,7 @@ import my_lib
 from common import power_law
 import sys
 
+# Set to False on the cluster
 show_pbar = True
 
 ### Random output file name ###
@@ -58,9 +59,9 @@ print("%17s" % "Rel. inclination:","%8.3f" % i)
 print("%17s" % "Max. integration:","%8.3f" % float(t_bound/Myr),"Myr")
 print("")
 
-globals.star1 = IsolatedStar(z,1,m1/Msol,m1/Msol)
-globals.star2 = IsolatedStar(z,1,m2/Msol,m2/Msol)
-globals.star3 = IsolatedStar(z,1,m3/Msol,m3/Msol)
+globals.star1 = IsolatedStar(z,14,m1/Msol,m1/Msol)
+globals.star2 = IsolatedStar(z,14,m2/Msol,m2/Msol)
+globals.star3 = IsolatedStar(z,14,m3/Msol,m3/Msol)
 
 y = np.zeros(25)
 y[0] = ein
@@ -84,7 +85,8 @@ Pout = 2.*np.pi*sqrt(aout**3/G/m123)
 y[21] = globals.star1.bcm[0,12+14]*1./yr
 y[24] = globals.star2.bcm[0,12+14]*1./yr
 
-if(show_pbar): pbar = tqdm(total=t_bound)
+
+pbar = tqdm(total=t_bound)
 
 def evolve_pbar(t,y):
     globals.m1 = globals.star1.get_m(t/Myr)*Msol

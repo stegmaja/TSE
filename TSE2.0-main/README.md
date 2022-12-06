@@ -10,4 +10,6 @@ builds a Python extension modules that make it possible to use (MO)BSE in Python
 
 Running 
 
-python Stellar.py
+python Stellartriples.py
+
+simulates a random hierarchical stellar triple.

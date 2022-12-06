@@ -1,6 +1,6 @@
 #!/bin/bash --login
 #SBATCH -n 64  
-#SBATCH -o /scratch/c.c1990490/output.TSE2.0.%J #Job output
+#SBATCH -o /scratch/c.c1718684/output.%J #Job output
 #SBATCH -t 1:00:00   
 #SBATCH -p dev             
 module purge

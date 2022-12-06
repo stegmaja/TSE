@@ -16,7 +16,7 @@ from common import power_law
 import sys
 
 # Set to False on the cluster
-show_pbar = True
+show_pbar = False
 
 ### Random output file name ###
 file = str(uuid.uuid4())
@@ -128,7 +128,7 @@ event_names = ["DCO merger","Dynamical instability","Primary RLO","Secondary RLO
 
 t_init = 0.
 t_eval = np.arange(t_init,t_bound,step_t)
-sol = integrate.solve_ivp(evolve_pbar, [t_init,t_bound], y, method="Radau", events=event_list, t_eval=t_eval, rtol=rtol, atol=atol)#, max_step=Pout/100.)
+sol = integrate.solve_ivp(evolve_pbar, [t_init,t_bound], y, method="Radau", events=[], t_eval=t_eval, rtol=rtol, atol=atol)#, max_step=Pout/100.)
 t_final = sol.t
 y_final = sol.y
 
@@ -293,7 +293,7 @@ while(sol.status==1):
         break
 
     t_eval = np.arange(t_init,t_bound,step_t)
-    sol = integrate.solve_ivp(evolve_pbar, [t_init,t_bound], (sol.y).T[-1], method="Radau", events=event_list, t_eval=t_eval, rtol=rtol, atol=atol)#, max_step=Pout/100.)
+    sol = integrate.solve_ivp(evolve_pbar, [t_init,t_bound], (sol.y).T[-1], method="Radau", events=[], t_eval=t_eval, rtol=rtol, atol=atol)#, max_step=Pout/100.)
     print(sol.message)
     t_final = np.append(t_final,sol.t)
     y_final = np.append(y_final,sol.y,axis=1)

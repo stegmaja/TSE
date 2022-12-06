@@ -20,6 +20,6 @@ k1 = .1
 k2 = .1
 Dt = sec
 vk_sigma = 265.*kms
-atol, rtol = 1e-3,1e-3
+atol, rtol = 1e-6,1e-6
 step_t = 1e4*yr
 tphysf = 100.*Myr

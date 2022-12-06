@@ -1,4 +1,4 @@
-# TSE2.0
+# TSE2
 
 ```
 bash compile-unix.sh 

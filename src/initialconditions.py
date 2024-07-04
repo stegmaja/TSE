@@ -162,8 +162,8 @@ class InitialConditions:
         self.m3 = args.m3
         self.a1 = args.a1
         self.a2 = args.a2
-        self.e1 = args.e1
-        self.e2 = args.e2
+        self.e1 = max(args.e1,1e-3)
+        self.e2 = max(args.e2,1e-3)
         self.cosi1 = args.cosi1
         self.cosi2 = args.cosi2
         self.omega1 = args.omega1

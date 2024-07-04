@@ -8,6 +8,7 @@ import astropy.units as u
 from astropy.constants import G,c
 import matplotlib.pyplot as plt
 from initialconditions import ic
+from spinevolution import yp_spins
 
 np.random.seed(ic.seed)
 
@@ -410,8 +411,8 @@ def model_RLO(t,y,star1,star2):
     epoch2 = star2.interpolators['epoch'](t)
 
     # Spins
-    ospin1 = star1.interpolators['ospin'](t) # Change to y[14:17]
-    ospin2 = star2.interpolators['ospin'](t) # Change to y[17:20]
+    ospin1 = np.linalg.norm(y[14:17])/1e6
+    ospin2 = np.linalg.norm(y[17:20])/1e6
 
     # Inner semi-major axis
     a_in = y[6]
@@ -439,6 +440,12 @@ def model_RLO(t,y,star1,star2):
     y_new[3:6] *= np.sqrt(1-e_new**2)/np.linalg.norm(y[3:6])
     y_new[6] = a_new
     y_new[13] *= (m1+m2)/binary.m12
+    y_new[14:17] *= binary.spin1*1e6/np.linalg.norm(y[14:17])
+    y_new[17:20] *= binary.spin2*1e6/np.linalg.norm(y[17:20])
+    if binary.k1 == 14:
+        y_new[20:23] = y[14:17]/np.linalg.norm(y[14:17])
+    if binary.k2 == 14:
+        y_new[23:26] = y[17:20]/np.linalg.norm(y[17:20])
     event_status = binary.event_status
     star1 = binary.star1
     star2 = binary.star2
@@ -540,13 +547,13 @@ def apply_inner_SN(t,y,star1,star2,star3):
     t_new = t+1e-3
     y_new = y
 
-    lvec_in_new,evec_in_new,nvec_in_new = ot.orbital_elements_to_vectorial_elements(cos_i_in_new, Omega_in_new, omega_in_new)
+    lvec_in_new,evec_in_new,_ = ot.orbital_elements_to_vectorial_elements(cos_i_in_new, Omega_in_new, omega_in_new)
     y_new[0:3] = evec_in_new*e_in_new
     with np.errstate(invalid='ignore'): # Ignore warnings about sqrt of negative numbers
         y_new[3:6] = lvec_in_new*np.sqrt(1-e_in_new**2)
     y_new[6] = a_in_new
 
-    lvec_out_new,evec_out_new,nvec_out_new = ot.orbital_elements_to_vectorial_elements(cos_i_out_new, Omega_out_new, omega_out_new)
+    lvec_out_new,evec_out_new,_ = ot.orbital_elements_to_vectorial_elements(cos_i_out_new, Omega_out_new, omega_out_new)
     y_new[7:10] = evec_out_new*e_out_new
     with np.errstate(invalid='ignore'): # Ignore warnings about sqrt of negative numbers
         y_new[10:13] = lvec_out_new*np.sqrt(1-e_out_new**2)
@@ -675,14 +682,6 @@ def evolve(t,y,star1,star2,star3):
     dm2 = star2.interpolators['dm'](t)
     dm3 = star3.interpolators['dm'](t)
 
-    # Stellar types
-    k1 = star1.interpolators['k'](t)
-    k2 = star2.interpolators['k'](t)
-
-    # BH spins
-    S1v = y[14:17]
-    S2v = y[17:20]
-
     ### Orbital frames ###
     ev = y[0:3]
     e = np.linalg.norm(ev)
@@ -769,28 +768,9 @@ def evolve(t,y,star1,star2,star3):
     yp[13] += A*np.abs(dm2)/m123
     yp[13] += A*np.abs(dm3)/m123
 
-    ### BH spins ###
+    ### Spin evolution ###
 
-    if k1<14: S1v = np.zeros(3)
-    if k2<14: S2v = np.zeros(3)
-
-    ### SO ###
-
-    Seff = (1+3*m2/4/m1)*S1v+(1+3*m1/4/m2)*S2v
-    
-    yp[0:3] += 2*G/c**2/a**3/j**3*cross(Seff-3*dot(Seff,jv/j)*jv/j,ev)
-    yp[3:6] += 2*G/c**2/a**3/j**3*cross(Seff,jv)
-    yp[14:17] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m2/4/m1)*cross(jv,S1v)
-    yp[17:20] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m1/4/m2)*cross(jv,S2v)
-    
-    ### SS ###
-
-    S0 = (1+m2/m1)*S1v+(1+m1/m2)*S2v
-   
-    yp[0:3] += 3*np.sqrt(G)/4/c**2/m12**(3/2)/a**(7/2)/j**4*cross(5*dot(S0,jv/j)**2*jv/j-2*dot(S0,jv/j)*S0-dot(S0,S0)*jv/j,ev)
-    yp[3:6] += -3*np.sqrt(G)/2/c**2/m12**(3/2)/a**(7/2)/j**4*dot(S0,jv/j)*cross(S0,jv)
-    yp[14:17] += G*mu1/2/c**2/m12/a**3/j**3*(1+m2/m1)*cross(S0-3*dot(S0,jv/j)*jv/j,S1v)
-    yp[17:20] += G*mu1/2/c**2/m12/a**3/j**3*(1+m1/m2)*cross(S0-3*dot(S0,jv/j)*jv/j,S2v)
+    yp += yp_spins(t,y,star1,star2,star3)
 
     return yp
 
@@ -819,7 +799,7 @@ if __name__ == '__main__':
 
     print(ic)
 
-    y0 = np.zeros(20)
+    y0 = np.zeros(26)
 
     y0[0:3] = evec_in*e_in
     y0[3:6] = lvec_in*np.sqrt(1-e_in**2)
@@ -829,16 +809,15 @@ if __name__ == '__main__':
     y0[10:13] = lvec_out*np.sqrt(1-e_out**2)
     y0[13] = a_out
 
-    # We initiate the BH spins to be initially aligned with jv, and length 1
-    # Note that they are only evolved after BHs form
-    y0[14:17] = lvec_in
-    y0[17:20] = lvec_in
-
     # Star objects
     print('Evolve single stars (ignore entries for dummy secondary)',end='\n\n')
     star1 = SingleStar(mass0_1=m1)
     star2 = SingleStar(mass0_1=m2)
     star3 = SingleStar(mass0_1=m3)
+
+    # Stellar spins
+    y0[14:17] = lvec_in*star1.interpolators['ospin'](0)*1e6
+    y0[17:20] = lvec_in*star2.interpolators['ospin'](0)*1e6
 
     # Terminating events
     primary_RL.terminal = True
@@ -920,9 +899,13 @@ if __name__ == '__main__':
             elif i == 4:
                 print('Primary supernova at',sol.t_events[i][0])
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
+                if star1.interpolators['k'](t_new) == 14:
+                    y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17]) # BH spins
             elif i == 5:
                 print('Secondary supernova at',sol.t_events[i][0])
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star2,star1,star3)
+                if star2.interpolators['k'](t_new) == 14:
+                    y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20]) # BH spins
             elif i == 6:
                 print('Tertiary supernova at',sol.t_events[i][0])
                 t_new,y_new,event_status = apply_outer_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)

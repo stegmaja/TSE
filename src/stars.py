@@ -73,7 +73,7 @@ class SingleStar:
         os.chdir(ic.SRC_DIR)
 
         # Read output
-        t,k,m0,m,loglum,logr,menv,renv,epoch,ospin,ffb = np.loadtxt(ic.MOBSE_DIR+'/../mobse.out',unpack=True,usecols=(0,1,2,3,4,5,9,10,11,12,-1))
+        t,k,m0,m,loglum,logr,massc,radc,menv,renv,epoch,ospin,ffb = np.loadtxt(ic.MOBSE_DIR+'/../mobse.out',unpack=True,usecols=(0,1,2,3,4,5,7,8,9,10,11,12,-1))
 
         # Only keep values where t is unique
         t, idx = np.unique(t,return_index=True)
@@ -100,6 +100,8 @@ class SingleStar:
         self.interpolators['loglum'] = interpolate.interp1d(t,loglum,fill_value=(loglum[0],loglum[-1]),bounds_error=False)
         self.interpolators['menv'] = interpolate.interp1d(t,menv,fill_value=(menv[0],menv[-1]),bounds_error=False)
         self.interpolators['renv'] = interpolate.interp1d(t,renv,fill_value=(renv[0],renv[-1]),bounds_error=False)
+        self.interpolators['massc'] = interpolate.interp1d(t,massc,fill_value=(massc[0],massc[-1]),bounds_error=False)
+        self.interpolators['radc'] = interpolate.interp1d(t,radc,fill_value=(radc[0],radc[-1]),bounds_error=False)
         
         # Test if star is CO initially
         if k[0]>=13:
@@ -264,6 +266,10 @@ class InteractingBinaryStar:
             self.m12 = np.nan
             self.star1 = None
             self.star2 = None
+            self.ospin1 = np.nan
+            self.ospin2 = np.nan
+            self.k1 = np.nan
+            self.k2 = np.nan
             return
             
         # Test if orbit is intact
@@ -276,6 +282,10 @@ class InteractingBinaryStar:
             self.m12 = np.nan
             self.star1 = None
             self.star2 = None
+            self.ospin1 = np.nan
+            self.ospin2 = np.nan
+            self.k1 = np.nan
+            self.k2 = np.nan
             return 
 
         # Initiate two single stars to continue evolution
@@ -359,3 +369,7 @@ class InteractingBinaryStar:
         self.sep = sep
         self.ecc = max(ecc,1e-3)
         self.m12 = m1+m2
+        self.ospin1 = ospin1
+        self.ospin2 = ospin2
+        self.k1 = k1
+        self.k2 = k2

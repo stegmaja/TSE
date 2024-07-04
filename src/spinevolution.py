@@ -1,32 +1,44 @@
 import numpy as np
 import astropy.units as u
-from astropy.constants import G
+from astropy.constants import G,c
 import OrbitTools as ot
 
 # Default units are Rsun, Msun, Myr
 G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
+c = c.to(u.Rsun/u.Myr).value
+
+def dot(a,b): 
+    return np.sum(a*b)
+
+def cross(a,b):
+    return np.array([a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]])
 
 def f1(e):
     return (1-e**2)**(-13/2)*(1+15/4*e**2+15/8*e**4+5/64*e**6)
+
 def f2(e):
     return (1-e**2)**(-5)*(1+3/2*e**2+1/8*e**4)
+
 def f3(e):
     return (1-e**2)**(-5)*(1+9/2*e**2+5/8*e**4)
+
 def f4(e):
     return (1-e**2)**(-13/2)*(1+15/2*e**2+45/8*e**4+5/16*e**6)
+
 def f5(e):
     return (1-e**2)**(-5)*(3+5*e**2)
+
 def f6(e):
     return (1-e**2)**(-8)*(1+31/2*e**2+255/8*e**4+185/16*e**6+25/64*e**8)
 
-def yp_tides(t,y,star1,star2,star3):
+def yp_spins(t,y,star1,star2,star3):
     yp = np.zeros_like(y)
 
     ev = y[0:3]
     e = np.linalg.norm(ev)
     jv = y[3:6]
     j = np.linalg.norm(jv)
-    qv = np.cross(jv/j,ev/e) # Is normalized
+    qv = cross(jv/j,ev/e) # Is normalized
 
     # Get masses
     m1 = star1.interpolators['m'](t)
@@ -54,6 +66,14 @@ def yp_tides(t,y,star1,star2,star3):
     renv1 = star1.interpolators['renv'](t)
     renv2 = star2.interpolators['renv'](t)
 
+    # Core masses
+    massc1 = star1.interpolators['massc'](t)
+    massc2 = star2.interpolators['massc'](t)
+
+    # Core radii
+    radc1 = star1.interpolators['radc'](t)
+    radc2 = star2.interpolators['radc'](t)
+
     # Spins
     ospin1 = np.linalg.norm(y[14:17])
     ospin2 = np.linalg.norm(y[17:20])
@@ -77,7 +97,7 @@ def yp_tides(t,y,star1,star2,star3):
     a = y[6]
 
     # Orbital period
-    P_in = ot.orbital_period(a,m=m1+m2,units=(u.Rsun,u.day,u.Msun))
+    P_in = ot.orbital_period(a,m=m1+m2,units=(u.Rsun,u.Myr,u.Msun))
     n = 2*np.pi/P_in
 
     # Angular momentum
@@ -86,7 +106,7 @@ def yp_tides(t,y,star1,star2,star3):
     for i in range(2):
 
         # Apsidal motion constant
-        kAM = 0.01433 # Change based on stellar type
+        kAM = 0.014 # Could be changed based on stellar type
 
         # Determine which tides
         if (k_prim[i] == 1 and m_prim[i] > 1.2) or k_prim[i] == 4 or k_prim[i] == 7:
@@ -112,24 +132,51 @@ def yp_tides(t,y,star1,star2,star3):
         # Tidal evolution
 
         # Dissipation function
-        yp[0:3] += -1/tf*(np.dot(Ospin_prim[i],ev)/2/n*f2(e)*jv/j + 9*f1(e)*ev - 11/2*np.dot(Ospin_prim[i],jv/j)/n*f2(e)*ev)
-        yp[3:6] += -j/tf*(np.dot(Ospin_prim[i],ev)/2/n*f5(e)*ev - Ospin_prim[i]/2/n*f3(e) + f4(e)*jv/j - np.dot(Ospin_prim[i],jv/j)/2/n*f2(e)*jv/j)
+        yp[0:3] += -1/tf*(dot(Ospin_prim[i],ev)/2/n*f2(e)*jv/j + 9*f1(e)*ev - 11/2*dot(Ospin_prim[i],jv/j)/n*f2(e)*ev)
+        yp[3:6] += -j/tf*(dot(Ospin_prim[i],ev)/2/n*f5(e)*ev - Ospin_prim[i]/2/n*f3(e) + f4(e)*jv/j - dot(Ospin_prim[i],jv/j)/2/n*f2(e)*jv/j)
 
         # Non-dissipative tides
         C = kAM/n*(m_prim[i]+m_comp[i])/m_prim[i]*(r_prim[i]/a)**5
-        X = -C/(1-e**2)**2*np.dot(Ospin_prim[i],jv/j)*(Ospin_prim[i],ev/e)
-        Y = -C/(1-e**2)**2*np.dot(Ospin_prim[i],jv/j)*(Ospin_prim[i],qv)
-        Z = 1/2*C/(1-e**2)**2*(2*np.dot(Ospin_prim[i],jv/j)**2-np.dot(Ospin_prim[i],qv)**2-np.dot(Ospin_prim[i],ev/e)**2)
+        X = -C/(1-e**2)**2*dot(Ospin_prim[i],jv/j)*dot(Ospin_prim[i],ev/e)
+        Y = -C/(1-e**2)**2*dot(Ospin_prim[i],jv/j)*dot(Ospin_prim[i],qv)
+        Z = 1/2*C/(1-e**2)**2*(2*dot(Ospin_prim[i],jv/j)**2-dot(Ospin_prim[i],qv)**2-dot(Ospin_prim[i],ev/e)**2)
 
         yp[0:3] += e*(Z*qv-Y*jv/j)
         yp[3:6] += j*(-X*qv+Y*ev/e)
 
         if i==0:
-            I = ...
+            I = 0.1*(m1-massc1)*r1**2 + 0.21*massc1*radc1**2
             yp[14:17] += -1/I*h1*(-X*qv+Y*ev/e)
+            yp[14:17] += -1/I*h1*(-1/tf)*(dot(Ospin_prim[i],ev)/2/n*f5(e)*ev - Ospin_prim[i]/2/n*f3(e) + f4(e)*jv/j - dot(Ospin_prim[i],jv/j)/2/n*f2(e)*jv/j)
         else:
-            I = ...
+            I = 0.1*(m2-massc2)*r2**2 + 0.21*massc2*radc2**2
             yp[17:20] += -1/I*h1*(-X*qv+Y*ev/e)
+            yp[17:20] += -1/I*h1*(-1/tf)*(dot(Ospin_prim[i],ev)/2/n*f5(e)*ev - Ospin_prim[i]/2/n*f3(e) + f4(e)*jv/j - dot(Ospin_prim[i],jv/j)/2/n*f2(e)*jv/j)
 
+    ### BH spins ###
+
+    S1v = y[20:23]
+    S2v = y[23:26]
+
+    assert (np.linalg.norm(S1v) == 1) or (np.linalg.norm(S1v) == 0)
+    assert (np.linalg.norm(S2v) == 1) or (np.linalg.norm(S2v) == 0)
+
+    ### SO ###
+
+    Seff = (1+3*m2/4/m1)*S1v+(1+3*m1/4/m2)*S2v
+    
+    yp[0:3] += 2*G/c**2/a**3/j**3*cross(Seff-3*dot(Seff,jv/j)*jv/j,ev)
+    yp[3:6] += 2*G/c**2/a**3/j**3*cross(Seff,jv)
+    yp[14:17] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m2/4/m1)*cross(jv,S1v)
+    yp[17:20] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m1/4/m2)*cross(jv,S2v)
+    
+    ### SS ###
+
+    S0 = (1+m2/m1)*S1v+(1+m1/m2)*S2v
+
+    yp[0:3] += 3*np.sqrt(G)/4/c**2/m12**(3/2)/a**(7/2)/j**4*cross(5*dot(S0,jv/j)**2*jv/j-2*dot(S0,jv/j)*S0-dot(S0,S0)*jv/j,ev)
+    yp[3:6] += -3*np.sqrt(G)/2/c**2/m12**(3/2)/a**(7/2)/j**4*dot(S0,jv/j)*cross(S0,jv)
+    yp[14:17] += G*mu1/2/c**2/m12/a**3/j**3*(1+m2/m1)*cross(S0-3*dot(S0,jv/j)*jv/j,S1v)
+    yp[17:20] += G*mu1/2/c**2/m12/a**3/j**3*(1+m1/m2)*cross(S0-3*dot(S0,jv/j)*jv/j,S2v)
 
     return yp

@@ -14,9 +14,9 @@ in the mobse directory and
 
 `mkdir plots`
 
-in the root directory. Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `Makefile` according to the specifications of your fortran compiler.
+in the root directory. Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
-To run a system go to the src directory and run
+To run a system go to the `src` directory and run
 
 `python main.py`.
 
@@ -30,4 +30,4 @@ E.g., do
 
 to evolve a triple from a random distribution at solar metallicity.
 
-If you are looking whether a triples leads to a particular configuration (e.g., the formation of BH triples) check out the function CustomEvent in `main.py` (including a working example).
+If you are looking whether a triples leads to a particular configuration (e.g., the formation of BH triples) check out the function CustomEvent in `src/main.py` (including a working example).

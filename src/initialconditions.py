@@ -1,6 +1,5 @@
 import argparse
 import numpy as np
-import sys
 import OrbitTools as ot
 import astropy.units as u
 import os

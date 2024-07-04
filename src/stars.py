@@ -1,7 +1,6 @@
 import numpy as np
 from scipy import interpolate
 import os
-import sys
 from initialconditions import ic
 
 class SingleStar:   

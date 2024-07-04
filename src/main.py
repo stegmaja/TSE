@@ -821,7 +821,7 @@ if __name__ == '__main__':
     events = [primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical,CustomEvent]
 
     # Do a short burn-in integration
-    sol = solve_ivp(evolve, [0,1e-6], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol)
+    sol = solve_ivp(evolve, [0,1e-6], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
 
     if sol.status == -1:
         print('Integration failed at burn-in. Likely unrealistic initial conditions')
@@ -848,7 +848,7 @@ if __name__ == '__main__':
         y0 = y_sol[:,-1]
 
         # Do a short integration
-        sol = solve_ivp(evolve, [t0,ic.max_time], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol)
+        sol = solve_ivp(evolve, [t0,ic.max_time], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
 
         # Append the solution
         t_sol = np.concatenate((t_sol,sol.t))

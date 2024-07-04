@@ -56,6 +56,11 @@ y[23:26] : BH spin vector of the secondary, only evolved when the secondary is a
 
 ### Citation
 
-When using this code for scientific publications cite:
+When using this code for scientific publications cite
 
-*Jakob Stegmann, Fabio Antonini & Maxwell Moe, Mon.Not.Roy.Astron.Soc. 516 (2022) 1, 1406-1427* (https://doi.org/10.1093/mnras/stac2192).
+*Stegmann J., Antonini F. & Moe M., Mon.Not.Roy.Astron.Soc. 516 (2022) 1, 1406-1427* (https://doi.org/10.1093/mnras/stac2192)
+
+along with the papers about mobse
+
+*Giacobbo N. & Mapelli M., Mon.Not.Roy.Astron.Soc. (2018) 480, 2011–2030* (https://doi.org/10.1093/mnras/sty1999)
+*Giacobbo N., Mapelli M., Spera M., Mon.Not.Roy.Astron.Soc. (2018) 474, 2959–2974* (https://doi.org/10.1093/mnras/stx2933)

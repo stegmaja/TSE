@@ -54,7 +54,7 @@ y[20:23] : BH spin vector of the primary, only evolved when the primary is a BH 
 
 y[23:26] : BH spin vector of the secondary, only evolved when the secondary is a BH (norm 1, i.e., maximally spinning)
 
-### References
+### Citation
 
 When using this code for scientific publications cite:
 

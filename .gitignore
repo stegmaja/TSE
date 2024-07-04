@@ -2,3 +2,4 @@
 *.out
 *.pyc
 *.png
+src/run.sh

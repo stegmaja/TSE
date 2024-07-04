@@ -46,7 +46,7 @@ class InitialConditions:
         parser.add_argument('--max_time', type=float, default=1e2, help='Maximum integration time (Myr) (default: 1e2 Myr)')
 
         # Maximum step size
-        parser.add_argument('--max_step', type=float, default=1e-4, help='Maximum step size (Myr) (default: 1e-4 Myr)')
+        parser.add_argument('--max_step', type=float, default=1e-2, help='Maximum step size (Myr) (default: 1e-2 Myr)')
 
         # Metallicity
         parser.add_argument('--Z', type=float, default=0.02, help='Metallicity of the system (default: 0.02)')

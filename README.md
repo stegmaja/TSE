@@ -30,7 +30,7 @@ E.g., do
 
 to evolve a triple from a random distribution at solar metallicity.
 
-If you are looking whether a triples leads to a particular configuration (e.g., the formation of BH triples) check out the function CustomEvent in `src/main.py` (including a working example).
+If you are looking whether a triple leads to a particular configuration (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example).
 
 ### Integration variables
 

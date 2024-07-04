@@ -82,7 +82,6 @@ def yp_tides(t,y,star1,star2,star3):
 
     # Angular momentum
     h1 = mu1*np.sqrt(G*m12*a)*np.sqrt(1-e**2)
-    L1 = h1/np.sqrt(1-e**2)
 
     for i in range(2):
 
@@ -113,7 +112,7 @@ def yp_tides(t,y,star1,star2,star3):
         # Tidal evolution
 
         # Dissipation function
-        yp[0:3] += -1/tf*(np.dot(Ospin_prim[i],ev)/2/n*f2(e)*jv/j+9*f1(e)*ev-11/2*np.dot(Ospin_prim[i],jv/j)/n*f2(e)*ev)
+        yp[0:3] += -1/tf*(np.dot(Ospin_prim[i],ev)/2/n*f2(e)*jv/j + 9*f1(e)*ev - 11/2*np.dot(Ospin_prim[i],jv/j)/n*f2(e)*ev)
         yp[3:6] += -j/tf*(np.dot(Ospin_prim[i],ev)/2/n*f5(e)*ev - Ospin_prim[i]/2/n*f3(e) + f4(e)*jv/j - np.dot(Ospin_prim[i],jv/j)/2/n*f2(e)*jv/j)
 
         # Non-dissipative tides

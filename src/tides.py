@@ -28,5 +28,19 @@ def tidal_evolve(t,y,star1,star2,star3):
     k1 = star1.interpolators['k'](t)
     k2 = star2.interpolators['k'](t)
 
+    # Arrays
+    m_prim = np.array([m1,m2])
+    r_prim = np.array([r1,r2])
+    k_prim = np.array([k1,k2])
+    m_comp = np.flip(m_prim)
+
+    # Semi-major axis
+    a = y[6]
+    ev = y[0:3]
+    e = np.linalg.norm(ev)
+
+    for i in range(2):
+
+
 
     return yp

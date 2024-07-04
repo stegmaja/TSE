@@ -675,6 +675,14 @@ def evolve(t,y,star1,star2,star3):
     dm2 = star2.interpolators['dm'](t)
     dm3 = star3.interpolators['dm'](t)
 
+    # Stellar types
+    k1 = star1.interpolators['k'](t)
+    k2 = star2.interpolators['k'](t)
+
+    # BH spins
+    S1v = y[14:17]
+    S2v = y[17:20]
+
     ### Orbital frames ###
     ev = y[0:3]
     e = np.linalg.norm(ev)
@@ -764,6 +772,29 @@ def evolve(t,y,star1,star2,star3):
     yp[13] += A*np.abs(dm2)/m123
     yp[13] += A*np.abs(dm3)/m123
 
+    ### BH spins ###
+
+    if k1<14: S1v = np.zeros(3)
+    if k2<14: S2v = np.zeros(3)
+
+    ### SO ###
+
+    Seff = (1+3*m2/4/m1)*S1v+(1+3*m1/4/m2)*S2v
+    
+    yp[0:3] += 2*G/c**2/a**3/j**3*cross(Seff-3*dot(Seff,jv/j)*jv/j,ev)
+    yp[3:6] += 2*G/c**2/a**3/j**3*cross(Seff,jv)
+    yp[14:17] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m2/4/m1)*cross(jv,S1v)
+    yp[17:20] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m1/4/m2)*cross(jv,S2v)
+    
+    ### SS ###
+
+    S0 = (1+m2/m1)*S1v+(1+m1/m2)*S2v
+   
+    yp[0:3] += 3*np.sqrt(G)/4/c**2/m12**(3/2)/a**(7/2)/j**4*cross(5*dot(S0,jv/j)**2*jv/j-2*dot(S0,jv/j)*S0-dot(S0,S0)*jv/j,ev)
+    yp[3:6] += -3*np.sqrt(G)/2/c**2/m12**(3/2)/a**(7/2)/j**4*dot(S0,jv/j)*cross(S0,jv)
+    yp[14:17] += G*mu1/2/c**2/m12/a**3/j**3*(1+m2/m1)*cross(S0-3*dot(S0,jv/j)*jv/j,S1v)
+    yp[17:20] += G*mu1/2/c**2/m12/a**3/j**3*(1+m1/m2)*cross(S0-3*dot(S0,jv/j)*jv/j,S2v)
+
     return yp
 
 ####################################################################################################
@@ -791,7 +822,7 @@ if __name__ == '__main__':
 
     print(ic)
 
-    y0 = np.zeros(14)
+    y0 = np.zeros(20)
 
     y0[0:3] = evec_in*e_in
     y0[3:6] = lvec_in*np.sqrt(1-e_in**2)
@@ -800,6 +831,11 @@ if __name__ == '__main__':
     y0[7:10] = evec_out*e_out
     y0[10:13] = lvec_out*np.sqrt(1-e_out**2)
     y0[13] = a_out
+
+    # We initiate the BH spins to be initially aligned with jv, and length 1
+    # Note that they are only evolved after BHs form
+    y0[14:17] = lvec_in
+    y0[17:20] = lvec_in
 
     # Star objects
     print('Evolve single stars (ignore entries for dummy secondary)',end='\n\n')

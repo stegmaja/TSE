@@ -206,6 +206,6 @@ class InitialConditions:
         self.MOBSE_DIR = self.SRC_DIR+'/../mobse/src'
         
     def __str__(self):
-        return f'Initial conditions:\n Z={self.Z:.6f},\n m1={self.m1:.6f},\n m2={self.m2:.6f},\n m3={self.m3:.6f},\n a_in={self.a1:.6e},\n e_in={self.e1:.6f},\n a_out={self.a2:.6e},\n e_out={self.e2:.6f},\n cos_i_in={self.cosi1:.6f},\n omega_in={self.omega1:.6f},\n Omega_in={self.Omega1:.6f},\n cos_i_out={self.cosi2:.6f},\n omega_out={self.omega2:.6f},\n Omega_out={self.Omega2:.6f}\n'
+        return f'Initial conditions:\n Seed={self.seed},\n Z={self.Z:.6f},\n m1={self.m1:.6f},\n m2={self.m2:.6f},\n m3={self.m3:.6f},\n a_in={self.a1:.6e},\n e_in={self.e1:.6f},\n a_out={self.a2:.6e},\n e_out={self.e2:.6f},\n cos_i_in={self.cosi1:.6f},\n omega_in={self.omega1:.6f},\n Omega_in={self.Omega1:.6f},\n cos_i_out={self.cosi2:.6f},\n omega_out={self.omega2:.6f},\n Omega_out={self.Omega2:.6f}\n'
     
 ic = InitialConditions()

@@ -758,5 +758,5 @@ def power_law_sample(alpha, xmin, xmax):
     
     return ((alpha+1)*np.random.uniform()/Norm+xmin**(alpha+1))**(1/(alpha+1))
 
-print('OrbitTools.py loaded.',end='\n\n')
+print('orbittools.py loaded.',end='\n\n')
 

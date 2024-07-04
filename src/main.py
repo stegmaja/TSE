@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.integrate import solve_ivp
 import sys
-import OrbitTools as ot
+import orbittools as ot
 from stars import SingleStar, InteractingBinaryStar
 from scipy.stats import maxwell
 import astropy.units as u

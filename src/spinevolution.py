@@ -1,7 +1,7 @@
 import numpy as np
 import astropy.units as u
 from astropy.constants import G,c
-import OrbitTools as ot
+import orbittools as ot
 
 # Default units are Rsun, Msun, Myr
 G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value

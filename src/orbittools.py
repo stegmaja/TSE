@@ -19,7 +19,6 @@ def orbital_elements_to_vectors(a, e, cos_i, Omega, omega, f, m=1, units=(u.AU,u
         rvec: relative position vector (AU)
         vvec: relative velocity vector (km/s)
     '''
-    
 
     # Raise error if input is not a number
     if(not all(isinstance(x,(int,float)) for x in [a,e,cos_i,Omega,omega,f,m])):

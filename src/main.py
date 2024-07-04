@@ -53,6 +53,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution o
     axs[0,0].set_ylabel('a [Rsun]')
     axs[0,0].set_yscale('log')
     axs[0,0].legend(loc='center left')
+    axs[0,0].set_xlim(0,None)
 
     # Eccentricities
     axs[0,1].plot(t,1-e_in,label='Inner')
@@ -62,6 +63,8 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution o
     axs[0,1].set_ylabel('1-e')
     axs[0,1].set_yscale('log')
     axs[0,1].legend(loc='center left')
+    axs[0,1].set_ylim(None,1)
+    axs[0,1].set_xlim(0,None)
 
     # Radii
     axs[1,1].plot(t,10**logr1, label='Primary')
@@ -75,6 +78,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution o
     axs[1,1].set_ylabel('R [Rsun]')
     axs[1,1].set_yscale('log')
     axs[1,1].legend(loc='center left')
+    axs[1,1].set_xlim(0,None)
 
     # Masses
     axs[1,0].plot(t,m1, label='Primary')
@@ -84,6 +88,8 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution o
     axs[1,0].set_xlabel('Time [Myr]')
     axs[1,0].set_ylabel('M [Msun]')
     axs[1,0].legend(loc='center left')
+    axs[1,0].set_ylim(0,None)
+    axs[1,0].set_xlim(0,None)
 
     # Add title for entire plot
     fig.suptitle(title)
@@ -872,8 +878,6 @@ if __name__ == '__main__':
         logr2_sol = np.append(logr2_sol,star2.interpolators['logr'](sol.t))
         logr3_sol = np.append(logr3_sol,star3.interpolators['logr'](sol.t))
 
-        plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unfinished integration')
-
         # If integration terminated, check which termination event
         if sol.status == 1:
             # Check which entry of sol.t_events is not empty
@@ -885,9 +889,11 @@ if __name__ == '__main__':
 
             if i == 0:
                 print('Primary Roche lobe overflow at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary Roche lobe overflow')
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
             elif i == 1:
                 print('Secondary Roche lobe overflow at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary Roche lobe overflow')
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
             elif i == 2:
                 print('Tertiary Roche lobe overflow at',sol.t_events[i][0])
@@ -895,19 +901,23 @@ if __name__ == '__main__':
                 sys.exit()
             elif i == 3:
                 print('Unstable at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unstable')
                 sys.exit()
             elif i == 4:
                 print('Primary supernova at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
                 if star1.interpolators['k'](t_new) == 14:
                     y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17]) # BH spins
             elif i == 5:
                 print('Secondary supernova at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star2,star1,star3)
                 if star2.interpolators['k'](t_new) == 14:
                     y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20]) # BH spins
             elif i == 6:
                 print('Tertiary supernova at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary supernova')
                 t_new,y_new,event_status = apply_outer_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
             elif i == 7:
                 print('DCO merger at',sol.t_events[i][0])
@@ -935,6 +945,11 @@ if __name__ == '__main__':
                 logr1_sol = np.append(logr1_sol,star1.interpolators['logr'](t_new))
                 logr2_sol = np.append(logr2_sol,star2.interpolators['logr'](t_new))
                 logr3_sol = np.append(logr3_sol,star3.interpolators['logr'](t_new))
+
+        elif sol.status == -1:
+            print('Integration step failed.')
+            plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Integration step failed.')
+            sys.exit()
 
     print(sol.message)
     plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Finished integration')

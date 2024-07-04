@@ -31,3 +31,16 @@ E.g., do
 to evolve a triple from a random distribution at solar metallicity.
 
 If you are looking whether a triples leads to a particular configuration (e.g., the formation of BH triples) check out the function CustomEvent in `src/main.py` (including a working example).
+
+### Integration variables
+
+y[0:3] : Eccentricity vector of the inner binary
+y[3:6] : Dimensionless angular momentum vector of the inner binary
+y[6] : Semi-major axis (Rsun) of the inner binary
+y[7:10] : Eccentricity vector of the outer binary
+y[10:13] : Dimensionless angular momentum vector of the outer binary
+y[13] : Semi-major axis (Rsun) of the outer binary
+y[14:17] : Rotation vector of the primary star (1/Myr), only evolved as long as the star is not a compact object
+y[17:20] : Rotation vector of the secondary star (1/Myr), only evolved as long as the star is not a compact object
+y[20:23] : BH spin vector of the primary, only evolved when the primary is a BH (norm 1, i.e., maximally spinning)
+y[23:26] : BH spin vector of the secondary, only evolved when the secondary is a BH (norm 1, i.e., maximally spinning)

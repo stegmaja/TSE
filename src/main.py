@@ -410,8 +410,8 @@ def model_RLO(t,y,star1,star2):
     epoch2 = star2.interpolators['epoch'](t)
 
     # Spins
-    ospin1 = star1.interpolators['ospin'](t)
-    ospin2 = star2.interpolators['ospin'](t)
+    ospin1 = star1.interpolators['ospin'](t) # Change to y[14:17]
+    ospin2 = star2.interpolators['ospin'](t) # Change to y[17:20]
 
     # Inner semi-major axis
     a_in = y[6]
@@ -625,7 +625,7 @@ def apply_outer_SN(t,y,star1,star2,star3):
     t_new = t+1e-3
     y_new = y
     
-    lvec_out_new,evec_out_new,nvec_out_new = ot.orbital_elements_to_vectorial_elements(cos_i_out_new, Omega_out_new, omega_out_new)
+    lvec_out_new,evec_out_new,_ = ot.orbital_elements_to_vectorial_elements(cos_i_out_new, Omega_out_new, omega_out_new)
     y_new[7:10] = evec_out_new*e_out_new
     with np.errstate(invalid='ignore'): # Ignore warnings about sqrt of negative numbers
         y_new[10:13] = lvec_out_new*np.sqrt(1-e_out_new**2)
@@ -711,9 +711,6 @@ def evolve(t,y,star1,star2,star3):
     L2 = mu2*np.sqrt(G*m123*A)
 
     n = np.sqrt(G*m12/a**3)
-    tLK = m12/m3/n*(A/a)**3*(1-E**2)**(3/2)
-    L1 = mu1*np.sqrt(G*m12*a)
-    L2 = mu2*np.sqrt(G*m123*A)
 
     tLK = m12/m3/n*(A/a)**3*(1-E**2)**(3/2)
 

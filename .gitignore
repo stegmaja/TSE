@@ -3,3 +3,4 @@
 *.pyc
 *.png
 src/run.sh
+.DS_Store

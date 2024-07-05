@@ -22,7 +22,7 @@ G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 # Useful functions
 ####################################################################################################
 
-def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution of triple system'):
+def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),title='Evolution of triple system'):
 
     e_in = np.sqrt(y[0]**2+y[1]**2+y[2]**2)
     a_in = y[6]

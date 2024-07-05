@@ -100,7 +100,9 @@ def yp_spins(t,y,star1,star2,star3):
             kAM_over_T = E2*(1+m_comp[i]/m_prim[i])**(5/6)*r_prim[i]*np.sqrt(G*m_prim[i]/a**5)
         elif k_prim[i] < 10:
             # Convective tides
-            tau_conv = (menv_prim[i]*renv_prim[i]*(r_prim[i]-1/2*renv_prim[i])/3/lum_prim[i])**(1/3)
+            mr23yr = 0.4311 # Prefactor from mobse to convert tau_conv to yr
+            mr23Myr = mr23yr*1e6 # Convert to Myr
+            tau_conv = mr23Myr*(menv_prim[i]*renv_prim[i]*(r_prim[i]-1/2*renv_prim[i])/3/lum_prim[i])**(1/3)
             Ptid = 1/abs(1/P_in-ospin_prim[i]/2/np.pi)
             f_conv = min(1,(Ptid/2/tau_conv)**2)
             kAM_over_T = 2/21*f_conv/tau_conv*menv_prim[i]/m_prim[i]

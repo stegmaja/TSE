@@ -27,13 +27,9 @@ def yp_spins(t,y,star1,star2,star3):
 
     ### Orbital frames ###
     ev = y[0:3]
-    e = np.linalg.norm(ev)
     jv = y[3:6]
-    j = np.linalg.norm(jv)
     Ev = y[7:10]
-    E = np.linalg.norm(Ev)
     Jv = y[10:13]
-    J = np.linalg.norm(Jv)
 
     ### Semi-major axes ###
     a = y[6]
@@ -44,9 +40,12 @@ def yp_spins(t,y,star1,star2,star3):
 
     for i in range(3):
         for j in range(3):
-            yp[0:3] += a**(3/2)/2/np.sqrt(m12)*Phi[i,j]*(dot(n[j],jv)*cross(ev,n[i])-5*dot(n[j],ev)*cross(jv,n[i])+np.kronecker(i,j)*cross(jv,ev))
-            yp[3:6] += a**(3/2)/2/np.sqrt(m12)*Phi[i,j]*(dot(n[j],jv)*cross(jv,n[i])-5*dot(n[j],ev)*cross(ev,n[i]))
-            yp[7:10] += A**(3/2)/2/np.sqrt(m123)*Phi[i,j]*(dot(n[j],Jv)*cross(Ev,n[i])-5*dot(n[j],Ev)*cross(Jv,n[i])+np.kronecker(i,j)*cross(Jv,Ev))
-            yp[10:13] += A**(3/2)/2/np.sqrt(m123)*Phi[i,j]*(dot(n[j],Jv)*cross(Jv,n[i])-5*dot(n[j],Ev)*cross(Ev,n[i]))
+            yp[0:3] += Phi[i,j]*(dot(n[j],jv)*cross(ev,n[i])-5*dot(n[j],ev)*cross(jv,n[i])+np.kronecker(i,j)*cross(jv,ev))
+            yp[3:6] += Phi[i,j]*(dot(n[j],jv)*cross(jv,n[i])-5*dot(n[j],ev)*cross(ev,n[i]))
+            yp[7:10] += Phi[i,j]*(dot(n[j],Jv)*cross(Ev,n[i])-5*dot(n[j],Ev)*cross(Jv,n[i])+np.kronecker(i,j)*cross(Jv,Ev))
+            yp[10:13] += Phi[i,j]*(dot(n[j],Jv)*cross(Jv,n[i])-5*dot(n[j],Ev)*cross(Ev,n[i]))
+
+    yp[0:6] *= a**(3/2)/2/np.sqrt(m12)
+    yp[7:13] *= A**(3/2)/2/np.sqrt(m123)
 
     return yp

@@ -54,6 +54,8 @@ and **not**
 
 Otherwise, different threads will use the same mobse input and output files...
 
+`src/serial_batch.sh` and `src/runtask` might be helpful scripts if you want to run the code on an HPC cluster that operates with slurm.
+
 
 ### Integration variables
 

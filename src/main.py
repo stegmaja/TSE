@@ -33,6 +33,27 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     RL2 = ot.Roche_lobe_radius(m2,m1)
     RL3 = ot.Roche_lobe_radius(m3,m1+m2)
 
+    max_e_in = np.max(e_in)
+    max_e_out = np.max(e_out)
+
+    # Show only 5000 values
+    every = max(1,len(t)//5000)
+
+    t = t[::every]
+    a_in = a_in[::every]
+    a_out = a_out[::every]
+    e_in = e_in[::every]
+    e_out = e_out[::every]
+    m1 = m1[::every]
+    m2 = m2[::every]
+    m3 = m3[::every]
+    logr1 = logr1[::every]
+    logr2 = logr2[::every]
+    logr3 = logr3[::every]
+    RL1 = RL1[::every]
+    RL2 = RL2[::every]
+    RL3 = RL3[::every]
+
     # Plot in subplots
     fig, axs = plt.subplots(2, 2, figsize=(12,12))
 
@@ -49,6 +70,8 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     # Eccentricities
     axs[0,1].plot(t,1-e_in,label='Inner')
     axs[0,1].plot(t,1-e_out,label='Outer')
+    axs[0,1].axhline(1-max_e_in,linestyle='--',color='C0')
+    axs[0,1].axhline(1-max_e_out,linestyle='--',color='C1')
     axs[0,1].set_title('Eccentricities')
     axs[0,1].set_xlabel('Time [Myr]')
     axs[0,1].set_ylabel('1-e')

@@ -3,6 +3,7 @@ import astropy.units as u
 from astropy.constants import G
 import gala.potential as gp
 
+# Milky Way potential
 pot = gp.MilkyWayPotential2022()
 
 # Default units are Rsun, Msun, Myr

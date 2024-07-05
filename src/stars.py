@@ -47,7 +47,7 @@ class SingleStar:
                  gamma=ic.gamma):
 
         # Write input file
-        with open(ic.MOBSE_DIR+'/../input/binary.input','w') as f:
+        with open(ic.MOBSE_DIR+'/'+ic.mobse_input,'w') as f:
             f.write(f'{mass0_1} {mass0_2} {max_time} {period} {type1} {type2} {Z} {ecc}\n')
             f.write(f'{neta} {bwind} {hewind} {alpha1} {lambda_}\n')
             f.write(f'{ceflag} {tflag} {ifflag} {wdflag} {bhflag} {nsflag} {piflag} {mxns} {idum}\n')
@@ -69,11 +69,11 @@ class SingleStar:
 
         # Run MOBSE
         os.chdir(ic.MOBSE_DIR)
-        os.system('./mobse.x')
+        os.system('./mobse.x '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
         os.chdir(ic.SRC_DIR)
 
         # Read output
-        t,k,m0,m,loglum,logr,massc,radc,menv,renv,epoch,ospin,ffb = np.loadtxt(ic.MOBSE_DIR+'/../mobse.out',unpack=True,usecols=(0,1,2,3,4,5,7,8,9,10,11,12,-1))
+        t,k,m0,m,loglum,logr,massc,radc,menv,renv,epoch,ospin,ffb = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,4,5,7,8,9,10,11,12,-1))
 
         # Only keep values where t is unique
         t, idx = np.unique(t,return_index=True)
@@ -123,6 +123,11 @@ class SingleStar:
         # Record the final stellar type
         self.kfinal = k[k>0][-1]
 
+        # Remove the mobse files
+        os.chdir(ic.MOBSE_DIR)
+        os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
+        os.chdir(ic.SRC_DIR)
+
 class InteractingBinaryStar:
     def __init__(self,
                  tphys=0.,
@@ -167,7 +172,7 @@ class InteractingBinaryStar:
                  gamma=ic.gamma):
 
         # Write input file
-        with open(ic.MOBSE_DIR+'/../input/binary.input','w') as f:
+        with open(ic.MOBSE_DIR+'/'+ic.mobse_input,'w') as f:
             f.write(f'{mass0_1} {mass0_2} {max_time} {period} {type1} {type2} {Z} {ecc}\n')
             f.write(f'{neta} {bwind} {hewind} {alpha1} {lambda_}\n')
             f.write(f'{ceflag} {tflag} {ifflag} {wdflag} {bhflag} {nsflag} {piflag} {mxns} {idum}\n')
@@ -189,11 +194,11 @@ class InteractingBinaryStar:
 
         # Run MOBSE
         os.chdir(ic.MOBSE_DIR)
-        os.system('./mobse.x')
+        os.system('./mobse.x '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
         os.chdir(ic.SRC_DIR)
 
         # Read output
-        t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = np.loadtxt(ic.MOBSE_DIR+'/../mobse.out',unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31))
+        t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31))
 
         # Detect when RLO ends again
         idx = 0
@@ -217,7 +222,7 @@ class InteractingBinaryStar:
 
         if idx == 0:
             print('MOBSE did not find a Roche lobe overflow in the bcm array. Search in bpp array...')
-            t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc,kw = np.loadtxt(ic.MOBSE_DIR+'/../mobse-bpp.out',unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31,32))
+            t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc,kw = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_log,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31,32))
             # Search for kw=4
             idx = np.where(kw==4)[0]
             if len(idx)==0:
@@ -233,6 +238,11 @@ class InteractingBinaryStar:
             else:
                 idx = idx[0]
                 print('MOBSE found a Roche lobe overflow in the bpp array')
+        
+        # Remove the mobse files
+        os.chdir(ic.MOBSE_DIR)
+        os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
+        os.chdir(ic.SRC_DIR)
 
         # Get final post-interaction properties
         t = t[idx]

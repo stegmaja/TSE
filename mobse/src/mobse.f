@@ -47,6 +47,8 @@
       real*8 tb,ecc,yearsc
       PARAMETER(yearsc=3.1557d+07)
       CHARACTER*8 label(14)
+      character(len=255) :: arg1, arg2, arg3
+
       real*8 ffb
       COMMON /KICKSN/ ffb
 *
@@ -107,7 +109,17 @@
 * current age, initial mass and spin rate, 
 * otherwise the star will start on the ZAMS.
 *
-      OPEN(22,file='../input/binary.input', status='old')
+* Get filenames
+      call get_command_argument(1, arg1)
+      call get_command_argument(2, arg2)
+      call get_command_argument(3, arg3)
+* Trim the filenames
+      arg1 = trim(adjustl(arg1))
+      arg2 = trim(adjustl(arg2))
+      arg3 = trim(adjustl(arg3))
+*
+*      OPEN(22,file='../input/binary.input', status='old')
+      OPEN(22,file=arg1, status='old')
       READ(22,*)mass0(1),mass0(2),tphysf,tb,kstar(1),kstar(2),z,ecc
       READ(22,*)neta,bwind,hewind,alpha1,lambda
       READ(22,*)ceflag,tflag,ifflag,wdflag,bhflag,nsflag,piflag,
@@ -206,7 +218,8 @@
 *    ratio of radius to roche lobe radius (repeated for secondary)],
 *    period[year], separation, eccentricity.
 *
-      OPEN(24,file='../mobse.out',status='unknown')
+*      OPEN(24,file='../mobse.out',status='unknown')
+      OPEN(24,file=arg2,status='unknown')
       j = 0
  30   j = j + 1
       kw = INT(bcm(j,2))
@@ -223,7 +236,8 @@
       CLOSE(24)
 * 99   FORMAT(f10.4,i3,5f10.4,i3,5f10.4,2f12.4,f7.3,a8)
 
-      OPEN(25,file='../mobse-bpp.out',status='unknown')
+*      OPEN(25,file='../mobse-bpp.out',status='unknown')
+      OPEN(25,file=arg3,status='unknown')
       j = 0
  31   j = j + 1
       kw = INT(bpp(j,2))

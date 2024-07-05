@@ -80,12 +80,14 @@ class SingleStar:
         k = k[idx]
         m0 = m0[idx]
         m = m[idx]
+        loglum = loglum[idx]
         logr = logr[idx]
+        massc = massc[idx]
+        radc = radc[idx]
+        menv = menv[idx]
+        renv = renv[idx]
         epoch = epoch[idx]
         ospin = ospin[idx]
-        ffb = ffb[idx]
-
-        # Record fallback fraction
         self.ffb = ffb[0]
 
         # Write interpolators in time
@@ -104,18 +106,24 @@ class SingleStar:
         self.interpolators['radc'] = interpolate.interp1d(t,radc,fill_value=(radc[0],radc[-1]),bounds_error=False)
         
         # Test if star is CO initially
+        if k[0]>=13 or (k[0]==0 and k[1]>=13):
+            self.initial_CO = True
         if k[0]>=13:
             self.initial_CO = True
         else:
             self.initial_CO = False
         
         # Get time of CO formation
-        if np.any(k>=13):
+        if np.any(k>=13) and np.any(k<=12):
             self.tco = t[np.where(k>=13)[0][0]]
-            self.m_SN = m[(k<=12) & (m>0)][-1]
-            self.dm_SN = m[(k<=12) & (m>0)][-1] - m[k>=13][0]
+            self.m_SN = m[(k<=12)][-1]
+            self.dm_SN = m[(k<=12)][-1] - m[k>=13][0]
         else:
             self.tco = np.inf
+
+        if self.initial_CO:
+            self.tco = np.inf
+
 
         # Record the sigma with which it was initiated
         self.sigma = sigma1
@@ -124,9 +132,9 @@ class SingleStar:
         self.kfinal = k[k>0][-1]
 
         # Remove the mobse files
-        os.chdir(ic.MOBSE_DIR)
-        os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
-        os.chdir(ic.SRC_DIR)
+        #os.chdir(ic.MOBSE_DIR)
+        #os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
+        #os.chdir(ic.SRC_DIR)
 
 class InteractingBinaryStar:
     def __init__(self,
@@ -244,9 +252,9 @@ class InteractingBinaryStar:
                 print('MOBSE found a Roche lobe overflow in the bpp array')
         
         # Remove the mobse files
-        os.chdir(ic.MOBSE_DIR)
-        os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
-        os.chdir(ic.SRC_DIR)
+        #os.chdir(ic.MOBSE_DIR)
+        #os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
+        #os.chdir(ic.SRC_DIR)
 
         # Get final post-interaction properties
         t = t[idx]

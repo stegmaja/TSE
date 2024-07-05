@@ -196,6 +196,7 @@
 * tphysf will mean that no data is stored.
 *
       dtp = (tphysf-tphys)/45000.d0
+      dtp = 0.d0
 *
 * Evolve the binary.
 * 

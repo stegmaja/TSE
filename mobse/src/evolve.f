@@ -216,7 +216,7 @@
       LOGICAL isave,iplot
       REAL*8 rl,mlwind,vrotf,corerd
       EXTERNAL rl,mlwind,vrotf,corerd
-      REAL bcm(50000,34),bpp(200,33)
+      REAL bcm(5000000,34),bpp(200,33)
       COMMON /BINARY/ bcm,bpp
 *
       LOGICAL saveflag
@@ -989,7 +989,7 @@
          if(sgl.or.(rad(1).lt.rol(1).and.rad(2).lt.rol(2)).
      &      or.tphys.lt.tiny)then
             ip = ip + 1
-            if(ip.gt.50000)then
+            if(ip.gt.5000000)then
                WRITE(99,*)' EVOLV3 ARRAY ERROR bcm ',mass1i,mass2i,tbi,
      &           ecci
                saveflag = .false.
@@ -1249,7 +1249,7 @@
 *
       if(iplot.and.tphys.gt.tiny)then
          ip = ip + 1
-         if(ip.gt.50000)then
+         if(ip.gt.5000000)then
             WRITE(99,*)' EVOLVE ARRAY ERROR bcm ',mass1i,mass2i,tbi,
      &       ecci
             saveflag = .false.
@@ -2381,7 +2381,7 @@
 *
       if((isave.and.tphys.ge.tsave).or.iplot)then
          ip = ip + 1
-         if(ip.gt.50000)then
+         if(ip.gt.5000000)then
            WRITE(99,*)' EVOLV3 ARRAY ERROR bcm ',mass1i,mass2i,tbi,
      &      ecci
            saveflag = .false.
@@ -2759,9 +2759,9 @@
          bpp(jp,2) = float(kstar(1))
          bpp(jp,3) = mass0(1)
          bpp(jp,4) = mass(1)
-         if(kstar(1).eq.15.and.bpp(jp-1,2).lt.15.0)then
-            bpp(jp,4) = mass0(1)
-         endif
+*         if(kstar(1).eq.15.and.bpp(jp-1,2).lt.15.0)then
+*            bpp(jp,4) = mass0(1)
+*         endif
          bpp(jp,5) = log10(lumin(1))
          bpp(jp,6) = log10(rad(1))
          teff1 = 1000.d0*((1130.d0*lumin(1)/
@@ -2778,9 +2778,9 @@
          bpp(jp,16) = float(kstar(2))
          bpp(jp,17) = mass0(2)
          bpp(jp,18) = mass(2)
-         if(kstar(2).eq.15.and.bpp(jp-1,16).lt.15.0)then
-            bpp(jp,18) = mass0(2)
-         endif
+*         if(kstar(2).eq.15.and.bpp(jp-1,16).lt.15.0)then
+*            bpp(jp,18) = mass0(2)
+*         endif
          bpp(jp,19) = log10(lumin(2))
          bpp(jp,20) = log10(rad(2))
          teff2 = 1000.d0*((1130.d0*lumin(2)/
@@ -2817,7 +2817,7 @@
 *
       if((isave.and.tphys.ge.tsave).or.iplot)then
          ip = ip + 1
-         if(ip.gt.50000)then
+         if(ip.gt.5000000)then
            WRITE(99,*)' EVOLVE ARRAY ERROR bcm ',mass1i,mass2i,tbi,
      &      ecci
            saveflag = .false.

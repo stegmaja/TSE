@@ -825,6 +825,7 @@ if __name__ == '__main__':
     Unphysical.terminal = True
     CustomEvent.terminal = True
     events = [primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical,CustomEvent]
+    event_label = ['Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical','Custom event']
 
     # Do a short burn-in integration
     sol = solve_ivp(evolve, [0,1e-6], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
@@ -922,7 +923,7 @@ if __name__ == '__main__':
 
             if event_status == -1:
                 print('Cannot continue integration after termination event.')
-                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Cannot continue integration after termination event.')
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Cannot continue integration after termination event: '+str(event_label[i]))
                 sys.exit()
             else:
                 t_sol = np.append(t_sol,t_new)

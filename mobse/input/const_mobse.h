@@ -21,9 +21,9 @@
       COMMON /POINTS/ pts1,pts2,pts3
       REAL*8 dmmax,drmax
       COMMON /TSTEPC/ dmmax,drmax
-      REAL scm(50000,14),spp(20,3)
+      REAL scm(5000000,14),spp(20,3)
       COMMON /SINGLE/ scm,spp
-      REAL bcm(50000,34),bpp(200,33)
+      REAL bcm(5000000,34),bpp(200,33)
       COMMON /BINARY/ bcm,bpp
 *
       LOGICAL saveflag

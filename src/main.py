@@ -440,9 +440,9 @@ def model_RLO(t,y,star1,star2):
     y_new[14:17] *= binary.ospin1*1e6/np.linalg.norm(y[14:17])
     y_new[17:20] *= binary.ospin2*1e6/np.linalg.norm(y[17:20])
     if binary.k1 == 14:
-        y_new[20:23] = y[14:17]/np.linalg.norm(y[14:17])
+        y_new[20:23] = y[14:17]/np.linalg.norm(y[14:17])*G*star1.interpolators['m'](t_new)**2/c
     if binary.k2 == 14:
-        y_new[23:26] = y[17:20]/np.linalg.norm(y[17:20])
+        y_new[23:26] = y[17:20]/np.linalg.norm(y[17:20])*G*star2.interpolators['m'](t_new)**2/c
     event_status = binary.event_status
     star1 = binary.star1
     star2 = binary.star2
@@ -895,13 +895,13 @@ if __name__ == '__main__':
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
                 if star1.interpolators['k'](t_new) == 14:
-                    y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17]) # BH spins
+                    y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17])*G*star1.interpolators['m'](t_new)**2/c # BH spins
             elif i == 5:
                 print('Secondary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star2,star1,star3)
                 if star2.interpolators['k'](t_new) == 14:
-                    y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20]) # BH spins
+                    y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20])*G*star2.interpolators['m'](t_new)**2/c # BH spins
             elif i == 6:
                 print('Tertiary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary supernova')

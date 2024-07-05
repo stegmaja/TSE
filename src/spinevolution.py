@@ -135,17 +135,14 @@ def yp_spins(t,y,star1,star2,star3):
     S1v = y[20:23]
     S2v = y[23:26]
 
-    assert (np.linalg.norm(S1v) == 1) or (np.linalg.norm(S1v) == 0)
-    assert (np.linalg.norm(S2v) == 1) or (np.linalg.norm(S2v) == 0)
-
     ### SO ###
 
     Seff = (1+3*m2/4/m1)*S1v+(1+3*m1/4/m2)*S2v
     
     yp[0:3] += 2*G/c**2/a**3/j**3*cross(Seff-3*dot(Seff,jv/j)*jv/j,ev)
     yp[3:6] += 2*G/c**2/a**3/j**3*cross(Seff,jv)
-    yp[14:17] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m2/4/m1)*cross(jv,S1v)
-    yp[17:20] += 2*G**(3/2)*mu1*m12/c**2/a**(5/2)/j**3*(1+3*m1/4/m2)*cross(jv,S2v)
+    yp[14:17] += 2*G**(3/2)*mu1*m12**(1/2)/c**2/a**(5/2)/j**3*(1+3*m2/4/m1)*cross(jv,S1v)
+    yp[17:20] += 2*G**(3/2)*mu1*m12**(1/2)/c**2/a**(5/2)/j**3*(1+3*m1/4/m2)*cross(jv,S2v)
     
     ### SS ###
 

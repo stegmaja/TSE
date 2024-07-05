@@ -758,7 +758,8 @@ def evolve(t,y,star1,star2,star3):
 
     ### Spin evolution ###
 
-    yp += yp_spins(t,y,star1,star2,star3)
+    if ic.stellar_tides:
+        yp += yp_spins(t,y,star1,star2,star3)
 
     ### Galactic tides ###
 

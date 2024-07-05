@@ -149,6 +149,9 @@ class InitialConditions:
         # Initial z velocity in the galactic frame
         parser.add_argument('--vz_MW', type=float, default=0., help='Initial z velocity in the galactic frame (default: 0 km/s)') 
 
+        # Should stellar tides be included?
+        parser.add_argument('--stellar_tides', type=bool, default=False, help='Include stellar tides? (default: False)')
+
         args = parser.parse_args()
 
         if args.random:
@@ -232,6 +235,7 @@ class InitialConditions:
         self.vx_MW = args.vx_MW
         self.vy_MW = args.vy_MW
         self.vz_MW = args.vz_MW
+        self.stellar_tides = args.stellar_tides
 
         self.SRC_DIR = os.getcwd()
         self.MOBSE_DIR = self.SRC_DIR+'/../mobse/src'

@@ -234,6 +234,10 @@ class InteractingBinaryStar:
                 self.m12 = np.nan
                 self.star1 = None
                 self.star2 = None
+                self.ospin1 = np.nan
+                self.ospin2 = np.nan
+                self.k1 = np.nan
+                self.k2 = np.nan
                 return
             else:
                 idx = idx[0]

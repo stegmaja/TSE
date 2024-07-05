@@ -73,7 +73,7 @@ class SingleStar:
         os.chdir(ic.SRC_DIR)
 
         # Read output
-        t,k,m0,m,loglum,logr,massc,radc,menv,renv,epoch,ospin,ffb = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,4,5,7,8,9,10,11,12,-1))
+        t,k,m0,m,loglum,logr,massc,radc,menv,renv,epoch,ospin,dm,ffb = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,4,5,7,8,9,10,11,12,13,-1))
 
         # Only keep values where t is unique
         t, idx = np.unique(t,return_index=True)
@@ -88,6 +88,7 @@ class SingleStar:
         renv = renv[idx]
         epoch = epoch[idx]
         ospin = ospin[idx]
+        dm = dm[idx]
         self.ffb = ffb[0]
 
         # Write interpolators in time
@@ -98,7 +99,8 @@ class SingleStar:
         self.interpolators['logr'] = interpolate.interp1d(t,logr,fill_value=(logr[0],logr[-1]),bounds_error=False)
         self.interpolators['epoch'] = interpolate.interp1d(t,epoch,fill_value=(epoch[0],epoch[-1]),bounds_error=False)
         self.interpolators['ospin'] = interpolate.interp1d(t,ospin,fill_value=(ospin[0],ospin[-1]),bounds_error=False)
-        self.interpolators['dm'] = interpolate.interp1d(t[:-1],np.diff(m)/(np.diff(t)),bounds_error=False,fill_value=0.)
+        #self.interpolators['dm'] = interpolate.interp1d(t[:-1],np.diff(m)/(np.diff(t)),bounds_error=False,fill_value=0.)
+        self.interpolators['dm'] = interpolate.interp1d(t,dm,fill_value=(dm[0],0),bounds_error=False)
         self.interpolators['loglum'] = interpolate.interp1d(t,loglum,fill_value=(loglum[0],loglum[-1]),bounds_error=False)
         self.interpolators['menv'] = interpolate.interp1d(t,menv,fill_value=(menv[0],menv[-1]),bounds_error=False)
         self.interpolators['renv'] = interpolate.interp1d(t,renv,fill_value=(renv[0],renv[-1]),bounds_error=False)

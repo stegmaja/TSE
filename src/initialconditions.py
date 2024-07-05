@@ -126,7 +126,28 @@ class InitialConditions:
         parser.add_argument('--seed', type=int, default=42, help='Random seed (default: 42)')
 
         # Create random initial conditions
-        parser.add_argument('--random', type=bool, default=False, help='Create random initial conditions from Sana+ 2012? (default: False)')        
+        parser.add_argument('--random', type=bool, default=False, help='Create random initial conditions from Sana+ 2012? (default: False)')  
+
+        # Should Galactic tides be included?
+        parser.add_argument('--galactic_tides', type=bool, default=False, help='Include Galactic tides? (default: False)')
+
+        # Initial x coordinate in the galactic frame
+        parser.add_argument('--x_MW', type=float, default=8., help='Initial x coordinate in the galactic frame (default: 10 kpc)')     
+
+        # Initial y coordinate in the galactic frame
+        parser.add_argument('--y_MW', type=float, default=0., help='Initial y coordinate in the galactic frame (default: 0 kpc)')
+
+        # Initial z coordinate in the galactic frame
+        parser.add_argument('--z_MW', type=float, default=0., help='Initial z coordinate in the galactic frame (default: 0 kpc)')
+
+        # Initial x velocity in the galactic frame
+        parser.add_argument('--vx_MW', type=float, default=0., help='Initial x velocity in the galactic frame (default: 0 km/s)')
+
+        # Initial y velocity in the galactic frame
+        parser.add_argument('--vy_MW', type=float, default=175., help='Initial y velocity in the galactic frame (default: 175 km/s)')
+
+        # Initial z velocity in the galactic frame
+        parser.add_argument('--vz_MW', type=float, default=0., help='Initial z velocity in the galactic frame (default: 0 km/s)') 
 
         args = parser.parse_args()
 
@@ -204,6 +225,13 @@ class InitialConditions:
         self.eddfac = args.eddfac
         self.gamma = args.gamma
         self.seed = args.seed
+        self.galactic_tides = args.galactic_tides
+        self.x_MW = args.x_MW
+        self.y_MW = args.y_MW
+        self.z_MW = args.z_MW
+        self.vx_MW = args.vx_MW
+        self.vy_MW = args.vy_MW
+        self.vz_MW = args.vz_MW
 
         self.SRC_DIR = os.getcwd()
         self.MOBSE_DIR = self.SRC_DIR+'/../mobse/src'

@@ -2,20 +2,36 @@ import numpy as np
 import astropy.units as u
 from astropy.constants import G
 import gala.potential as gp
-
-# Milky Way potential
-pot = gp.MilkyWayPotential2022()
+import gala.dynamics as gd
+import gala.integrate as gi
+from gala.units import galactic
+from initialconditions import ic
+from scipy import interpolate
+from common import dot,cross
 
 # Default units are Rsun, Msun, Myr
 G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 
-def dot(a,b): 
-    return np.sum(a*b)
+class Galaxy:
+    def __init__(self, pot = gp.MilkyWayPotential2022(units=galactic)):
+        ics = gd.PhaseSpacePosition(pos=[ic.x_MW,ic.y_MW,ic.z_MW] * u.kpc,
+                                    vel=[ic.vx_MW,ic.vy_MW,ic.vz_MW] * u.km/u.s)
+        orbit = gp.Hamiltonian(pot).integrate_orbit(ics, t1=0, t2=ic.max_time, dt=1., Integrator=gi.DOPRI853Integrator)
+        self.x = interpolate.interp1d(orbit.t, orbit.x)
+        self.y = interpolate.interp1d(orbit.t, orbit.y)
+        self.z = interpolate.interp1d(orbit.t, orbit.z)
+        self.pot = pot
 
-def cross(a,b):
-    return np.array([a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]])
+    def hessian(self, t):
+        x = self.x(t)
+        y = self.y(t)
+        z = self.z(t)
+        w = np.array([x,y,z])
+        return self.pot.hessian(w).value
+    
+Gal = Galaxy()
 
-def yp_spins(t,y,star1,star2,star3):
+def yp_galaxy(t,y,star1,star2,star3):
     yp = np.zeros_like(y)
 
     # Get masses
@@ -38,14 +54,17 @@ def yp_spins(t,y,star1,star2,star3):
     ### Cartesian unit vectors ###
     n = np.array([[1,0,0],[0,1,0],[0,0,1]])
 
+    ### Hessian ###
+    hessian = Gal.hessian(t)
+
     for i in range(3):
         for j in range(3):
-            yp[0:3] += Phi[i,j]*(dot(n[j],jv)*cross(ev,n[i])-5*dot(n[j],ev)*cross(jv,n[i])+np.kronecker(i,j)*cross(jv,ev))
-            yp[3:6] += Phi[i,j]*(dot(n[j],jv)*cross(jv,n[i])-5*dot(n[j],ev)*cross(ev,n[i]))
-            yp[7:10] += Phi[i,j]*(dot(n[j],Jv)*cross(Ev,n[i])-5*dot(n[j],Ev)*cross(Jv,n[i])+np.kronecker(i,j)*cross(Jv,Ev))
-            yp[10:13] += Phi[i,j]*(dot(n[j],Jv)*cross(Jv,n[i])-5*dot(n[j],Ev)*cross(Ev,n[i]))
+            yp[0:3] += hessian[i,j][0]*(dot(n[j],jv)*cross(ev,n[i])-5*dot(n[j],ev)*cross(jv,n[i])+int(i==j)*cross(jv,ev))
+            yp[3:6] += hessian[i,j][0]*(dot(n[j],jv)*cross(jv,n[i])-5*dot(n[j],ev)*cross(ev,n[i]))
+            yp[7:10] += hessian[i,j][0]*(dot(n[j],Jv)*cross(Ev,n[i])-5*dot(n[j],Ev)*cross(Jv,n[i])+int(i==j)*cross(Jv,Ev))
+            yp[10:13] += hessian[i,j][0]*(dot(n[j],Jv)*cross(Jv,n[i])-5*dot(n[j],Ev)*cross(Ev,n[i]))
 
-    yp[0:6] *= a**(3/2)/2/np.sqrt(m12)
-    yp[7:13] *= A**(3/2)/2/np.sqrt(m123)
+    yp[0:6] *= a**(3/2)/2/np.sqrt(G*m12)
+    yp[7:13] *= A**(3/2)/2/np.sqrt(G*m123)
 
     return yp

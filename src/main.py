@@ -9,6 +9,8 @@ from astropy.constants import G,c
 import matplotlib.pyplot as plt
 from initialconditions import ic
 from spinevolution import yp_spins
+from galaxyevolution import Gal,yp_galaxy
+from common import dot,cross
 
 np.random.seed(ic.seed)
 
@@ -19,17 +21,6 @@ G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 ####################################################################################################
 # Useful functions
 ####################################################################################################
-def dot(a,b): 
-    return np.sum(a*b)
-
-def cross(a,b):
-    return np.array([a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]])
-
-def csc(x): 
-    return 1/np.sin(x)
-
-def cot(x): 
-    return np.cos(x)/np.sin(x)
 
 def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed),title='Evolution of triple system'):
 
@@ -777,6 +768,11 @@ def evolve(t,y,star1,star2,star3):
     ### Spin evolution ###
 
     yp += yp_spins(t,y,star1,star2,star3)
+
+    ### Galactic tides ###
+
+    if ic.galactic_tides:
+        yp += yp_galaxy(t,y,star1,star2,star3)
 
     return yp
 

@@ -749,12 +749,12 @@ def evolve(t,y,star1,star2,star3):
 
     ### Mass loss ###
 
-    yp[6] += a*np.abs(dm1)/m12
-    yp[6] += a*np.abs(dm2)/m12
+    yp[6] += a*np.abs(dm1)/m12*1e6
+    yp[6] += a*np.abs(dm2)/m12*1e6
 
-    yp[13] += A*np.abs(dm1)/m123
-    yp[13] += A*np.abs(dm2)/m123
-    yp[13] += A*np.abs(dm3)/m123
+    yp[13] += A*np.abs(dm1)/m123*1e6
+    yp[13] += A*np.abs(dm2)/m123*1e6
+    yp[13] += A*np.abs(dm3)/m123*1e6
 
     ### Spin evolution ###
 

@@ -11,6 +11,8 @@ from initialconditions import ic
 from spinevolution import yp_spins
 from common import dot,cross
 
+if ic.galactic_tides: 
+    from galaxyevolution import yp_galaxy
 np.random.seed(ic.seed)
 
 # Default units are Rsun, Msun, Myr
@@ -786,7 +788,6 @@ def evolve(t,y,star1,star2,star3):
     ### Galactic tides ###
 
     if ic.galactic_tides:
-        from galaxyevolution import yp_galaxy
         yp += yp_galaxy(t,y,star1,star2,star3)
 
     return yp

@@ -693,15 +693,6 @@ def evolve(t,y,star1,star2,star3):
     a = y[6]
     A = y[13]
 
-    if e>=1 or e<0:
-        print('e>=1 or e<0')
-        print('Time:',t)
-        print('e:',e)
-    if a<=0:
-        print('a<=0')
-        print('Time:',t)
-        print('a:',a)
-
     ### Angular momenta ###
     L1 = mu1*np.sqrt(G*m12*a)
     L2 = mu2*np.sqrt(G*m123*A)

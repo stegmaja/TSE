@@ -1,6 +1,6 @@
 #!/bin/bash
  
-#SBATCH --mail-user=stegmaja@mpa-garching.mpg.de --mail-type=all --mem=0 --array=1-299 --nodes=1 --ntasks-per-node=40 --dependency=singleton -J TSE -t 24:00:00
+#SBATCH --mail-user=stegmaja@mpa-garching.mpg.de --mail-type=all --mem=20G --array=1-299 --nodes=1 --ntasks-per-node=40 --dependency=singleton -J TSE -t 24:00:00
 
 module purge
 

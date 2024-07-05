@@ -437,8 +437,8 @@ def model_RLO(t,y,star1,star2):
     y_new[3:6] *= np.sqrt(1-e_new**2)/np.linalg.norm(y[3:6])
     y_new[6] = a_new
     y_new[13] *= (m1+m2)/binary.m12
-    y_new[14:17] *= binary.spin1*1e6/np.linalg.norm(y[14:17])
-    y_new[17:20] *= binary.spin2*1e6/np.linalg.norm(y[17:20])
+    y_new[14:17] *= binary.ospin1*1e6/np.linalg.norm(y[14:17])
+    y_new[17:20] *= binary.ospin2*1e6/np.linalg.norm(y[17:20])
     if binary.k1 == 14:
         y_new[20:23] = y[14:17]/np.linalg.norm(y[14:17])
     if binary.k2 == 14:

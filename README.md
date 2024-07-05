@@ -34,6 +34,27 @@ If you are looking whether a triple leads to a particular configuration (e.g., t
 
 TSE runs stably with the python version and packages listed in `requirements.txt`.
 
+### Parallel runs
+
+If you consider running a large population in parallel, consider using `gnu parallel`, e.g.,
+
+`parallel -j 12 "python main.py --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+
+which would employ `-j 12` cores to evolve 1000 systems at three different metallicities (0.0002, 0.002, 0.02) in parallel. Note that it is not supported to run other parameters than seed and metallicity in parallel. If you want to explore other parameters you need to run them one after the other, e.g.,
+
+`parallel -j 12 "python main.py --alpha1 1.0 --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+
+and then 
+
+`parallel -j 12 "python main.py --alpha1 2.0 --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+
+and **not**
+
+`parallel -j 12 "python main.py --random TRUE --seed {1} --Z {2} --alpha1 {3}" ::: {1..1000} ::: 0.0002 0.002 0.02 ::: 1.0 2.0`. 
+
+Otherwise, different threads will use the same mobse input and output files...
+
+
 ### Integration variables
 
 y[0:3] : Eccentricity vector of the inner binary

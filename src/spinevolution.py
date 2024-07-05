@@ -59,6 +59,14 @@ def yp_spins(t,y,star1,star2,star3):
     Ospin1 = y[14:17]
     Ospin2 = y[17:20]
 
+    # Make sure that envelope radii are not larger than stellar radii
+    renv1 = min(renv1,r1)
+    renv2 = min(renv2,r2)
+
+    # Make sure that envelope masses are not larger than stellar masses
+    menv1 = min(menv1,m1)
+    menv2 = min(menv2,m2)
+
     # Arrays
     m_prim = np.array([m1,m2])
     r_prim = np.array([r1,r2])

@@ -817,6 +817,13 @@ if __name__ == '__main__':
 
     print(ic)
 
+
+    # Print how the inner binary would have evolve if it were isolated
+    print('Evolve inner binary if isolated',end='\n\n')
+    P_in = ot.orbital_period(ic.a1,m=ic.m1+ic.m2,units=(u.Rsun,u.day,u.Msun))
+    _ = InteractingBinaryStar(mass_1=ic.m1,mass_2=ic.m2,mass0_1=ic.m1,mass0_2=ic.m2,
+                                period=P_in,ecc=ic.e1,type1=1,type2=1,just_print=True)
+
     y0 = np.zeros(26)
 
     y0[0:3] = evec_in*e_in
@@ -828,6 +835,8 @@ if __name__ == '__main__':
     y0[13] = a_out
 
     # Star objects
+    print(' ')
+    print('Evolve triple system',end='\n\n')
     print('Evolve single stars (ignore entries for dummy secondary)',end='\n\n')
     star1 = SingleStar(mass0_1=m1)
     star2 = SingleStar(mass0_1=m2)

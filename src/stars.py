@@ -179,7 +179,8 @@ class InteractingBinaryStar:
                  acc2=ic.acc2,
                  epsnov=ic.epsnov,
                  eddfac=ic.eddfac,
-                 gamma=ic.gamma):
+                 gamma=ic.gamma,
+                 just_print=False):
 
         # Write input file
         with open(ic.MOBSE_DIR+'/'+ic.mobse_input,'w') as f:
@@ -206,6 +207,10 @@ class InteractingBinaryStar:
         os.chdir(ic.MOBSE_DIR)
         os.system('./mobse.x '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
         os.chdir(ic.SRC_DIR)
+
+        # If you don't want to do anything but just let mobse print the output (intendend for comparison with isolated binaries)
+        if just_print:
+            return
 
         # Read output
         t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31))

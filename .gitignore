@@ -5,3 +5,4 @@
 src/run.sh
 .DS_Store
 *.input
+*.ipynb

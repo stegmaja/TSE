@@ -243,16 +243,6 @@ class InteractingBinaryStar:
             if len(idx)==0:
                 print('MOBSE did not find a Roche lobe overflow in the bpp array')
                 self.event_status = -1
-                self.t = np.nan
-                self.sep = np.nan
-                self.ecc = np.nan
-                self.m12 = np.nan
-                self.star1 = None
-                self.star2 = None
-                self.ospin1 = np.nan
-                self.ospin2 = np.nan
-                self.k1 = np.nan
-                self.k2 = np.nan
                 return
             else:
                 idx = idx[0]
@@ -289,33 +279,11 @@ class InteractingBinaryStar:
         if k1>=15 or k2>=15:
             print('MOBSE found a merger')
             self.event_status = -1
-            self.t = np.nan
-            self.sep = np.nan
-            self.ecc = np.nan
-            self.m12 = np.nan
-            self.star1 = None
-            self.star2 = None
-            self.ospin1 = np.nan
-            self.ospin2 = np.nan
-            self.k1 = np.nan
-            self.k2 = np.nan
-            return
             
         # Test if orbit is intact
         elif sep<=0 or ecc>=1 or ecc<0 or np.isnan(ecc) or np.isnan(sep):
             print('MOBSE found that orbit is not intact')
             self.event_status = -1
-            self.t = np.nan
-            self.sep = np.nan
-            self.ecc = np.nan
-            self.m12 = np.nan
-            self.star1 = None
-            self.star2 = None
-            self.ospin1 = np.nan
-            self.ospin2 = np.nan
-            self.k1 = np.nan
-            self.k2 = np.nan
-            return 
 
         # Initiate two single stars to continue evolution
         else:

@@ -114,6 +114,75 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     plt.savefig('./../plots/'+filename+'.png')
     plt.close()
 
+def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),i=-1):
+
+    # Stellar types
+    k1 = star1.interpolators['k'](t)
+    k2 = star2.interpolators['k'](t)
+    k3 = star3.interpolators['k'](t)
+
+    # Masses0
+    m10 = star1.interpolators['m0'](t)
+    m20 = star2.interpolators['m0'](t)
+    m30 = star3.interpolators['m0'](t)
+    
+    # Masses
+    m1 = star1.interpolators['m'](t)
+    m2 = star2.interpolators['m'](t)
+    m3 = star3.interpolators['m'](t)
+
+    # Radii
+    r1 = 10**star1.interpolators['logr'](t)
+    r2 = 10**star2.interpolators['logr'](t)
+    r3 = 10**star3.interpolators['logr'](t)
+
+    # Epochs
+    epoch1 = star1.interpolators['epoch'](t)
+    epoch2 = star2.interpolators['epoch'](t)
+    epoch3 = star3.interpolators['epoch'](t)
+
+    # opsins
+    ospin1 = np.linalg.norm(y[14:17])
+    ospin2 = np.linalg.norm(y[17:20])
+    ospin3 = np.linalg.norm(y[20:23])
+
+    # Luminosity
+    lum1 = 10**star1.interpolators['loglum'](t)
+    lum2 = 10**star2.interpolators['loglum'](t)
+    lum3 = 10**star3.interpolators['loglum'](t)
+
+    # Envelope mass
+    menv1 = star1.interpolators['menv'](t)
+    menv2 = star2.interpolators['menv'](t)
+    menv3 = star3.interpolators['menv'](t)
+
+    # Envelope radius
+    renv1 = star1.interpolators['renv'](t)
+    renv2 = star2.interpolators['renv'](t)
+    renv3 = star3.interpolators['renv'](t)
+
+    # Core mass
+    massc1 = star1.interpolators['massc'](t)
+    massc2 = star2.interpolators['massc'](t)
+    massc3 = star3.interpolators['massc'](t)
+
+    # Core radius
+    radc1 = star1.interpolators['radc'](t)
+    radc2 = star2.interpolators['radc'](t)
+    radc3 = star3.interpolators['radc'](t)
+    
+    # Save data
+    output = np.insert(y,0,t)
+    output = np.insert(output,1,i)
+    data = np.array([k1,k2,k3,m10,m20,m30,m1,m2,m3,r1,r2,r3,epoch1,epoch2,epoch3,ospin1,ospin2,ospin3,lum1,lum2,lum3,menv1,menv2,menv3,renv1,renv2,renv3,massc1,massc2,massc3,radc1,radc2,radc3])
+    ic_data = np.array([ic.m1,ic.m2,ic.m3,ic.a1,ic.a2,ic.e1,ic.e2,ic.cosi1,ic.cosi2,ic.omega1,ic.omega2,ic.Omega1,ic.Omega2,ic.method,ic.rtol,ic.atol,ic.max_time,ic.max_step,ic.Z,ic.neta,ic.bwind,ic.hewind,ic.alpha1,ic.lamb,ic.ceflag,ic.tflag,ic.ifflag,ic.wdflag,ic.bhflag,ic.nsflag,ic.piflag,ic.mxns,ic.idum,ic.pts1,ic.pts2,ic.pts3,ic.sigma1,ic.sigma2,ic.beta,ic.xi,ic.acc2,ic.epsnov,ic.eddfac,ic.gamma,ic.seed,ic.galactic_tides,ic.x_MW,ic.y_MW,ic.z_MW,ic.vx_MW,ic.vy_MW,ic.vz_MW,ic.stellar_tides])
+    output = np.append(output,data)
+    output = np.append(output,ic_data)
+
+    # Append to the end of the file
+    with open('./../data/'+filename+'.csv', 'ab') as f:
+        f.writelines([b','.join([str(i).encode() for i in output])+b'\n'])
+
 ####################################################################################################
 # Functions that detect termination events
 ####################################################################################################
@@ -428,7 +497,7 @@ def CustomEvent(t,y,star1,star2,star3):
 
     # Check for a Burdge triple
 
-    if k1 == 14 and k2 < 10 and k3 < 10 and P_in >= 1 and P_in <= 10 and m1 >= 9 and m1 < 11 and a_out > 3e3 and r2 - RL2*a_in*(1-e_in) > 1:
+    if k1 == 14 and k2 < 10 and k3 < 10 and P_in >= 1 and P_in <= 10 and m1 >= 9 and m1 < 11 and a_out > 3e3 and r2 - RL2*a_in*(1-e_in) > 1 and m3>.5 and m3<1.5:
         return 1
     else:
         return -1
@@ -852,7 +921,6 @@ if __name__ == '__main__':
 
     print(ic)
 
-
     # Print how the inner binary would have evolve if it were isolated
     print('Evolve inner binary if isolated',end='\n\n')
     P_in = ot.orbital_period(ic.a1,m=ic.m1+ic.m2,units=(u.Rsun,u.day,u.Msun))
@@ -881,6 +949,9 @@ if __name__ == '__main__':
     y0[14:17] = lvec_in*star1.interpolators['ospin'](0)*1e6
     y0[17:20] = lvec_in*star2.interpolators['ospin'](0)*1e6
 
+    # Store initial conditions
+    store(t=0,y=y0,star1=star1,star2=star2,star3=star3)
+
     # Terminating events
     primary_RL.terminal = True
     secondary_RL.terminal = True
@@ -900,9 +971,11 @@ if __name__ == '__main__':
 
     if sol.status == -1:
         print('Integration failed at burn-in. Likely unrealistic initial conditions')
+        store(t=sol.t[-1],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3)
         sys.exit()
     elif sol.status == 1:
         print('Termination event at burn-in. Likely unrealistic initial conditions')
+        store(t=sol.t_events[0][0],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3)
         sys.exit()
     else:
         sol.status = 2 # Set dummy status to initiate the while loop below
@@ -947,10 +1020,12 @@ if __name__ == '__main__':
             if i == 0:
                 print('Custom event at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Custom event')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 sys.exit()
             elif i == 1:
                 print('Primary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary Roche lobe overflow')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
             elif i == 2:
                 print('Secondary Roche lobe overflow at',sol.t_events[i][0])
@@ -959,10 +1034,12 @@ if __name__ == '__main__':
             elif i == 3:
                 print('Tertiary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary Roche lobe overflow')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 sys.exit()
             elif i == 4:
                 print('Unstable at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unstable')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 sys.exit()
             elif i == 5:
                 print('Primary supernova at',sol.t_events[i][0])
@@ -983,15 +1060,20 @@ if __name__ == '__main__':
             elif i == 8:
                 print('DCO merger at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='DCO merger')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 sys.exit()
             elif i == 9:
                 print('Unphysical solution at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unphysical solution')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,i=i)
                 sys.exit()
+
+            store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,i=i)
 
             if event_status == -1:
                 print('Cannot continue integration after termination event.')
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Cannot continue integration after termination event: '+str(event_label[i]))
+                store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3)
                 sys.exit()
             else:
                 t_sol = np.append(t_sol,t_new)
@@ -1006,7 +1088,9 @@ if __name__ == '__main__':
         elif sol.status == -1:
             print('Integration step failed.')
             plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Integration step failed.')
+            store(t=sol.t[-1],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3)
             sys.exit()
 
     print(sol.message)
     plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Finished integration')
+    store(t=t_sol[-1],y=y_sol[:,-1],star1=star1,star2=star2,star3=star3)

@@ -614,7 +614,6 @@ def apply_inner_SN(t,y,star1,star2,star3):
     '''
 
     # Get masses
-    m1 = star1.interpolators['m'](t)
     m2 = star2.interpolators['m'](t)
     m3 = star3.interpolators['m'](t)
     m_SN = star1.m_SN # Mass of the exploding inner star before SN
@@ -635,9 +634,15 @@ def apply_inner_SN(t,y,star1,star2,star3):
     # Kick magnitude (km/s)
     vkick = maxwell.rvs(scale=star1.sigma)
 
-    # If BH is formed, lower kick by fallback fraction
-    if star1.kfinal == 14:
+    # BH flags
+    if star1.kfinal == 14 and ic.bhflag == 0:
+        vkick = 0
+    elif star1.kfinal == 14 and ic.bhflag == 1:
         vkick *= (1-star1.ffb)
+    elif (star1.kfinal == 14 or star1.kfinal == 13) and ic.bhflag == 2:
+        vkick *= (1-star1.ffb)
+    elif ic.bhflag == 3:
+        raise ValueError('bhflag = 3 not yet implemented.')
 
     a_in_new,e_in_new,cos_i_in_new,Omega_in_new,omega_in_new,f_in_new,v_com_in_new = ot.apply_kick_to_orbit(a=a_in,
                                                                                                             vkick=vkick,
@@ -755,10 +760,15 @@ def apply_outer_SN(t,y,star1,star2,star3):
     # Kick magnitude (km/s)
     vkick = maxwell.rvs(scale=star3.sigma)
 
-    # If BH is formed, lower kick by fallback fractino
-    if star3.kfinal == 14:
-        print('Fallback fraction:',star3.ffb)
+    # BH flags
+    if star3.kfinal == 14 and ic.bhflag == 0:
+        vkick = 0
+    elif star3.kfinal == 14 and ic.bhflag == 1:
         vkick *= (1-star3.ffb)
+    elif (star3.kfinal == 14 or star3.kfinal == 13) and ic.bhflag == 2:
+        vkick *= (1-star3.ffb)
+    elif ic.bhflag == 3:
+        raise ValueError('bhflag = 3 not yet implemented.')
 
     a_out_new,e_out_new,cos_i_out_new,Omega_out_new,omega_out_new,f_out_new,v_com_out_new = ot.apply_kick_to_orbit(a=a_out, 
                                                                                                                    vkick=vkick, 

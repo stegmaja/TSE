@@ -186,9 +186,9 @@ class InitialConditions:
             args.omega2 = np.random.uniform(0,2*np.pi)
             args.Omega2 = 0
 
-        elif args.random == "Burdge":
+        elif args.random == "LMXB":
 
-            args.m1 = ot.power_law_sample(-2.3, 15, 25.)
+            args.m1 = ot.power_law_sample(-2.3, 8, 25.)
             args.m2 = np.random.uniform(0.5, 5)
             args.m3 = 1.2
 

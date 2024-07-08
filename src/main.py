@@ -25,6 +25,11 @@ G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 
 def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),title='Evolution of triple system'):
 
+    # Show only 5000 values
+    every = max(1,len(t)//5000)
+    t = t[::every]
+    y = y[:,::every]
+
     e_in = np.sqrt(y[0]**2+y[1]**2+y[2]**2)
     a_in = y[6]
     e_out = np.sqrt(y[7]**2+y[8]**2+y[9]**2)
@@ -37,14 +42,6 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     max_e_in = np.max(e_in)
     max_e_out = np.max(e_out)
 
-    # Show only 5000 values
-    every = max(1,len(t)//5000)
-
-    t = t[::every]
-    a_in = a_in[::every]
-    a_out = a_out[::every]
-    e_in = e_in[::every]
-    e_out = e_out[::every]
     m1 = m1[::every]
     m2 = m2[::every]
     m3 = m3[::every]
@@ -56,7 +53,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     RL3 = RL3[::every]
 
     # Plot in subplots
-    fig, axs = plt.subplots(2, 2, figsize=(12,12))
+    fig, axs = plt.subplots(3, 2, figsize=(12,12), sharex=True)
 
     # Semi-major axes
     axs[0,0].plot(t,a_in,label='Inner')
@@ -105,6 +102,28 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     axs[1,0].legend(loc='center left')
     axs[1,0].set_ylim(0,None)
     axs[1,0].set_xlim(0,None)
+
+    # Cos(Angle) between spin and orbital angular momentum
+    axs[2,0].plot(t,(y[3]*y[14]+y[4]*y[15]+y[5]*y[16])/np.sqrt(y[3]**2+y[4]**2+y[5]**2)/np.sqrt(y[14]**2+y[15]**2+y[16]**2),label='Primary')
+    axs[2,0].plot(t,(y[3]*y[17]+y[4]*y[18]+y[5]*y[19])/np.sqrt(y[3]**2+y[4]**2+y[5]**2)/np.sqrt(y[17]**2+y[18]**2+y[19]**2),label='Secondary')
+    axs[2,0].plot(t,(y[14]*y[17]+y[15]*y[18]+y[16]*y[19])/np.sqrt(y[14]**2+y[15]**2+y[16]**2)/np.sqrt(y[17]**2+y[18]**2+y[19]**2),label='Primary-Secondary')
+    axs[2,0].set_title('Stellar spin-orbit alignment')
+    axs[2,0].set_xlabel('Time [Myr]')
+    axs[2,0].set_ylabel('cos(i)')
+    axs[2,0].legend(loc='center left')
+    axs[2,0].set_ylim(-1,1)
+    axs[2,0].set_xlim(0,None)
+
+    # Cos(Angle) between BH spin and orbital angular momentum
+    axs[2,1].plot(t,(y[3]*y[20]+y[4]*y[21]+y[5]*y[22])/np.sqrt(y[3]**2+y[4]**2+y[5]**2)/np.sqrt(y[20]**2+y[21]**2+y[22]**2),label='Primary')
+    axs[2,1].plot(t,(y[3]*y[23]+y[4]*y[24]+y[5]*y[25])/np.sqrt(y[3]**2+y[4]**2+y[5]**2)/np.sqrt(y[23]**2+y[24]**2+y[25]**2),label='Secondary')
+    axs[2,1].plot(t,(y[20]*y[23]+y[21]*y[24]+y[22]*y[25])/np.sqrt(y[20]**2+y[21]**2+y[22]**2)/np.sqrt(y[23]**2+y[24]**2+y[25]**2),label='Primary-Secondary')
+    axs[2,1].set_title('BH spin-orbit alignment')
+    axs[2,1].set_xlabel('Time [Myr]')
+    axs[2,1].set_ylabel('cos(i)')
+    axs[2,1].legend(loc='center left')
+    axs[2,1].set_ylim(-1,1)
+    axs[2,1].set_xlim(0,None)
 
     # Add title for entire plot
     fig.suptitle(title)
@@ -495,7 +514,7 @@ def CustomEvent(t,y,star1,star2,star3):
     # Roche lobe radii
     RL2 = ot.Roche_lobe_radius(m2,m1)
 
-    # Check for a Burdge triple
+    # Check for a LMXB triple
 
     if k1 == 14 and k2 < 10 and k3 < 10 and P_in >= 1 and P_in <= 10 and m1 >= 9 and m1 < 11 and a_out > 3e3 and r2 - RL2*a_in*(1-e_in) > 1 and m3>.5 and m3<1.5:
         return 0

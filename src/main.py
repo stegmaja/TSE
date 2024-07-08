@@ -1070,10 +1070,10 @@ if __name__ == '__main__':
 
             store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,i=i)
 
-            if event_status == -1:
+            if event_status <= -1:
                 print('Cannot continue integration after termination event.')
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Cannot continue integration after termination event: '+str(event_label[i]))
-                store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3)
+                store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,i=event_status)
                 sys.exit()
             else:
                 t_sol = np.append(t_sol,t_new)
@@ -1088,7 +1088,7 @@ if __name__ == '__main__':
         elif sol.status == -1:
             print('Integration step failed.')
             plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Integration step failed.')
-            store(t=sol.t[-1],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3)
+            store(t=sol.t[-1],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3,i=-4)
             sys.exit()
 
     print(sol.message)

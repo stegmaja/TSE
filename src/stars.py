@@ -278,12 +278,12 @@ class InteractingBinaryStar:
         # Test if either star is k=15
         if k1>=15 or k2>=15:
             print('MOBSE found a merger')
-            self.event_status = -1
+            self.event_status = -2
             
         # Test if orbit is intact
         elif sep<=0 or ecc>=1 or ecc<0 or np.isnan(ecc) or np.isnan(sep):
             print('MOBSE found that orbit is not intact')
-            self.event_status = -1
+            self.event_status = -3
 
         # Initiate two single stars to continue evolution
         else:

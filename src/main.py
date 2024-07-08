@@ -298,7 +298,7 @@ def unstable(t,y,star1,star2,star3):
     star3: Star 3 object
 
     Output:
-    result: Stability (positive if unstable)
+    result: Stability (zero if unstable)
     '''
 
     # Mass of each star at time t
@@ -318,7 +318,7 @@ def unstable(t,y,star1,star2,star3):
     if ot.check_triple_stability(a_in,a_out,e_out,m1+m2,m3) == True:
         return -1
     else:
-        return 1
+        return 0
 
 def primary_SN(t,y,star1,star2,star3):
     '''
@@ -416,7 +416,7 @@ def Unphysical(t,y,star1,star2,star3):
     star3: Star 3 object
 
     Output:
-    result: Unphysical solution (positive if unphysical)
+    result: Unphysical solution (zero if unphysical)
     '''
 
     # Inner semi-major axis
@@ -432,7 +432,7 @@ def Unphysical(t,y,star1,star2,star3):
     e_out = np.linalg.norm(y[7:10])
 
     if e_in >= 1 or e_in < 0 or a_in <= 0 or ~np.isfinite(a_in) or ~np.isfinite(e_in) or ~np.isfinite(a_in).all():
-        return 1
+        return 0
     else:
         return -1
     
@@ -466,7 +466,7 @@ def CustomEvent(t,y,star1,star2,star3):
     '''
 
     '''
-    Check for a Burdge triple
+    Check for a Burdge triple (zero if Burdge triple)
     '''
 
     # Stellar types
@@ -498,7 +498,7 @@ def CustomEvent(t,y,star1,star2,star3):
     # Check for a Burdge triple
 
     if k1 == 14 and k2 < 10 and k3 < 10 and P_in >= 1 and P_in <= 10 and m1 >= 9 and m1 < 11 and a_out > 3e3 and r2 - RL2*a_in*(1-e_in) > 1 and m3>.5 and m3<1.5:
-        return 1
+        return 0
     else:
         return -1
 
@@ -791,6 +791,7 @@ def evolve(t,y,star1,star2,star3):
     yp: Array of derivatives
     '''
 
+
     yp = np.zeros_like(y)
 
     # Get masses
@@ -820,6 +821,7 @@ def evolve(t,y,star1,star2,star3):
     ### Semi-major axes ###
     a = y[6]
     A = y[13]
+
 
     ### Angular momenta ###
     L1 = mu1*np.sqrt(G*m12*a)

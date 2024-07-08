@@ -126,7 +126,7 @@ class InitialConditions:
         parser.add_argument('--seed', type=int, default=42, help='Random seed (default: 42)')
 
         # Create random initial conditions
-        parser.add_argument('--random', type=bool, default=False, help='Create random initial conditions from Sana+ 2012? (default: False)')  
+        parser.add_argument('--random', type=str, default="Rodriguez", help='Create random initial conditions from Sana+ 2012? (default: False)')  
 
         # Should Galactic tides be included?
         parser.add_argument('--galactic_tides', type=bool, default=False, help='Include Galactic tides? (default: False)')
@@ -152,11 +152,14 @@ class InitialConditions:
         # Should stellar tides be included?
         parser.add_argument('--stellar_tides', type=bool, default=False, help='Include stellar tides? (default: False)')
 
+        # Should a progess bar be displayed?
+        parser.add_argument('--progress', type=bool, default=False, help='Display a progress bar? (default: False)')
+
         args = parser.parse_args()
 
-        if args.random:
+        np.random.seed(args.seed)
 
-            np.random.seed(args.seed)
+        if args.random == "Rodriguez":
 
             args.m1 = ot.power_law_sample(-2.3, 22., 150.)
             args.m2 = np.random.uniform(22., args.m1)
@@ -182,6 +185,35 @@ class InitialConditions:
             args.cosi2 = np.random.uniform(-1,1)
             args.omega2 = np.random.uniform(0,2*np.pi)
             args.Omega2 = 0
+
+        elif args.random == "Burdge":
+
+            args.m1 = ot.power_law_sample(-2.3, 15, 25.)
+            args.m2 = np.random.uniform(0.5, 5)
+            args.m3 = 1.2
+
+            P_in = 10**ot.power_law_sample(-0.55, 0.15, 5.5)
+            args.a1 = ot.semi_major_axis(P_in,m=args.m1+args.m2,units=(u.Rsun,u.day,u.Msun))
+            args.e1 = ot.power_law_sample(-0.42, 0.0, 0.9)
+
+            args.cosi1 = np.random.uniform(-1,1)
+            args.omega1 = np.random.uniform(0,2*np.pi)
+            args.Omega1 = np.pi
+
+            initial_stability = False
+
+            while not initial_stability:
+                args.a2 = 10**np.random.uniform(np.log10(args.a1),
+                                            np.log10((1e4*u.AU).to(u.Rsun).value))
+                args.e2 = np.sqrt(np.random.uniform(0,1))
+
+                initial_stability = ot.check_triple_stability(args.a1,args.a2,args.e2,args.m1+args.m2,args.m3)
+
+            args.cosi2 = np.random.uniform(-1,1)
+            args.omega2 = np.random.uniform(0,2*np.pi)
+            args.Omega2 = 0
+
+        
 
         self.m1 = args.m1
         self.m2 = args.m2

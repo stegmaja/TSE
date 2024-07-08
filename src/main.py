@@ -396,7 +396,42 @@ def CustomEvent(t,y,star1,star2,star3):
         return -1
     '''
 
-    return -1
+    '''
+    Check for a Burdge triple
+    '''
+
+    # Stellar types
+    k1 = star1.interpolators['k'](t)
+    k2 = star2.interpolators['k'](t)
+    k3 = star3.interpolators['k'](t)
+
+    # Radii
+    r2 = 10**star2.interpolators['logr'](t)
+
+    # Masses
+    m1 = star1.interpolators['m'](t)
+    m2 = star2.interpolators['m'](t)
+    m3 = star3.interpolators['m'](t)
+
+    # Semi-major axes
+    a_in = y[6]
+    a_out = y[13]
+
+    # Inner orbital period
+    P_in = ot.orbital_period(a_in,m=m1+m2,units=(u.Rsun,u.day,u.Msun))
+
+    # Eccentricities
+    e_in = np.linalg.norm(y[0:3])
+
+    # Roche lobe radii
+    RL2 = ot.Roche_lobe_radius(m2,m1)
+
+    # Check for a Burdge triple
+
+    if k1 == 14 and k2 < 10 and k3 < 10 and P_in >= 1 and P_in <= 10 and m1 >= 9 and m1 < 11 and a_out > 3e3 and r2 - RL2*a_in*(1-e_in) > 1:
+        return 1
+    else:
+        return -1
 
 ####################################################################################################
 # Functions that model termination events
@@ -857,8 +892,8 @@ if __name__ == '__main__':
     DCO_merger.terminal = True
     Unphysical.terminal = True
     CustomEvent.terminal = True
-    events = [primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical,CustomEvent]
-    event_label = ['Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical','Custom event']
+    events = [CustomEvent,primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical]
+    event_label = ['Custom event','Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical']
 
     # Do a short burn-in integration
     sol = solve_ivp(evolve, [0,1e-6], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
@@ -910,48 +945,48 @@ if __name__ == '__main__':
             print('A termination event occured.',end='\n\n')
 
             if i == 0:
+                print('Custom event at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Custom event')
+                sys.exit()
+            elif i == 1:
                 print('Primary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary Roche lobe overflow')
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
-            elif i == 1:
+            elif i == 2:
                 print('Secondary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary Roche lobe overflow')
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
-            elif i == 2:
+            elif i == 3:
                 print('Tertiary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary Roche lobe overflow')
                 sys.exit()
-            elif i == 3:
+            elif i == 4:
                 print('Unstable at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unstable')
                 sys.exit()
-            elif i == 4:
+            elif i == 5:
                 print('Primary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
                 if star1.interpolators['k'](t_new) == 14:
                     y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17])*G*star1.interpolators['m'](t_new)**2/c # BH spins
-            elif i == 5:
+            elif i == 6:
                 print('Secondary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star2,star1,star3)
                 if star2.interpolators['k'](t_new) == 14:
                     y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20])*G*star2.interpolators['m'](t_new)**2/c # BH spins
-            elif i == 6:
+            elif i == 7:
                 print('Tertiary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary supernova')
                 t_new,y_new,event_status = apply_outer_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
-            elif i == 7:
+            elif i == 8:
                 print('DCO merger at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='DCO merger')
                 sys.exit()
-            elif i == 8:
+            elif i == 9:
                 print('Unphysical solution at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unphysical solution')
-                sys.exit()
-            elif i == 9:
-                print('Custom event at',sol.t_events[i][0])
-                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Custom event')
                 sys.exit()
 
             if event_status == -1:

@@ -12,7 +12,7 @@ In order to run the code first compile mobse by running
 
 in the mobse directory and
 
-`mkdir plots`
+`mkdir plots` and `mkdir data`
 
 in the root directory. Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
@@ -26,7 +26,7 @@ You may want to check out the number of optional arguments that are available by
 
 E.g., do 
 
-`python main.py --random TRUE --seed 1 --Z 0.02`
+`python main.py --random Rodriguez --seed 1 --Z 0.02`
 
 to evolve a triple from a random distribution at solar metallicity.
 
@@ -38,19 +38,19 @@ TSE runs stably with the python version and packages listed in `requirements.txt
 
 If you consider running a large population in parallel, consider using `gnu parallel`, e.g.,
 
-`parallel -j 12 "python main.py --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+`parallel -j 12 "python main.py --random Rodriguez --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 
 which would employ `-j 12` cores to evolve 1000 systems at three different metallicities (0.0002, 0.002, 0.02) in parallel. Note that it is not supported to run other parameters than seed and metallicity in parallel. If you want to explore other parameters you need to run them one after the other, e.g.,
 
-`parallel -j 12 "python main.py --alpha1 1.0 --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+`parallel -j 12 "python main.py --alpha1 1.0 --random Rodriguez --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 
 and then 
 
-`parallel -j 12 "python main.py --alpha1 2.0 --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
+`parallel -j 12 "python main.py --alpha1 2.0 --random Rodriguez --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 
 and **not**
 
-`parallel -j 12 "python main.py --random TRUE --seed {1} --Z {2} --alpha1 {3}" ::: {1..1000} ::: 0.0002 0.002 0.02 ::: 1.0 2.0`. 
+`parallel -j 12 "python main.py --random Rodriguez --seed {1} --Z {2} --alpha1 {3}" ::: {1..1000} ::: 0.0002 0.002 0.02 ::: 1.0 2.0`. 
 
 Otherwise, different threads will use the same mobse input and output files...
 

@@ -131,7 +131,7 @@ class SingleStar:
         self.sigma = sigma1
 
         # Record the final stellar type
-        self.kfinal = k[k>0][-1]
+        self.kfinal = k[k>=0][-1]
 
         # Remove the mobse files
         #os.chdir(ic.MOBSE_DIR)

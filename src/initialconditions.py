@@ -158,9 +158,9 @@ class InitialConditions:
 
         if args.random:
 
-            args.m1 = ot.power_law_sample(-2.3, args.m1_min, args.m1_max)
-            args.m2 = np.random.uniform(args.m2_min, args.m1)
-            args.m3 = np.random.uniform(args.m3_min, args.m1+args.m2)
+            args.m1 = ot.power_law_sample(-2.3, 8, 20)
+            args.m2 = args.m1*ot.power_law_sample(-0.1, 0.1, 1.0)
+            args.m3 = ot.power_law_sample(-2., 0.1, 20)
 
             P_in = 10**ot.power_law_sample(-0.55, 0.15, 5.5)
             args.a1 = ot.semi_major_axis(P_in,m=args.m1+args.m2,units=(u.Rsun,u.day,u.Msun))

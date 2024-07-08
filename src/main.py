@@ -466,7 +466,7 @@ def CustomEvent(t,y,star1,star2,star3):
     '''
 
     '''
-    Check for a Burdge triple (zero if Burdge triple)
+    Check for an LMXB triple (zero if LMXB triple)
     '''
 
     # Stellar types

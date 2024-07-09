@@ -54,7 +54,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     RL3 = RL3[::every]
 
     # Plot in subplots
-    fig, axs = plt.subplots(3, 2, figsize=(12,12), sharex=True)
+    fig, axs = plt.subplots(4, 2, figsize=(16,12), sharex=True)
 
     # Semi-major axes
     axs[0,0].plot(t,a_in,label='Inner')
@@ -125,6 +125,16 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     axs[2,1].legend(loc='center left')
     axs[2,1].set_ylim(-1,1)
     axs[2,1].set_xlim(0,None)
+
+    # Cos(angle) of inner and outer orbit
+    axs[3,0].plot(t,y[5]/np.sqrt(y[3]**2+y[4]**2+y[5]**2),label='Inner')
+    axs[3,0].plot(t,y[12]/np.sqrt(y[10]**2+y[11]**2+y[12]**2),label='Outer')
+    axs[3,0].set_title('Orbital alignment')
+    axs[3,0].set_xlabel('Time [Myr]')
+    axs[3,0].set_ylabel('cos(i)')
+    axs[3,0].legend(loc='center left')
+    axs[3,0].set_ylim(-1,1)
+    axs[3,0].set_xlim(0,None)
 
     # Add title for entire plot
     fig.suptitle(title)

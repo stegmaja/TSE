@@ -490,7 +490,7 @@ def CustomEvent(t,y,star1,star2,star3):
     '''
     Check for an LMXB triple (zero if LMXB triple)
     '''
-
+    '''
     # Stellar types
     k1 = star1.interpolators['k'](t)
     k2 = star2.interpolators['k'](t)
@@ -523,6 +523,9 @@ def CustomEvent(t,y,star1,star2,star3):
         return 0
     else:
         return -1
+    '''
+    
+    return -1
 
 ####################################################################################################
 # Functions that model termination events

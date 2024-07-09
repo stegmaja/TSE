@@ -24,6 +24,7 @@ G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 ####################################################################################################
 
 def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),title='Evolution of triple system'):
+    print('Plotting...')
 
     # Show only 5000 values
     every = max(1,len(t)//5000)
@@ -132,6 +133,8 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     plt.tight_layout()
     plt.savefig('./../plots/'+filename+'.png')
     plt.close()
+
+    print('Plot saved as ./../plots/'+filename+'.png')
 
 def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),i=-1):
 

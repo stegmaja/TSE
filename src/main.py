@@ -148,7 +148,6 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
 
 def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),status='Initial'):
 
-    print(y)
 
     # Stellar types
     k1 = star1.interpolators['k'](t)

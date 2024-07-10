@@ -7,6 +7,6 @@ module load anaconda/3/2023.03 parallel/201807
 TASK_ID=${SLURM_ARRAY_TASK_ID}
 TASK_MAX=${SLURM_ARRAY_TASK_MAX}
 
-parallel --delay .1 -j 0 --joblog parallel_joblog_$TASK_ID ./runtask {1} {2} ::: $(seq $TASK_ID $TASK_MAX 10000) ::: 0.0002 0.002 0.02
+parallel --delay .1 -j 0 --joblog parallel_joblog_$TASK_ID ./runtask {1} {2} ::: $(seq $TASK_ID $TASK_MAX 10000) ::: 0.03 0.02 0.01 0.0075 0.005 0.0025 0.001 0.00075 0.0005 0.00025 0.0001
 
 sbatch $0

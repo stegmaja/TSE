@@ -26,10 +26,12 @@ G = G.to(u.Rsun**3/u.Msun/u.Myr**2).value
 def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),title='Evolution of triple system'):
     print('Plotting...')
 
+    '''
     # Show only 5000 values
     every = max(1,len(t)//5000)
     t = t[::every]
     y = y[:,::every]
+    '''
 
     e_in = np.sqrt(y[0]**2+y[1]**2+y[2]**2)
     a_in = y[6]
@@ -43,6 +45,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     max_e_in = np.max(e_in)
     max_e_out = np.max(e_out)
 
+    '''
     m1 = m1[::every]
     m2 = m2[::every]
     m3 = m3[::every]
@@ -52,6 +55,7 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
     RL1 = RL1[::every]
     RL2 = RL2[::every]
     RL3 = RL3[::every]
+    '''
 
     # Plot in subplots
     fig, axs = plt.subplots(4, 2, figsize=(16,12), sharex=True)

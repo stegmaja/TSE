@@ -148,6 +148,8 @@ def plot(t,y,m1,m2,m3,logr1,logr2,logr3,filename=str(ic.seed)+'_'+str(ic.Z).repl
 
 def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',''),status='Initial'):
 
+    print(y)
+
     # Stellar types
     k1 = star1.interpolators['k'](t)
     k2 = star2.interpolators['k'](t)
@@ -1016,11 +1018,11 @@ if __name__ == '__main__':
 
     if sol.status == -1:
         print('Integration failed at burn-in. Likely unrealistic initial conditions')
-        store(t=sol.t[-1],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
+        store(t=sol.t[-1],y=sol.y[-1],star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
         sys.exit()
     elif sol.status == 1:
         print('Termination event at burn-in. Likely unrealistic initial conditions')
-        store(t=sol.t_events[0][0],y=sol.y[:,-1],star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
+        store(t=sol.t_events[0][0],y=sol.y[-1],star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
         sys.exit()
     else:
         sol.status = 2 # Set dummy status to initiate the while loop below
@@ -1065,12 +1067,12 @@ if __name__ == '__main__':
             if i == 0:
                 print('Custom event at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Custom event')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='Custom event')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Custom event')
                 sys.exit()
             elif i == 1:
                 print('Primary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary Roche lobe overflow')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='Begin primary RLO')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Begin primary RLO')
                 t_new,y_new,event_status,star1,star2 = model_RLO(sol.t_events[i][0],sol.y[:,-1],star1,star2)
                 if event_status == -1:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='End primary RLO (no bpp)')
@@ -1101,12 +1103,12 @@ if __name__ == '__main__':
             elif i == 3:
                 print('Tertiary Roche lobe overflow at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary Roche lobe overflow')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='Tertiary RLO')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Tertiary RLO')
                 sys.exit()
             elif i == 4:
                 print('Unstable at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unstable')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='Unstable')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Unstable')
                 sys.exit()
             elif i == 5:
                 print('Primary supernova at',sol.t_events[i][0])
@@ -1142,12 +1144,12 @@ if __name__ == '__main__':
             elif i == 8:
                 print('DCO merger at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='DCO merger')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='DCO merger')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='DCO merger')
                 sys.exit()
             elif i == 9:
                 print('Unphysical solution at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unphysical solution')
-                store(t=sol.t_events[i][0],y=sol.y_events[i][:,-1],star1=star1,star2=star2,star3=star3,status='Unphysical solution')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Unphysical solution')
                 sys.exit()
 
             t_sol = np.append(t_sol,t_new)

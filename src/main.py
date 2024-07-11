@@ -1021,11 +1021,12 @@ if __name__ == '__main__':
 
     if sol.status == -1:
         print('Integration failed at burn-in. Likely unrealistic initial conditions')
-        store(t=sol.t[-1],y=y0,star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
+        store(t=0,y=y0,star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
         sys.exit()
     elif sol.status == 1:
         print('Termination event at burn-in. Likely unrealistic initial conditions')
-        store(t=sol.t_events[0][0],y=y0,star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
+        print(sol.t_events)
+        store(t=0,y=y0,star1=star1,star2=star2,star3=star3,status='Failed at burn-in')
         sys.exit()
     else:
         sol.status = 2 # Set dummy status to initiate the while loop below

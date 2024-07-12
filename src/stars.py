@@ -246,11 +246,6 @@ class InteractingBinaryStar:
             else:
                 idx = idx[0]
                 print('MOBSE found a Roche lobe overflow in the bpp array')
-        
-        # Remove the mobse files
-        #os.chdir(ic.MOBSE_DIR)
-        #os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
-        #os.chdir(ic.SRC_DIR)
 
         # Get final post-interaction properties
         t = t[idx]

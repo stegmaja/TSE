@@ -218,6 +218,45 @@ def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',
     with open('./../data/'+filename+'.csv', 'ab') as f:
         f.writelines([b','.join([str(i).encode() for i in output])+b'\n'])
 
+def evolve_remaining_inner_binary(t,y,star1,star2,star3):
+    # Print how the remaining binary evolves without the tertiary
+    print('Evolve remaining inner binary',end='\n\n')
+
+    # Stellar masses
+    m1 = star1.interpolators['m'](t)
+    m2 = star2.interpolators['m'](t)
+
+    # Stellar types
+    k1 = star1.interpolators['k'](t)
+    k2 = star2.interpolators['k'](t)
+
+    # Inner eccentricity
+    e1 = np.linalg.norm(y[0:3])
+
+    # Inner semi-major axis
+    a1 = y[6]
+
+    # Spins
+    ospin1 = np.linalg.norm(y[14:17])/1e6
+    ospin2 = np.linalg.norm(y[17:20])/1e6
+
+    # Epochs
+    epoch1 = star1.interpolators['epoch'](t)
+    epoch2 = star2.interpolators['epoch'](t)
+
+    # Masses0
+    m0_1 = star1.interpolators['m0'](t)
+    m0_2 = star2.interpolators['m0'](t)
+
+    P_in = ot.orbital_period(a1,m=m1+m2,units=(u.Rsun,u.day,u.Msun))
+
+    _ = InteractingBinaryStar(mass_1=m1,mass_2=m2,mass0_1=m0_1,mass0_2=m0_2,
+                    period=P_in,ecc=e_in,type1=-int(k1),type2=-int(k2),
+                    epoch_1=epoch1,epoch_2=epoch2,
+                    ospin_1=ospin1,ospin_2=ospin2,
+                    tphys=t,max_time=ic.max_time,
+                    just_print=True)
+
 ####################################################################################################
 # Functions that detect termination events
 ####################################################################################################
@@ -734,7 +773,7 @@ def apply_inner_SN(t,y,star1,star2,star3):
     # Print if outer orbit is unbound
     elif e_out_new >= 1 or e_out_new < 0 or a_out_new <= 0 or ~np.isfinite(a_out_new) or ~np.isfinite(e_out_new) or ~np.isfinite(cos_i_out_new) or ~np.isfinite(Omega_out_new) or ~np.isfinite(omega_out_new) or ~np.isfinite(f_out_new) or ~np.isfinite(a_out_new).all():
         print('Outer orbit gets unbound.',end='\n\n')
-        event_status = -1
+        event_status = -2
     else:
         print('Both orbits remain bound.',end='\n\n')
         event_status = 1
@@ -1121,7 +1160,11 @@ if __name__ == '__main__':
                 if star1.interpolators['k'](t_new) == 14:
                     y_new[20:23] = y_new[14:17]/np.linalg.norm(y_new[14:17])*G*star1.interpolators['m'](t_new)**2/c # BH spins
                 if event_status == -1:
-                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Primary SN (unbound)')
+                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Primary SN (inner binary unbound)')
+                    sys.exit()
+                elif event_status == -2:
+                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Primary SN (outer binary unbound)')
+                    evolve_remaining_inner_binary(t_new,y_new,star1,star2,star3)
                     sys.exit()
                 else:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Primary SN')
@@ -1132,7 +1175,11 @@ if __name__ == '__main__':
                 if star2.interpolators['k'](t_new) == 14:
                     y_new[23:26] = y_new[17:20]/np.linalg.norm(y_new[17:20])*G*star2.interpolators['m'](t_new)**2/c # BH spins
                 if event_status == -1:
-                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Secondary SN (unbound)')
+                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Secondary SN (inner binary unbound)')
+                    sys.exit()
+                elif event_status == -2:
+                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Secondary SN (outer binary unbound)')
+                    evolve_remaining_inner_binary(t_new,y_new,star1,star2,star3)
                     sys.exit()
                 else:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Secondary SN')
@@ -1141,7 +1188,8 @@ if __name__ == '__main__':
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary supernova')
                 t_new,y_new,event_status = apply_outer_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
                 if event_status == -1:
-                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Tertiary SN (unbound)')
+                    store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Tertiary SN (outer binary unbound)')
+                    evolve_remaining_inner_binary(t_new,y_new,star1,star2,star3)
                     sys.exit()
                 else:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Tertiary SN')

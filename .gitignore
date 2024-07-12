@@ -7,3 +7,4 @@ src/run.sh
 *.input
 *.ipynb
 *.csv
+paper/*

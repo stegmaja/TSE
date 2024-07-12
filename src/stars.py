@@ -359,6 +359,7 @@ class InteractingBinaryStar:
                            eddfac=eddfac,
                            gamma=gamma)
         
+        
         self.t = t
         self.sep = sep
         self.ecc = max(ecc,1e-3)

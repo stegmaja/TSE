@@ -243,7 +243,6 @@ class InteractingBinaryStar:
             if len(idx)==0:
                 print('MOBSE did not find a Roche lobe overflow in the bpp array')
                 self.event_status = -1
-                return
             else:
                 idx = idx[0]
                 print('MOBSE found a Roche lobe overflow in the bpp array')

@@ -1016,6 +1016,7 @@ if __name__ == '__main__':
     _ = InteractingBinaryStar(mass_1=ic.m1,mass_2=ic.m2,mass0_1=ic.m1,mass0_2=ic.m2,
                                 period=P_in,ecc=ic.e1,type1=1,type2=1,just_print=True)
 
+    # Initial state vector
     y0 = np.zeros(26)
 
     y0[0:3] = evec_in*e_in

@@ -758,8 +758,6 @@ def power_law_sample(alpha, xmin, xmax):
     
     return ((alpha+1)*np.random.uniform()/Norm+xmin**(alpha+1))**(1/(alpha+1))
 
-print('orbittools.py loaded.',end='\n\n')
-
 def sample_broken_power_law(x0=[0.08,0.5,150],alphas=[-1.3,-2.3]):
     '''
     Sample from a broken power law distribution with given cutoffs and exponents, ensuring continuity at boundaries.
@@ -806,3 +804,5 @@ def sample_broken_power_law(x0=[0.08,0.5,150],alphas=[-1.3,-2.3]):
         x = x0[idx] * np.exp((u - cdf_a) / n[idx] * np.log(x0[idx+1] / x0[idx]) / (cdf_b - cdf_a))
 
     return x
+
+print('orbittools.py loaded.',end='\n\n')

@@ -774,10 +774,6 @@ def sample_broken_power_law(x0=[0.08,0.5,150],alphas=[-1.3,-2.3]):
         x: sample from the broken power law distribution
     '''
 
-    # Raise error if len(x0) != len(alphas) + 1
-    if len(x0) != len(alphas) + 1:
-        raise ValueError('Number of cutoffs must be one more than number of exponents.')
-
     x0 = np.array(x0)
     alphas = np.array(alphas)
 

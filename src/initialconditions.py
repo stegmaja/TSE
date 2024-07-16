@@ -160,7 +160,7 @@ class InitialConditions:
 
             args.m1 = ot.power_law_sample(-2.3, 22, 150)
             args.m2 = args.m1*ot.power_law_sample(-0.1, 22/args.m1, 1.0)
-            args.m3 = ot.power_law_sample(-2., 0.7, 150)
+            args.m3 = args.m1*ot.sample_broken_power_law([0.1,0.3,1.0],[-1.2,-2.0])
 
             P_in = 10**ot.power_law_sample(-0.55, 0.15, 5.5)
             args.a1 = ot.semi_major_axis(P_in,m=args.m1+args.m2,units=(u.Rsun,u.day,u.Msun))

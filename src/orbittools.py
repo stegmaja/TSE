@@ -760,3 +760,53 @@ def power_law_sample(alpha, xmin, xmax):
 
 print('orbittools.py loaded.',end='\n\n')
 
+def sample_broken_power_law(x0=[0.08,0.5,150],alphas=[-1.3,-2.3]):
+    '''
+    Sample from a broken power law distribution with given cutoffs and exponents, ensuring continuity at boundaries.
+
+    Input:
+        x0 (list): n+1 cutoffs defining the boundaries of the segments.
+        alphas (list): n exponents for the power law segments.
+
+        Default values are for the Kroupa IMF.
+
+    Output:
+        x: sample from the broken power law distribution
+    '''
+
+    # Raise error if len(x0) != len(alphas) + 1
+    if len(x0) != len(alphas) + 1:
+        raise ValueError('Number of cutoffs must be one more than number of exponents.')
+
+    x0 = np.array(x0)
+    alphas = np.array(alphas)
+
+    n = np.eye(1,len(alphas))[0]
+
+    for i in range(1,len(alphas)):
+        n[i] = n[i-1]*x0[i]**(alphas[i-1]-alphas[i])
+
+    n /= np.sum(n/(1+alphas)*(np.roll(x0,-1)[:-1]**(alphas+1) - x0[:-1]**(alphas+1)))
+
+    N = np.cumsum(n/(1+alphas)*(np.roll(x0,-1)[:-1]**(alphas+1) - x0[:-1]**(alphas+1)))
+    N = np.insert(N,0,0)
+
+    u=np.random.uniform()
+
+    # find the index of the CDF that is right above u
+    idx = 0
+    while u > N[idx+1]:
+        idx += 1
+        if idx == len(N)-1:
+            break
+
+    cdf_a = N[idx]
+    cdf_b = N[idx+1]
+    alpha = alphas[idx]
+
+    if alpha != -1:
+        x = ((u - cdf_a) * (alpha + 1) / n[idx] + x0[idx]**(alpha + 1))**(1 / (alpha + 1))
+    else:
+        x = x0[idx] * np.exp((u - cdf_a) / n[idx] * np.log(x0[idx+1] / x0[idx]) / (cdf_b - cdf_a))
+
+    return x

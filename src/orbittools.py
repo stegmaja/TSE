@@ -1,8 +1,7 @@
 import numpy as np
-from astropy.constants import G,c
+from astropy.constants import G
 import astropy.units as u
 from scipy.optimize import root
-from scipy.integrate import quad
 
 def orbital_elements_to_vectors(a, e, cos_i, Omega, omega, f, m=1, units=(u.AU,u.km/u.s,u.Msun)):
     ''' 

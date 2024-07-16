@@ -147,38 +147,7 @@ def orbital_angular_momentum(a, e, m1=1, m2=1, units=(u.AU,u.km/u.s,u.Msun)):
     L = mu*np.sqrt(m*a*(1-e**2))
 
     return L
-'''
-def merger_time(a, e, m1=1, m2=1, F='Numerical_Integration', units=(u.AU,u.yr,u.Msun)):
-    
-    a *= units[0]
-    m1 *= units[2]
-    m2 *= units[2]
 
-    m = m1+m2
-    mu = m1*m2/m
-
-    g = lambda e : e**(12/19)/(1-e**2)*(1+(121/304)*e**2)**(870/2299)
-
-    if e==0:
-        t = 5/256*(c**5/G**3)*a**4/mu/m**2
-        return t.to(units[1]).value
-    
-    elif F=='Numerical_Integration':
-        F0 = 48/19/g(e)**4*quad(lambda e : g(e)**4*(1-e**2)**(5/2)/e/(1+121/304*e**2),0,e)[0]
-
-    elif F=='Low_eccentricity':
-        F0 = e**(48/19)/g(e)**4
-
-    elif F=='High_eccentricity':
-        F0 = 768/429*(1-e**2)**(7/2)
-
-    else:
-        raise ValueError('F must be Numerical_Integration, Low_eccentricity or High_eccentricity')
-    
-    T0 = orbital_period(a,m=m,units=units)
-
-    return t.to(units[1]).value
-'''
 def vectors_to_orbital_elements(rvec, vvec, m=1, units=(u.AU,u.km/u.s,u.Msun)):
     ''' 
     Input:

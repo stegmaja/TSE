@@ -237,6 +237,10 @@ class InitialConditions:
         self.vz_MW = args.vz_MW
         self.stellar_tides = args.stellar_tides
 
+        self.primary_SN = False
+        self.secondary_SN = False
+        self.tertiary_SN = False
+
         self.SRC_DIR = os.getcwd()
         self.MOBSE_DIR = self.SRC_DIR+'/../mobse/src'
 

@@ -406,10 +406,10 @@ def primary_SN(t,y,star1,star2,star3):
     star3: Star 3 object
 
     Output:
-    result: Supernova (positive if supernova)
+    result: Supernova (negative if supernova)
     '''
 
-    if star1.initial_CO:
+    if ic.primary_SN:
         return -np.inf
     else:
         return star1.tco - t
@@ -426,10 +426,10 @@ def secondary_SN(t,y,star1,star2,star3):
     star3: Star 3 object
 
     Output:
-    result: Supernova (positive if supernova)
+    result: Supernova (negative if supernova)
     '''
 
-    if star2.initial_CO:
+    if ic.secondary_SN:
         return -np.inf
     else:
         return star2.tco - t
@@ -446,10 +446,10 @@ def tertiary_SN(t,y,star1,star2,star3):
     star3: Star 3 object
 
     Output:
-    result: Supernova (positive if supernova)
+    result: Supernova (negative if supernova)
     '''
 
-    if star3.initial_CO:
+    if ic.tertiary_SN:
         return -np.inf
     else:
         return star3.tco - t
@@ -1011,7 +1011,7 @@ if __name__ == '__main__':
     print(ic)
 
     # Print how the inner binary would have evolve if it were isolated
-    print('Evolve inner binary if isolated',end='\n\n')
+    print('Evolve inner binary as if it was isolated',end='\n\n')
     P_in = ot.orbital_period(ic.a1,m=ic.m1+ic.m2,units=(u.Rsun,u.day,u.Msun))
     _ = InteractingBinaryStar(mass_1=ic.m1,mass_2=ic.m2,mass0_1=ic.m1,mass0_2=ic.m2,
                                 period=P_in,ecc=ic.e1,type1=1,type2=1,just_print=True)
@@ -1154,6 +1154,7 @@ if __name__ == '__main__':
                 store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Unstable')
                 sys.exit()
             elif i == 5:
+                ic.primary_SN = True
                 print('Primary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Primary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)
@@ -1169,6 +1170,7 @@ if __name__ == '__main__':
                 else:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Primary SN')
             elif i == 6:
+                ic.secondary_SN = True
                 print('Secondary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Secondary supernova')
                 t_new,y_new,event_status = apply_inner_SN(sol.t_events[i][0],sol.y[:,-1],star2,star1,star3)
@@ -1184,6 +1186,7 @@ if __name__ == '__main__':
                 else:
                     store(t=t_new,y=y_new,star1=star1,star2=star2,star3=star3,status='Secondary SN')
             elif i == 7:
+                ic.tertiary_SN = True
                 print('Tertiary supernova at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Tertiary supernova')
                 t_new,y_new,event_status = apply_outer_SN(sol.t_events[i][0],sol.y[:,-1],star1,star2,star3)

@@ -8,3 +8,4 @@ src/run.sh
 *.ipynb
 *.csv
 paper/*
+*.md

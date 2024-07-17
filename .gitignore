@@ -12,3 +12,4 @@ src/run.sh
 *.h5
 paper/GWTC-3-population-data/*
 paper.md
+*.log

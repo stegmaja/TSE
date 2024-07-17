@@ -210,6 +210,10 @@ class InteractingBinaryStar:
 
         # If you don't want to do anything but just let mobse print the output (intendend for comparison with isolated binaries)
         if just_print:
+            os.chdir(ic.MOBSE_DIR)
+            os.system('cp '+ic.mobse_output+' '+(ic.mobse_output).replace('.out','_isolated.out'))
+            os.system('cp '+ic.mobse_log+' '+(ic.mobse_log).replace('.out','_isolated.out'))
+            os.chdir(ic.SRC_DIR)
             return
 
         # Read output

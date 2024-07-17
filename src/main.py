@@ -1057,7 +1057,7 @@ if __name__ == '__main__':
     event_label = ['Custom event','Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical']
 
     # Do a short burn-in integration
-    sol = solve_ivp(evolve, [0,1e-6], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
+    sol = solve_ivp(evolve, [0,1e-3], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
 
     if sol.status == -1:
         print('Integration failed at burn-in. Likely unrealistic initial conditions')

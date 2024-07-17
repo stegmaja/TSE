@@ -269,6 +269,14 @@ class InteractingBinaryStar:
         print('Separation:',sep)
         print('Eccentricity:',ecc,end='\n\n')
 
+        # Check if the binary underwent a CE
+        if idx>0:
+            t_bpp,kw_bpp = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_log,unpack=True,usecols=(0,32))
+            kw_bpp = kw_bpp[t_bpp<=t]
+            if 7 in kw_bpp:
+                ic.CE = True
+                print('MOBSE found a common envelope phase')
+
         # Test if either star is k=15
         if k1>=15 or k2>=15:
             print('MOBSE found a merger')

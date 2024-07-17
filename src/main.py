@@ -211,7 +211,7 @@ def store(t,y,star1,star2,star3,filename=str(ic.seed)+'_'+str(ic.Z).replace('.',
     # Save data
     output = [t,status,y[0],y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8],y[9],y[10],y[11],y[12],y[13],y[14],y[15],y[16],y[17],y[18],y[19],y[20],y[21],y[22],y[23],y[24],y[25],
               k1,k2,k3,m10,m20,m30,m1,m2,m3,r1,r2,r3,epoch1,epoch2,epoch3,ospin1,ospin2,ospin3,lum1,lum2,lum3,menv1,menv2,menv3,renv1,renv2,renv3,massc1,massc2,massc3,radc1,radc2,radc3,
-              ic.m1,ic.m2,ic.m3,ic.a1,ic.a2,ic.e1,ic.e2,ic.cosi1,ic.cosi2,ic.omega1,ic.omega2,ic.Omega1,ic.Omega2,ic.method,ic.rtol,ic.atol,ic.max_time,ic.max_step,ic.Z,ic.neta,ic.bwind,ic.hewind,ic.alpha1,ic.lamb,ic.ceflag,ic.tflag,ic.ifflag,ic.wdflag,ic.bhflag,ic.nsflag,ic.piflag,ic.mxns,ic.idum,ic.pts1,ic.pts2,ic.pts3,ic.sigma1,ic.sigma2,ic.beta,ic.xi,ic.acc2,ic.epsnov,ic.eddfac,ic.gamma,ic.seed,ic.galactic_tides,ic.x_MW,ic.y_MW,ic.z_MW,ic.vx_MW,ic.vy_MW,ic.vz_MW,ic.stellar_tides]
+              ic.m1,ic.m2,ic.m3,ic.a1,ic.a2,ic.e1,ic.e2,ic.cosi1,ic.cosi2,ic.omega1,ic.omega2,ic.Omega1,ic.Omega2,ic.method,ic.rtol,ic.atol,ic.max_time,ic.max_step,ic.Z,ic.neta,ic.bwind,ic.hewind,ic.alpha1,ic.lamb,ic.ceflag,ic.tflag,ic.ifflag,ic.wdflag,ic.bhflag,ic.nsflag,ic.piflag,ic.mxns,ic.idum,ic.pts1,ic.pts2,ic.pts3,ic.sigma1,ic.sigma2,ic.beta,ic.xi,ic.acc2,ic.epsnov,ic.eddfac,ic.gamma,ic.seed,ic.galactic_tides,ic.x_MW,ic.y_MW,ic.z_MW,ic.vx_MW,ic.vy_MW,ic.vz_MW,ic.stellar_tides,ic.CE]
 
 
     # Append to the end of the file

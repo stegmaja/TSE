@@ -237,9 +237,13 @@ class InitialConditions:
         self.vz_MW = args.vz_MW
         self.stellar_tides = args.stellar_tides
 
+        # Record whether the stars underwent supernovae
         self.primary_SN = False
         self.secondary_SN = False
         self.tertiary_SN = False
+
+        # Record whether the inner binary stars underwent a CE
+        self.CE = False
 
         self.SRC_DIR = os.getcwd()
         self.MOBSE_DIR = self.SRC_DIR+'/../mobse/src'

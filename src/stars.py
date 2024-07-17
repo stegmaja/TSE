@@ -133,11 +133,6 @@ class SingleStar:
         # Record the final stellar type
         self.kfinal = k[k>=0][-1]
 
-        # Remove the mobse files
-        #os.chdir(ic.MOBSE_DIR)
-        #os.system('rm '+ic.mobse_input+' '+ic.mobse_output+' '+ic.mobse_log)
-        #os.chdir(ic.SRC_DIR)
-
 class InteractingBinaryStar:
     def __init__(self,
                  tphys=0.,

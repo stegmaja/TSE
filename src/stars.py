@@ -213,38 +213,40 @@ class InteractingBinaryStar:
 
         # Read output
         t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_output,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31))
+        t_bpp,k1_bpp,m0_1_bpp,m1_bpp,epoch1_bpp,ospin1_bpp,RL1_bpp,k2_bpp,m0_2_bpp,m2_bpp,epoch2_bpp,ospin2_bpp,RL2_bpp,sep_bpp,ecc_bpp,kw_bpp = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_log,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31,32))
 
-        # Detect when RLO ends again
-        idx = 0
-        RL1_value = RL1[0]
-        RL2_value = RL2[0]
-        for i in range(len(t)):
-            if RL1_value >= 1 and RL1[i] < 1:
-                idx = i
-                break
-            if RL2_value >= 1 and RL2[i] < 1:
-                idx = i
-                break
-            if k1[i] >= 15 or k2[i] >= 15:
-                idx = i
-                break
-            RL1_value = RL1[i]
-            RL2_value = RL2[i]
+        # Test if RLO within first Myr, and determine indices
+        RL1_roll = np.roll(RL1,1)
+        idx1_start = np.where((RL1>1) & (t-t[0]<1))[0]
+        idx1_end = np.where((RL1<1) & (RL1_roll>=1) & (t>=0))[0]
 
-        # Print empty line
-        print('',end='\n\n')
+        RL2_roll = np.roll(RL2,1)
+        idx2_start = np.where((RL2>1) & (t-t[0]<1))[0]
+        idx2_end = np.where((RL2<1) & (RL2_roll>=1) & (t>=0))[0]
 
-        if idx == 0:
+        idx1_start_bpp = np.where((kw_bpp==3) & (t_bpp-t_bpp[0]<1))[0]
+        idx1_end_bpp = np.where((kw_bpp==4) & (t_bpp>=0))[0]
+
+        idx2_start_bpp = np.where((kw_bpp==3) & (t_bpp-t_bpp[0]<1))[0]
+        idx2_end_bpp = np.where((kw_bpp==4) & (t_bpp>=0))[0]
+
+        if len(idx1_start)>0 or len(idx1_end)>0:
+            # Primary RLO detected
+            idx = idx1_end[0]
+        elif len(idx2_start)>0 or len(idx2_end)>0:
+            # Secondary RLO detected
+            idx = idx2_end[0]
+        elif len(idx1_start_bpp)>0 or len(idx1_end_bpp)>0:
             print('MOBSE did not find a Roche lobe overflow in the bcm array. Search in bpp array...')
-            t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc,kw = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_log,unpack=True,usecols=(0,1,2,3,11,12,14,15,16,17,25,26,28,30,31,32))
-            # Search for kw=4
-            idx = np.where(kw==4)[0]
-            if len(idx)==0:
-                print('MOBSE did not find a Roche lobe overflow in the bpp array')
-                self.event_status = -1
-            else:
-                idx = idx[0]
-                print('MOBSE found a Roche lobe overflow in the bpp array')
+            idx = idx1_end_bpp[0]
+            t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = t_bpp,k1_bpp,m0_1_bpp,m1_bpp,epoch1_bpp,ospin1_bpp,RL1_bpp,k2_bpp,m0_2_bpp,m2_bpp,epoch2_bpp,ospin2_bpp,RL2_bpp,sep_bpp,ecc_bpp
+        elif len(idx2_start_bpp)>0 or len(idx2_end_bpp)>0:
+            print('MOBSE did not find a Roche lobe overflow in the bcm array. Search in bpp array...')
+            idx = idx2_end_bpp[0]
+            t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = t_bpp,k1_bpp,m0_1_bpp,m1_bpp,epoch1_bpp,ospin1_bpp,RL1_bpp,k2_bpp,m0_2_bpp,m2_bpp,epoch2_bpp,ospin2_bpp,RL2_bpp,sep_bpp,ecc_bpp
+        else:
+            print('MOBSE did not find a Roche lobe overflow in the bcm or bpp array')
+            self.event_status = -1
 
         # Get final post-interaction properties
         t = t[idx]
@@ -269,12 +271,11 @@ class InteractingBinaryStar:
         print('Eccentricity:',ecc,end='\n\n')
 
         # Check if the binary underwent a CE
-        if idx>0:
-            t_bpp,kw_bpp = np.loadtxt(ic.MOBSE_DIR+'/'+ic.mobse_log,unpack=True,usecols=(0,32))
-            kw_bpp = kw_bpp[t_bpp<=t]
-            if 7 in kw_bpp:
-                ic.CE = True
-                print('MOBSE found a common envelope phase')
+        if 7 in kw_bpp[:idx+1]:
+            ic.CE = True
+            print('MOBSE found a common envelope phase')
+        else:
+            print('MOBSE found no common envelope phase')
 
         # Test if either star is k=15
         if k1>=15 or k2>=15:

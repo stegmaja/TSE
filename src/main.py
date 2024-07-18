@@ -629,7 +629,7 @@ def model_RLO(t,y,star1,star2):
                                    period=P_in,ecc=e_in,type1=-int(k1),type2=-int(k2),
                                    epoch_1=epoch1,epoch_2=epoch2,
                                    ospin_1=ospin1,ospin_2=ospin2,
-                                   tphys=t,max_time=t+50.)
+                                   tphys=t)
     
     # Get the time at which RLO ends
     t_new = binary.t

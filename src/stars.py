@@ -225,7 +225,7 @@ class InteractingBinaryStar:
         idx2_end = np.where((RL2<1) & (RL2_roll>=1) & (t>=0))[0]
 
         idx_start_bpp = np.where(((kw_bpp==3) | (kw_bpp==5) | (kw_bpp==6) | (kw_bpp==7)) & (t_bpp-t_bpp[0]<1.))[0]
-        idx_end_bpp = np.where((kw_bpp==4) & (t_bpp>=0))[0]
+        idx_end_bpp = np.where(((kw_bpp==4) | (kw_bpp==5) | (kw_bpp==6) | (kw_bpp==7)) & (t_bpp>=0))[0]
 
         if len(idx1_start)>0 or len(idx1_end)>0:
             # Primary RLO detected
@@ -236,6 +236,10 @@ class InteractingBinaryStar:
         elif len(idx_start_bpp)>0 or len(idx_end_bpp)>0:
             print('MOBSE did not find a Roche lobe overflow in the bcm array. Search in bpp array...')
             idx = idx_end_bpp[0]
+            while kw_bpp[idx+1]==4 or kw_bpp[idx+1]==5 or kw_bpp[idx+1]==6 or kw_bpp[idx+1]==7:
+                idx += 1
+                if idx == len(kw_bpp)-1:
+                    break
             t,k1,m0_1,m1,epoch1,ospin1,RL1,k2,m0_2,m2,epoch2,ospin2,RL2,sep,ecc = t_bpp,k1_bpp,m0_1_bpp,m1_bpp,epoch1_bpp,ospin1_bpp,RL1_bpp,k2_bpp,m0_2_bpp,m2_bpp,epoch2_bpp,ospin2_bpp,RL2_bpp,sep_bpp,ecc_bpp
         else:
             print('MOBSE did not find a Roche lobe overflow in the bcm or bpp array')

@@ -251,7 +251,7 @@ def evolve_remaining_inner_binary(t,y,star1,star2,star3):
     P_in = ot.orbital_period(a1,m=m1+m2,units=(u.Rsun,u.day,u.Msun))
 
     _ = InteractingBinaryStar(mass_1=m1,mass_2=m2,mass0_1=m0_1,mass0_2=m0_2,
-                    period=P_in,ecc=e_in,type1=-int(k1),type2=-int(k2),
+                    period=P_in,ecc=e1,type1=-int(k1),type2=-int(k2),
                     epoch_1=epoch1,epoch_2=epoch2,
                     ospin_1=ospin1,ospin_2=ospin2,
                     tphys=t,max_time=ic.max_time,
@@ -506,6 +506,46 @@ def Unphysical(t,y,star1,star2,star3):
     e_out = np.linalg.norm(y[7:10])
 
     if e_in >= 1 or e_in < 0 or a_in <= 0 or ~np.isfinite(a_in) or ~np.isfinite(e_in) or ~np.isfinite(a_in).all():
+        return 0
+    else:
+        return -1
+
+def effectively_isolated_DCO(t,y,star1,star2,star3):
+    '''
+    Function that detects an inner BBH that is effectively isolated
+
+    Input:
+    t: Time
+    y: Array of variables
+    star1: Star 1 object
+    star2: Star 2 object
+    star3: Star 3 object
+
+    Output:
+    result: Isolation (zero if isolated)
+    '''
+
+    # Stellar types
+    k1 = star1.interpolators['k'](t)
+    k2 = star2.interpolators['k'](t)
+
+    # Masses
+    m1 = star1.interpolators['m'](t)
+    m2 = star2.interpolators['m'](t)
+    m3 = star3.interpolators['m'](t)
+
+    # Semi-major axes
+    a_in = y[6]
+    a_out = y[13]
+
+    # Dimensionless angular momenta
+    j_in = np.linalg.norm(y[3:6])
+    j_out = np.linalg.norm(y[10:13])
+
+    # LK possible
+    LK_possible = j_in > 3/np.pi*G/c**2*(m1+m2)**2/m3*(a_out*j_out/a_in)**3/a_in 
+
+    if not LK_possible and ic.evolve_effectively_isolated_DCO:
         return 0
     else:
         return -1
@@ -1053,8 +1093,9 @@ if __name__ == '__main__':
     tertiary_SN.terminal = True
     DCO_merger.terminal = True
     Unphysical.terminal = True
-    events = [CustomEvent,primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical]
-    event_label = ['Custom event','Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical']
+    effectively_isolated_DCO.terminal = True
+    events = [CustomEvent,primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical,effectively_isolated_DCO]
+    event_label = ['Custom event','Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical','Effectively isolated DCO']
 
     # Do a short burn-in integration
     sol = solve_ivp(evolve, [0,1e-3], y0, args=(star1,star2,star3), method=ic.method, events=events, atol=ic.atol, rtol=ic.rtol, max_step=ic.max_step)
@@ -1206,6 +1247,11 @@ if __name__ == '__main__':
                 print('Unphysical solution at',sol.t_events[i][0])
                 plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Unphysical solution')
                 store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Unphysical solution')
+                sys.exit()
+            elif i == 10:
+                print('Effectively isolated DCO at',sol.t_events[i][0])
+                plot(t_sol,y_sol,m1_sol,m2_sol,m3_sol,logr1_sol,logr2_sol,logr3_sol,title='Effectively isolated DCO')
+                store(t=sol.t_events[i][0],y=sol.y_events[i][-1],star1=star1,star2=star2,star3=star3,status='Effectively isolated DCO')
                 sys.exit()
 
             t_sol = np.append(t_sol,t_new)

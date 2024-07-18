@@ -152,6 +152,9 @@ class InitialConditions:
         # Should stellar tides be included?
         parser.add_argument('--stellar_tides', type=bool, default=False, help='Include stellar tides? (default: False)')
 
+        # Should stellar tides be included?
+        parser.add_argument('--evolve_effectively_isolated_DCO', type=bool, default=False, help='Should effectively isolated DCOs be fast-forwarded with MOBSE? (default: False)')
+
         args = parser.parse_args()
 
         np.random.seed(args.seed)
@@ -236,6 +239,7 @@ class InitialConditions:
         self.vy_MW = args.vy_MW
         self.vz_MW = args.vz_MW
         self.stellar_tides = args.stellar_tides
+        self.evolve_effectively_isolated_DCO = args.evolve_effectively_isolated_DCO
 
         # Record whether the stars underwent supernovae
         self.primary_SN = False

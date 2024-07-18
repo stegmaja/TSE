@@ -245,6 +245,7 @@ class InteractingBinaryStar:
             print('MOBSE did not find a Roche lobe overflow in the bcm or bpp array')
             self.event_status = -1
             idx = 0
+            
 
         # Get final post-interaction properties
         t = t[idx]

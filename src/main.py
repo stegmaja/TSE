@@ -1043,6 +1043,7 @@ if __name__ == '__main__':
     store(t=0,y=y0,star1=star1,star2=star2,star3=star3,status='Initial')
 
     # Terminating events
+    CustomEvent.terminal = True
     primary_RL.terminal = True
     secondary_RL.terminal = True
     tertiary_RL.terminal = True
@@ -1052,7 +1053,6 @@ if __name__ == '__main__':
     tertiary_SN.terminal = True
     DCO_merger.terminal = True
     Unphysical.terminal = True
-    CustomEvent.terminal = True
     events = [CustomEvent,primary_RL,secondary_RL,tertiary_RL,unstable,primary_SN,secondary_SN,tertiary_SN,DCO_merger,Unphysical]
     event_label = ['Custom event','Primary Roche lobe overflow','Secondary Roche lobe overflow','Tertiary Roche lobe overflow','Unstable','Primary supernova','Secondary supernova','Tertiary supernova','DCO merger','Unphysical']
 

@@ -8,7 +8,7 @@ TSE evolves the secular dynamics of hierarchical triples and combines it with th
 
 ### Installation
 
-In order to run the code follow these steps to install
+In order to install the code follow these steps to install
 
 1. Navigate to the `mobse` directory.
 2. Execute the `Makefile` by running `make mobse`.

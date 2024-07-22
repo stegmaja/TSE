@@ -6,21 +6,22 @@ Single stellar evolution and binary interactions are modelled using the binary p
 
 TSE evolves the secular dynamics of hierarchical triples and combines it with the stellar evolution of the inner binary and the tertiary companion.
 
-In order to run the code first compile mobse by running 
+### Installation
 
-`make mobse`
+In order to run the code follow these steps to install
 
-in the mobse directory and
-
-`mkdir plots` and `mkdir data`
-
-in the root directory. Then, run 
-
-`conda env create -f environment.yml` and `conda activate tse`.
+1. Navigate to the `mobse` directory.
+2. Execute the `Makefile` by running `make mobse`.
+3. Navigate back to the root directory.
+4. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.
+5. Create a conda environment with all the required packages by executing `conda env create -f environment.yml`.
+6. Activate the newly created environment by `conda activate tse`.
 
 Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
-To run a system go to the `src` directory and run
+### Running
+
+To run a system activate the environment (see above) and go to the `src` directory. Then execute
 
 `python main.py`.
 

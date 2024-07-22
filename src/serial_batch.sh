@@ -9,6 +9,6 @@ TASK_MAX=${SLURM_ARRAY_TASK_MAX}
 
 # Set number of OMP threads to fit the number of available cpus, if applicable.
 export OMP_NUM_THREADS=1
-parallel --delay .1 -j 40 --joblog parallel_joblog_$TASK_ID ./runtask {1} {2} ::: $(seq $TASK_ID $TASK_MAX 50000) ::: 0.03 0.02 0.01 0.0075 0.005 0.0025 0.001 0.00075 0.0005 0.00025 0.0001
+parallel --delay .1 -j 40 --resume-failed --joblog parallel_joblog_$TASK_ID ./runtask {1} {2} ::: $(seq $TASK_ID $TASK_MAX 50000) ::: 0.03 0.02 0.01 0.0075 0.005 0.0025 0.001 0.00075 0.0005 0.00025 0.0001
 
 sbatch $0

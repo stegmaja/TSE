@@ -167,7 +167,7 @@ class InitialConditions:
 
             P_in = 10**ot.power_law_sample(-0.55, 0.15, 5.5)
             args.a1 = ot.semi_major_axis(P_in,m=args.m1+args.m2,units=(u.Rsun,u.day,u.Msun))
-            args.e1 = ot.power_law_sample(-0.42, 0.0, 0.9)
+            args.e1 = ot.power_law_sample(-0.42, 0.0, 1.0)
 
             args.cosi1 = np.random.uniform(-1,1)
             args.omega1 = np.random.uniform(0,2*np.pi)

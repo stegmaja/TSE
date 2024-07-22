@@ -167,7 +167,7 @@ class InitialConditions:
 
             P_in = 10**ot.power_law_sample(-0.55, 0.15, 5.5)
             args.a1 = ot.semi_major_axis(P_in,m=args.m1+args.m2,units=(u.Rsun,u.day,u.Msun))
-            args.e1 = ot.power_law_sample(-0.42, 0.0, 1.0)
+            args.e1 = ot.power_law_sample(-0.42, 0.0, 0.99)
 
             args.cosi1 = np.random.uniform(-1,1)
             args.omega1 = np.random.uniform(0,2*np.pi)
@@ -178,7 +178,7 @@ class InitialConditions:
             while not initial_stability:
                 args.a2 = 10**np.random.uniform(np.log10(args.a1),
                                             np.log10((1e4*u.AU).to(u.Rsun).value))
-                args.e2 = np.sqrt(np.random.uniform(0,1))
+                args.e2 = np.sqrt(np.random.uniform(0,0.99))
 
                 initial_stability = ot.check_triple_stability(args.a1,args.a2,args.e2,args.m1+args.m2,args.m3)
 

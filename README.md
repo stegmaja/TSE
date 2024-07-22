@@ -14,7 +14,11 @@ in the mobse directory and
 
 `mkdir plots` and `mkdir data`
 
-in the root directory. Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
+in the root directory. Then, run 
+
+`conda env create -f environment.yml` and `conda activate tse`.
+
+Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
 To run a system go to the `src` directory and run
 

@@ -2,7 +2,7 @@
 
 ## Triple stellar evolution code
 
-Single stellar evolution and binary interactions are modelled using the binary population synthesis code MOBSE (https://mobse-webpage.netlify.app) which builds upon the code BSE (https://www.ascl.net/1303.014). A copy of mobse is added to this repository. Using other versions of MOBSE or BSE-type codes in general is possible, as long as the main file is replaced by this modified version of `mobse.f`.
+Single stellar evolution and binary interactions are modelled using the binary population synthesis code MOBSE (https://mobse-webpage.netlify.app) which builds upon the code BSE (https://www.ascl.net/1303.014). A copy of MOBSE is added to this repository. We have slighlty modified the files `mobse/src/evolve.f` and `mobse/src/mobse.f`. These changes were only made to ensure compatibility between TSE and MOBSE, e.g., change of array lengths and MOBSE input/output, but the physical prescription of MOBSE remains unaltered.  Using other versions of MOBSE or BSE-type codes is in general possible, as long as both modified files are maintained.
 
 TSE evolves the secular dynamics of hierarchical triples and combines it with the stellar evolution of the inner binary and the tertiary companion.
 

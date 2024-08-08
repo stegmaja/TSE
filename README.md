@@ -10,7 +10,7 @@ TSE evolves the secular dynamics of hierarchical triples and combines it with th
 
 In order to install the code follow these steps to install
 
-1. Navigate to the `mobse` directory.
+1. Navigate to the `mobse/src` directory.
 2. Execute the `Makefile` by running `make mobse`.
 3. Navigate back to the root directory.
 4. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.

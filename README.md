@@ -39,6 +39,112 @@ If you are looking whether a triple leads to a particular configuration (e.g., t
 
 TSE runs stably with the python version and packages listed in `requirements.txt`.
 
+### Testing and output
+
+Let's test the code and inspect the output by running, e.g., `python main.py --random TRUE --seed 139 --Z 0.0001 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 1 --nsflag 3 --lamb 0.1 --alpha1 0.2`. This will lead to a terminal output similar as following.
+
+First, the sampled initial conditions are printed:
+
+```
+Initial conditions:
+ Seed=139,
+ Z=0.000100,
+ m1=34.868610,
+ m2=31.640159,
+ m3=24.505861,
+ a_in=4.320278e+04,
+ e_in=0.041194,
+ a_out=1.726712e+06,
+ e_out=0.759993,
+ cos_i_in=-0.668036,
+ omega_in=1.832684,
+ Omega_in=3.141593,
+ cos_i_out=-0.164133,
+ omega_out=6.104407,
+ Omega_out=0.000000
+```
+
+Then, we get a standard MOBSE/BSE output tabulating how the inner binary would have evolved if there was no tertiary companion:
+
+```
+Evolve inner binary as if it was isolated
+
+
+      TIME      M1       M2   K1 K2        SEP    ECC  R1/ROL1 R2/ROL2  TYPE
+     0.0000   34.86861   31.64016  1  1    43187.60156  0.04   0.000   0.000  INITIAL 
+     5.8129   34.83288   31.61894  2  1    43224.61719  0.04   0.001   0.001  KW_CHNGE
+     5.8199   34.83244   31.61883  4  1    43224.97266  0.04   0.003   0.001  KW_CHNGE
+     6.2848   34.65763   31.61121  4  2    43343.74609  0.04   0.040   0.001  KW_CHNGE
+     6.2930   34.63868   31.61083  4  4    43356.28125  0.04   0.046   0.002  KW_CHNGE
+     6.3532   34.40531   31.60643  5  4    43508.64453  0.04   0.082   0.002  KW_CHNGE
+     6.3644   33.87917   31.60555 14  4    43841.69531  0.04   0.000   0.002  KW_CHNGE
+     6.7871   33.87919   31.50193 14  4    43886.07031  0.04   0.000   0.021  BEG_SYMB
+     6.8721   33.87977   31.33843 14  5    43994.22266  0.04   0.000   0.076  KW_CHNGE
+     6.8841   33.88026   29.58524 14 14    32407.31641  0.77   0.000   0.000  KW_CHNGE
+ 15000.0000   33.88026   29.58524 14 14    32388.83203  0.77   0.000   0.000  MAX_TIME
+ Fallback:  0.95998213867552118
+```
+
+At next, the triple is evolved. For this purpose, the stellar evolution of each star, i.e., the evolution of its mass, radius, etc., is tabulated (first the primary, then the secondary, and finally the tertiary). This is achieved by evolving each of the stars with MOBSE with some artificial low-mass black hole companion at unphysical large distance, i.e., such that the stars are effectively single. Therefore, ignore the entries for M2, K2, SEP, ECC, R1/ROL1, R2/ROL2. All we care about are M1 (and other parameters in the background) as a function of TIME. Simulatenously, the gravitional three-body dynamics is evolved.
+     
+``` 
+Evolve triple system
+
+Evolve single stars (ignore entries for dummy secondary)
+
+
+      TIME      M1       M2   K1 K2        SEP    ECC  R1/ROL1 R2/ROL2  TYPE
+     0.0000   34.86861    0.00100  1 14 63792200.00000  0.00   0.000   0.000  INITIAL 
+     5.8129   34.83353    0.00100  2 14 63856440.00000  0.00   0.000   0.000  KW_CHNGE
+     5.8199   34.83309    0.00100  4 14 63857256.00000  0.00   0.000   0.000  KW_CHNGE
+     6.3532   34.40681    0.00100  5 14 64648368.00000  0.00   0.000   0.000  KW_CHNGE
+     6.3643   33.88068    0.00100 14 14 65666576.00000  0.01   0.000   0.000  KW_CHNGE
+ 15000.0000   33.88068    0.00100 14 14 65629124.00000  0.01   0.000   0.000  MAX_TIME
+ Fallback:   1.0000000000000000     
+
+      TIME      M1       M2   K1 K2        SEP    ECC  R1/ROL1 R2/ROL2  TYPE
+     0.0000   31.64016    0.00100  1 14 61759344.00000  0.00   0.000   0.000  INITIAL 
+     6.2848   31.61115    0.00100  2 14 61816020.00000  0.00   0.000   0.000  KW_CHNGE
+     6.2930   31.61073    0.00100  4 14 61816848.00000  0.00   0.000   0.000  KW_CHNGE
+     6.8721   31.33694    0.00100  5 14 62356908.00000  0.00   0.000   0.000  KW_CHNGE
+     6.8841   29.58371    0.00100 14 14   155942.20312 99.99   0.000  -2.000  DISRUPT 
+ 15000.0000   29.58371    0.00100 14 14        0.00000 -1.00   0.000   0.000  MAX_TIME
+ Fallback:  0.95997883689236163     
+
+      TIME      M1       M2   K1 K2        SEP    ECC  R1/ROL1 R2/ROL2  TYPE
+     0.0000   24.50586    0.00100  1 14 56717156.00000  0.00   0.000   0.000  INITIAL 
+     7.9471   24.48971    0.00100  2 14 56754564.00000  0.00   0.000   0.000  KW_CHNGE
+     7.9600   24.48932    0.00100  4 14 56755456.00000  0.00   0.000   0.000  KW_CHNGE
+     8.7027   24.29811    0.00100  5 14 57202060.00000  0.00   0.000   0.000  KW_CHNGE
+     8.7178   14.50907    0.00100 14 14      691.86182 99.99   0.000  -2.000  DISRUPT 
+ 15000.0000   14.50907    0.00100 14 14        0.00000 -1.00   0.000   0.000  MAX_TIME
+ Fallback:  0.59707766402046147
+```
+After around 6.4 Myr an event was detected which deserves further attention. Here, the primary blew off in a supernova. The code updates the orbital parameters by taking into account any supernova kicks. In that case, the system remained stable and the integration is continued ... 
+
+```
+A termination event occured.
+
+Primary supernova at 6.3643446
+Plotting...
+Plot saved as ./../plots/139_00001.png
+Both orbits remain bound.
+```
+
+... but the supernova of the secondary disrupted the system and the program ends.
+
+```
+A termination event occured.
+
+Secondary supernova at 6.88413429
+Plotting...
+Plot saved as ./../plots/139_00001.png
+Inner orbit gets unbound.
+
+```
+
+The total evolution of the system is plotted in the directory `plots` and stored as a csv table in the directory `data`.
+
 ### Parallel runs
 
 If you consider running a large population in parallel, consider using `gnu parallel`, e.g.,

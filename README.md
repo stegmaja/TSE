@@ -14,8 +14,7 @@ In order to install the code follow these steps to install
 2. Execute the `Makefile` by running `make mobse`.
 3. Navigate back to the root directory.
 4. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.
-5. Create a conda environment with all the required packages by executing `conda env create -f environment.yml`.
-6. Activate the newly created environment by `conda activate tse`.
+5. Install all required packages by executing `pip install -r requirements.txt`.
 
 Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 

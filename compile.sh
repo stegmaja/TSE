@@ -4,5 +4,4 @@ mkdir data
 cd mobse/src
 make mobse
 cd ../..
-conda env create -f environment.yml
-conda activate tse
+pip install -r requirements.txt

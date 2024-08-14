@@ -1,4 +1,6 @@
 #!/bin/sh
+cd ../bin
 echo task $1 $2 seq:$PARALLEL_SEQ host:$(hostname) date:$(date)
-python main.py --random TRUE --seed $1 --Z $2 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 0 --nsflag 3 --lamb 0.1 --alpha1 0.2
+python tse.py --random TRUE --seed $1 --Z $2 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 0 --nsflag 3 --lamb 0.1 --alpha1 0.2
+cd ..
 #python main.py --random TRUE --seed $1 --Z $2 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --nsflag 3 --lamb 0.1 --alpha1 0.2

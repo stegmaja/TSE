@@ -19,7 +19,7 @@ In order to install the code follow these steps to install
 7. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.
 8. Install all required packages by executing `pip install -r requirements.txt`.
 
-Alternatively, simply execute `install.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
+Alternatively, simply execute `install.sh` in the root directory to do all these steps at once. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
 ### Running
 

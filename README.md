@@ -2,7 +2,7 @@
 
 ## Triple stellar evolution code
 
-Single stellar evolution and binary interactions are modelled using the binary population synthesis code MOBSE (https://mobse-webpage.netlify.app) which builds upon the code BSE (https://www.ascl.net/1303.014). A copy of MOBSE is added to this repository. We have slighlty modified the files `mobse/src/evolve.f` and `mobse/src/mobse.f`. These changes were only made to ensure compatibility between TSE and MOBSE, e.g., change of array lengths and MOBSE input/output, but the physical prescription of MOBSE remains unaltered.  Using other versions of MOBSE or BSE-type codes is in general possible, as long as both modified files are maintained.
+Single stellar evolution and binary interactions are modelled using the binary population synthesis code MOBSE (https://mobse-webpage.netlify.app) which builds upon the code BSE (https://www.ascl.net/1303.014). We have slighlty modified the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h` in MOBSE. These changes are provided as a patch (see below) and were only made to ensure compatibility between TSE and MOBSE, e.g., change of array lengths and MOBSE input/output, but the physical prescription of MOBSE remains unaltered.  Using other versions of MOBSE or BSE-type codes is in general possible, as long as both modified files are maintained.
 
 TSE evolves the secular dynamics of hierarchical triples and combines it with the stellar evolution of the inner binary and the tertiary companion.
 
@@ -10,11 +10,14 @@ TSE evolves the secular dynamics of hierarchical triples and combines it with th
 
 In order to install the code follow these steps to install
 
-1. Navigate to the `mobse/src` directory.
-2. Execute the `Makefile` by running `make mobse`.
-3. Navigate back to the root directory.
-4. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.
-5. Install all required packages by executing `pip install -r requirements.txt`.
+1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by going to https://mobse-webpage.netlify.app and downloading the MOBSE directory. In any case, MOBSE should be added to the root directory be named `mobse`.
+2. Navigate to the `mobse` directory: `cd mobse`.
+3. Implement our changes to `mobse` by `patch -p1 < ../mobse.patch`. This should notify you about patching the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h`.
+4. Navigate to the `mobse/src` directory: `cd src`.
+5. Execute the `Makefile` by running `make mobse`. You may need to change `mobse/src/Makefile` according to the specifications of your fortran compiler.
+6. Navigate back to the root directory: `cd ./../..`.
+7. Create two directories where the outcome of the simulation is stored, `mkdir plots` and `mkdir data`.
+8. Install all required packages by executing `pip install -r requirements.txt`.
 
 Alternatively, simply execute `compile.sh` in the root directory. You may want to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 

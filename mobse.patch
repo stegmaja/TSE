@@ -1,0 +1,206 @@
+diff -ruN ../mobse/input/const_mobse.h mobse/input/const_mobse.h
+--- ../mobse/input/const_mobse.h	2024-09-09 13:32:29
++++ mobse/input/const_mobse.h	2024-09-09 13:32:11
+@@ -21,9 +21,9 @@
+       COMMON /POINTS/ pts1,pts2,pts3
+       REAL*8 dmmax,drmax
+       COMMON /TSTEPC/ dmmax,drmax
+-      REAL scm(50000,14),spp(20,3)
++      REAL scm(5000000,14),spp(20,3)
+       COMMON /SINGLE/ scm,spp
+-      REAL bcm(50000,34),bpp(200,33)
++      REAL bcm(5000000,34),bpp(200,33)
+       COMMON /BINARY/ bcm,bpp
+ *
+       LOGICAL saveflag
+diff -ruN ../mobse/src/evolve.f mobse/src/evolve.f
+--- ../mobse/src/evolve.f	2024-09-09 13:32:29
++++ mobse/src/evolve.f	2024-09-09 13:32:11
+@@ -216,7 +216,7 @@
+       LOGICAL isave,iplot
+       REAL*8 rl,mlwind,vrotf,corerd
+       EXTERNAL rl,mlwind,vrotf,corerd
+-      REAL bcm(50000,34),bpp(200,33)
++      REAL bcm(5000000,34),bpp(200,33)
+       COMMON /BINARY/ bcm,bpp
+ *
+       LOGICAL saveflag
+@@ -989,7 +989,7 @@
+          if(sgl.or.(rad(1).lt.rol(1).and.rad(2).lt.rol(2)).
+      &      or.tphys.lt.tiny)then
+             ip = ip + 1
+-            if(ip.gt.50000)then
++            if(ip.gt.5000000)then
+                WRITE(99,*)' EVOLV3 ARRAY ERROR bcm ',mass1i,mass2i,tbi,
+      &           ecci
+                saveflag = .false.
+@@ -1249,7 +1249,7 @@
+ *
+       if(iplot.and.tphys.gt.tiny)then
+          ip = ip + 1
+-         if(ip.gt.50000)then
++         if(ip.gt.5000000)then
+             WRITE(99,*)' EVOLVE ARRAY ERROR bcm ',mass1i,mass2i,tbi,
+      &       ecci
+             saveflag = .false.
+@@ -2381,7 +2381,7 @@
+ *
+       if((isave.and.tphys.ge.tsave).or.iplot)then
+          ip = ip + 1
+-         if(ip.gt.50000)then
++         if(ip.gt.5000000)then
+            WRITE(99,*)' EVOLV3 ARRAY ERROR bcm ',mass1i,mass2i,tbi,
+      &      ecci
+            saveflag = .false.
+@@ -2759,9 +2759,9 @@
+          bpp(jp,2) = float(kstar(1))
+          bpp(jp,3) = mass0(1)
+          bpp(jp,4) = mass(1)
+-         if(kstar(1).eq.15.and.bpp(jp-1,2).lt.15.0)then
+-            bpp(jp,4) = mass0(1)
+-         endif
++*         if(kstar(1).eq.15.and.bpp(jp-1,2).lt.15.0)then
++*            bpp(jp,4) = mass0(1)
++*         endif
+          bpp(jp,5) = log10(lumin(1))
+          bpp(jp,6) = log10(rad(1))
+          teff1 = 1000.d0*((1130.d0*lumin(1)/
+@@ -2778,9 +2778,9 @@
+          bpp(jp,16) = float(kstar(2))
+          bpp(jp,17) = mass0(2)
+          bpp(jp,18) = mass(2)
+-         if(kstar(2).eq.15.and.bpp(jp-1,16).lt.15.0)then
+-            bpp(jp,18) = mass0(2)
+-         endif
++*         if(kstar(2).eq.15.and.bpp(jp-1,16).lt.15.0)then
++*            bpp(jp,18) = mass0(2)
++*         endif
+          bpp(jp,19) = log10(lumin(2))
+          bpp(jp,20) = log10(rad(2))
+          teff2 = 1000.d0*((1130.d0*lumin(2)/
+@@ -2817,7 +2817,7 @@
+ *
+       if((isave.and.tphys.ge.tsave).or.iplot)then
+          ip = ip + 1
+-         if(ip.gt.50000)then
++         if(ip.gt.5000000)then
+            WRITE(99,*)' EVOLVE ARRAY ERROR bcm ',mass1i,mass2i,tbi,
+      &      ecci
+            saveflag = .false.
+diff -ruN ../mobse/src/mobse.f mobse/src/mobse.f
+--- ../mobse/src/mobse.f	2024-09-09 13:32:29
++++ mobse/src/mobse.f	2024-09-09 13:32:11
+@@ -47,6 +47,10 @@
+       real*8 tb,ecc,yearsc
+       PARAMETER(yearsc=3.1557d+07)
+       CHARACTER*8 label(14)
++      character(len=255) :: arg1, arg2, arg3
++
++      real*8 ffb
++      COMMON /KICKSN/ ffb
+ *
+ ************************************************************************
+ * Input:
+@@ -105,7 +109,17 @@
+ * current age, initial mass and spin rate, 
+ * otherwise the star will start on the ZAMS.
+ *
+-      OPEN(22,file='../input/binary.input', status='old')
++* Get filenames
++      call get_command_argument(1, arg1)
++      call get_command_argument(2, arg2)
++      call get_command_argument(3, arg3)
++* Trim the filenames
++      arg1 = trim(adjustl(arg1))
++      arg2 = trim(adjustl(arg2))
++      arg3 = trim(adjustl(arg3))
++*
++*      OPEN(22,file='../input/binary.input', status='old')
++      OPEN(22,file=arg1, status='old')
+       READ(22,*)mass0(1),mass0(2),tphysf,tb,kstar(1),kstar(2),z,ecc
+       READ(22,*)neta,bwind,hewind,alpha1,lambda
+       READ(22,*)ceflag,tflag,ifflag,wdflag,bhflag,nsflag,piflag,
+@@ -114,11 +128,13 @@
+       READ(22,*)sigma1,sigma2,beta,xi,acc2,epsnov,eddfac,gamma
+       if(kstar(1).lt.0.or.kstar(2).lt.0)then
+          READ(22,*)tphys
+-         READ(22,*)aj,mass(1),ospin(1)
+-         epoch(1) = tphys - aj
++*         READ(22,*)aj,mass(1),ospin(1)
++*         epoch(1) = tphys - aj
++         READ(22,*)epoch(1),mass(1),ospin(1)
+          kstar(1) = ABS(kstar(1))
+-         READ(22,*)aj,mass(2),ospin(2)
+-         epoch(2) = tphys - aj
++*         READ(22,*)aj,mass(2),ospin(2)
++*         epoch(2) = tphys - aj
++         READ(22,*)epoch(2),mass(2),ospin(2)
+          kstar(2) = ABS(kstar(2))
+       else
+ *
+@@ -179,6 +195,7 @@
+ * store data only at the start and end while a value of dtp greater than 
+ * tphysf will mean that no data is stored.
+ *
++      dtp = (tphysf-tphys)/45000.d0
+       dtp = 0.d0
+ *
+ * Evolve the binary.
+@@ -202,18 +219,40 @@
+ *    ratio of radius to roche lobe radius (repeated for secondary)],
+ *    period[year], separation, eccentricity.
+ *
+-      OPEN(24,file='../mobse.out',status='unknown')
++*      OPEN(24,file='../mobse.out',status='unknown')
++      OPEN(24,file=arg2,status='unknown')
+       j = 0
+  30   j = j + 1
+       kw = INT(bcm(j,2))
+       kw2 = INT(bcm(j,16))
+-      WRITE(24,*)bcm(j,1),kw,bcm(j,4),
+-     &       bcm(j,8),bcm(j,5),bcm(j,6),bcm(j,7),
+-     &       kw2,bcm(j,18),bcm(j,22), 
+-     &       bcm(j,19),bcm(j,20),bcm(j,21),
+-     &       bcm(j,30),bcm(j,31),bcm(j,32)
++      WRITE(24,*)bcm(j,1),bcm(j,2),bcm(j,3),bcm(j,4),bcm(j,5),
++     &          bcm(j,6),bcm(j,7),bcm(j,8),bcm(j,9),bcm(j,10),
++     &          bcm(j,11),bcm(j,12),bcm(j,13),bcm(j,14),bcm(j,15),
++     &          bcm(j,16),bcm(j,17),bcm(j,18),bcm(j,19),bcm(j,20),
++     &          bcm(j,21),bcm(j,22),bcm(j,23),bcm(j,24),bcm(j,25),
++     &          bcm(j,26),bcm(j,27),bcm(j,28),bcm(j,29),bcm(j,30),
++     &          bcm(j,31),bcm(j,32),bcm(j,33),bcm(j,34),ffb
++
+       if(bcm(j,1).ge.0.0) goto 30
+       CLOSE(24)
++* 99   FORMAT(f10.4,i3,5f10.4,i3,5f10.4,2f12.4,f7.3,a8)
++
++*      OPEN(25,file='../mobse-bpp.out',status='unknown')
++      OPEN(25,file=arg3,status='unknown')
++      j = 0
++ 31   j = j + 1
++      kw = INT(bpp(j,2))
++      kw2 = INT(bpp(j,16))
++      WRITE(25,*)bpp(j,1),bpp(j,2),bpp(j,3),bpp(j,4),bpp(j,5),
++     &          bpp(j,6),bpp(j,7),bpp(j,8),bpp(j,9),bpp(j,10),
++     &          bpp(j,11),bpp(j,12),bpp(j,13),bpp(j,14),bpp(j,15),
++     &          bpp(j,16),bpp(j,17),bpp(j,18),bpp(j,19),bpp(j,20),
++     &          bpp(j,21),bpp(j,22),bpp(j,23),bpp(j,24),bpp(j,25),
++     &          bpp(j,26),bpp(j,27),bpp(j,28),bpp(j,29),bpp(j,30),
++     &          bpp(j,31),bpp(j,32),bpp(j,33),ffb
++
++      if(bpp(j,1).ge.0.0) goto 31
++      CLOSE(25)
+  99   FORMAT(f10.4,i3,5f10.4,i3,5f10.4,2f12.4,f7.3,a8)
+ *
+ * The bpp array acts as a log, storing parameters at each change
+@@ -232,8 +271,10 @@
+      & bpp(j,32),bpp(j,15),bpp(j,29),label(kw)
+ 
+       goto 52
++
+  60   continue
+  100   FORMAT(f11.4,2f11.5,2i3,f15.5,f6.2,2f8.3,2x,a8)
++      WRITE(*,*)'Fallback:',ffb
+ *
+ ************************************************************************
+ *

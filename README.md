@@ -10,7 +10,7 @@ TSE evolves the secular dynamics of hierarchical triples and combines it with th
 
 In order to install the code follow these steps to install
 
-1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by going to https://mobse-webpage.netlify.app and downloading the MOBSE directory. In any case, MOBSE should be added to the root directory be named `mobse`.
+1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by going to https://mobse-webpage.netlify.app and downloading the MOBSE directory. In any case, MOBSE should be added to the root directory and be named `mobse`.
 2. Navigate to the `mobse` directory: `cd mobse`.
 3. Implement our changes to `mobse` by `patch -p1 < ../mobse.patch`. This should notify you about patching the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h`.
 4. Navigate to the `mobse/src` directory: `cd src`.

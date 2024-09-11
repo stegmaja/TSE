@@ -15,7 +15,7 @@ authors:
     orcid: 0000-0003-3138-6199
     affiliation: 2 # (Multiple affiliations must be quoted)
 affiliations:
- - name: Max Planck Research Fellow, Max Planck Institute for Astrophysics, Karl-Schwarzschild-Straße 1, 85741 Garching, Germany
+ - name: Max Planck Institute for Astrophysics, Karl-Schwarzschild-Straße 1, 85741 Garching, Germany
    index: 1
  - name: Gravity Exploration Institute, School of Physics and Astronomy, Cardiff University, Cardiff, CF24 3AA, UK
    index: 2

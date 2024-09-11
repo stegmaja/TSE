@@ -16,3 +16,7 @@ paper.md
 *.W2Bzow
 *.pptx
 data/*
+*.o
+*.x
+*.99
+*.24

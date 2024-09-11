@@ -23,7 +23,7 @@ Alternatively, simply execute `install.sh` in the root directory to do all these
 
 ### Running
 
-To run a system activate the environment (see above) and go to the `bin` directory. Then execute
+To run a system go to the `bin` directory. Then execute
 
 `python tse.py`.
 

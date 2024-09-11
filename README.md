@@ -39,7 +39,7 @@ to evolve a triple from a random distribution at solar metallicity.
 
 If you are looking whether a triple leads to a particular configuration (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example).
 
-TSE runs stably with the python version and packages listed in `requirements.txt`.
+TSE runs stably with the package versions listed in `requirements.txt`.
 
 ### Testing and output
 

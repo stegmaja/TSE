@@ -29,8 +29,7 @@ bibliography: paper.bib
 Most massive stars are found in hierarchical triples or higher multiplicity systems
 in which a close inner binary is orbited by one or more distant companions [@Moe:2017].
 A distant companion may significantly alter the evolution of the system by causing
-large-amplitude oscillations of the inner binary eccentricity (so-called von Zeipel-
-Kozai-Lidov oscillations) [@Naoz:2016]. These oscillations determine how close the 
+large-amplitude oscillations of the inner binary eccentricity (so-called von Zeipel-Kozai-Lidov oscillations) [@Naoz:2016]. These oscillations determine how close the 
 inner binary stars pass each other at periapsis and are therefore essential for
 our understanding of interactions between massive binary stars [@Sana:2012] as well as 
 their compact remnants. Understanding the role of tertiary companions for the evolution 

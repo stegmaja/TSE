@@ -70,7 +70,7 @@ determine the evolution of stellar triples.
 
 # Acknowledgements
 
-We acknowledge contributions from Jordan Barber and support from 
+We acknowledge contributions from Jordan Barber in reviewing and testing the code and support from 
 Michela Mapelli and Max Moe during the genesis of this project. This work was largely
 carried out at Cardiff University and was funded by the STFC grants ST/V005618/1 and ST/P00492X/2, and in parts by the Netherlands Organisation for Scientific Research (NWO), as part of the Vidi research program BinWaves (project number 639.042.728, PI: de Mink). We acknowledge the support of the Supercomputing Wales project, which is part-funded by the European Regional Development Fund (ERDF) via Welsh Government.
 

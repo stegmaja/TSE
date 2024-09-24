@@ -172,11 +172,15 @@ Otherwise, different threads will use the same mobse input and output files...
 
 ### Integration variables
 
+At its core, TSE integrates differential equations for the orbital elements which describe the state of the inner and outer orbit of the triple, as explained in the following. The inner orbit is described by the following seven variables:
+
 y[0:3] : Eccentricity vector of the inner binary
 
 y[3:6] : Dimensionless angular momentum vector of the inner binary
 
 y[6] : Semi-major axis (Rsun) of the inner binary
+
+Here, the first three are the x, y, and z components of the [eccentricity vector](https://en.wikipedia.org/wiki/Eccentricity_vector) pointing towards the periapsis of the inner binary and having a lenght equal to its eccentricity. The next three variables are the components of a vector parallel to the [orbital angular momentum vector](https://en.wikipedia.org/wiki/Two-body_problem#Two-body_motion_is_planar) of the inner binary with a length equal to $\sqrt{1-e^2}$. In many papers in triples, these vectors are usually denoted as $\mathbf{e}$ and $\mathbf{j}$, respectively. Finally, the seventh variable is the semi-major axis of the inner orbit in units of $\mathrm{R}_\odot$. The next seven variables repeat these properties for the outer orbit on which the tertiary companion orbits the centre of mass of the inner binary:
 
 y[7:10] : Eccentricity vector of the outer binary
 
@@ -184,9 +188,13 @@ y[10:13] : Dimensionless angular momentum vector of the outer binary
 
 y[13] : Semi-major axis (Rsun) of the outer binary
 
+Next, we have six parameters describing the roations axes of each of the inner binary stars:
+
 y[14:17] : Rotation vector of the primary star (1/Myr), only evolved as long as the star is not a compact object
 
 y[17:20] : Rotation vector of the secondary star (1/Myr), only evolved as long as the star is not a compact object
+
+And, finally, once we have black holes, spin vectors describing the Kerr parameter. They are zero if the stars have not yet developed a black hole:
 
 y[20:23] : BH spin vector of the primary, only evolved when the primary is a BH (norm 1, i.e., maximally spinning)
 

@@ -1,6 +1,19 @@
-# TSE
+<h1 align='center'>
+  TSE
+  <br>
+  <a href="https://doi.org/10.1093/mnras/stac2192">
+      <img src="https://img.shields.io/badge/read-paper-blue.svg?style=flat" alt="Read the article"/>
+  </a>
+  <a href="mailto:jakob_stegmann@icloud.com">
+      <img src="https://img.shields.io/badge/contact-authors-blueviolet.svg?style=flat" alt="Email the authors"/>
+  </a>
+</h1>
 
-## Triple stellar evolution code
+<p align="center">  
+  <img width=500 src="docs/sketch.png">
+</p>
+
+<h2 align='center'>A Triple Stellar Evolution Code</h2>
 
 TSE simulates the evolution of hierarchical stellar triples by simultaneously accounting for the gravitational three-body dynamics and the stellar evolution in time. The dynamics builds upon the secular, i.e., double-averaged Hamiltonian, of hierarchical three-body systems giving rise to, e.g., the eccentric von Zeipel-Kozai-Lidov effect. Single stellar evolution and binary interactions are modelled using the binary population synthesis code [MOBSE](https://mobse-webpage.netlify.app) which builds upon the code [BSE](https://www.ascl.net/1303.014). We have slighlty modified the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h` in MOBSE. These changes are provided as a patch ([see below](https://github.com/stegmaja/TSE/blob/main/README.md#installation)) and were only made to ensure compatibility between TSE and MOBSE, e.g., change of array lengths and MOBSE input/output, but the physical prescription of MOBSE remains unaltered.  Using other versions of MOBSE or BSE-type codes is in general possible, as long as both modified files are maintained.
 

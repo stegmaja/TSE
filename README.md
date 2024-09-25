@@ -39,7 +39,7 @@ or by having a look at `src/initialconditions.py`. For instance, do
 
 to evolve a triple from a random distribution at solar metallicity. Running `tse.py` will inform you about any noteworthy event (e.g., a mass-transfer episode or supernova explosion) in the terminal output and constantly updates thereafter a plot stored in the directory `plots` showing masses, orbital elements, etc. as a function of time. 
 
-If you are interested triples leading to a particular configuration that you wish to study (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example), which can be used to terminate the integration in the event that such configuration is being achieved.
+If you are interested in triples leading to a particular configuration that you wish to study (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example), which can be used to terminate the integration in the event that such configuration is being achieved.
 
 ### Testing and output
 

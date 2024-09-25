@@ -21,29 +21,29 @@ In order to install the code follow these steps to install
 
 Alternatively, simply execute `install.sh` in the root directory to do all these steps at once. You may need to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
+TSE runs stably with python 3 (you can check the python version on your machine by typing `python -V`) and the package versions listed in `requirements.txt`.
+
 ### Running
 
 To run a system go to the `bin` directory. Then execute
 
 `python tse.py`.
 
-You may want to check out the number of optional arguments that are available by running
+Without further specifying any further options, this evolves a triple with masses $m_1=m_2=m_3=1\,\rm M_\odot$, semi-major axes $a_1=2,000\,\rm R_\odot$ and $a_2=2\times10^5\,\rm R_\odot$, and eccentricities $e_1=0.1$ and $e_2=0.5$ for a maximum integration time of $100\,\rm Myr$. You may want to check out the number of all optional arguments, including their default values if unspecified, by running
 
-`python tse.py -h`.
+`python tse.py -h`
 
-E.g., do 
+or by having a look at `src/initialconditions.py`. For instance, do 
 
 `python tse.py --random TRUE --seed 1 --Z 0.02`
 
-to evolve a triple from a random distribution at solar metallicity.
+to evolve a triple from a random distribution at solar metallicity. Running `tse.py` will inform you about any noteworthy event (e.g., a mass-transfer episode or supernova explosion) in the terminal output and constantly updates thereafter a plot stored in the directory `plots` showing masses, orbital elements, etc. as a function of time. 
 
-If you are looking whether a triple leads to a particular configuration (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example).
-
-TSE runs stably with the package versions listed in `requirements.txt`.
+If you are interested triples leading to a particular configuration that you wish to study (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example), which can be used to terminate the integration in the event that such configuration is being achieved.
 
 ### Testing and output
 
-Let's test the code and inspect the output by running, e.g., `python tse.py --random TRUE --seed 139 --Z 0.0001 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 1 --nsflag 3 --lamb 0.1 --alpha1 0.2`. This will lead to a terminal output similar as following.
+Let's test the code with specifying some further options and inspect the output by running, e.g., `python tse.py --random TRUE --seed 139 --Z 0.0001 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 1 --nsflag 3 --lamb 0.1 --alpha1 0.2`. This will lead to a terminal output similar as following.
 
 First, the sampled initial conditions are printed:
 

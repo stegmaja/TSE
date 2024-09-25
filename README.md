@@ -32,7 +32,7 @@ In order to install the code follow these steps to install
 
 Alternatively, simply execute `install.sh` in the root directory to do all these steps at once. You may need to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
 
-TSE runs stably with python 3 (you can check the python version on your machine by typing `python -V`) and the package versions listed in `requirements.txt`.
+TSE runs stably with python 3 (you can check the python version on your machine by typing `python -V`) and the package versions listed in `requirements.txt`. Depending on your machine you may have to use `python3` instead of `python` in the following.
 
 ### Running
 

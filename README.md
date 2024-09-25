@@ -29,7 +29,7 @@ To run a system go to the `bin` directory. Then execute
 
 `python tse.py`.
 
-Without further specifying any further options, this evolves a triple with masses $m_1=m_2=m_3=1\,\rm M_\odot$, semi-major axes $a_1=2,000\,\rm R_\odot$ and $a_2=2\times10^5\,\rm R_\odot$, and eccentricities $e_1=0.1$ and $e_2=0.5$ for a maximum integration time of $100\,\rm Myr$. You may want to check out the number of all optional arguments, including their default values if unspecified, by running
+Without further specifying any further options, this evolves a triple with masses $m_1=m_2=m_3=1\rm M_\odot$, semi-major axes $a_1=2,000\rm R_\odot$ and $a_2=2\times10^5\rm R_\odot$, and eccentricities $e_1=0.1$ and $e_2=0.5$ for a maximum integration time of $100\rm Myr$. You may want to check out the number of all optional arguments, including their default values if unspecified, by running
 
 `python tse.py -h`
 

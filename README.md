@@ -122,7 +122,7 @@ Evolve single stars (ignore entries for dummy secondary)
  15000.0000   14.50907    0.00100 14 14        0.00000 -1.00   0.000   0.000  MAX_TIME
  Fallback:  0.59707766402046147
 ```
-After around 6.4 Myr an event was detected which deserves further attention. Here, the primary blew off in a supernova. The code updates the orbital parameters by taking into account any supernova kicks. In that case, the system remained stable and the integration is continued ... 
+After around $6.4\rm Myr$ an event was detected which deserves further attention. Here, the primary blew off in a supernova. The code updates the orbital parameters by taking into account any supernova kicks. In that case, the system remained stable and the integration is continued ... 
 
 ```
 A termination event occured.
@@ -178,7 +178,7 @@ y[0:3] : Eccentricity vector of the inner binary
 
 y[3:6] : Dimensionless angular momentum vector of the inner binary
 
-y[6] : Semi-major axis (Rsun) of the inner binary
+y[6] : Semi-major axis ($\rm R_\odot$) of the inner binary
 
 Here, the first three are the x, y, and z components of the [eccentricity vector](https://en.wikipedia.org/wiki/Eccentricity_vector) pointing towards the periapsis of the inner binary and having a lenght equal to its eccentricity. The next three variables are the components of a vector parallel to the [orbital angular momentum vector](https://en.wikipedia.org/wiki/Two-body_problem#Two-body_motion_is_planar) of the inner binary with a length equal to $\sqrt{1-e^2}$. In many papers in triples, these vectors are usually denoted as $\mathbf{e}$ and $\mathbf{j}$, respectively. Finally, the seventh variable is the semi-major axis of the inner orbit in units of $\mathrm{R}_\odot$. The next seven variables repeat these properties for the outer orbit on which the tertiary companion orbits the centre of mass of the inner binary:
 
@@ -186,13 +186,13 @@ y[7:10] : Eccentricity vector of the outer binary
 
 y[10:13] : Dimensionless angular momentum vector of the outer binary
 
-y[13] : Semi-major axis (Rsun) of the outer binary
+y[13] : Semi-major axis ($\rm R_\odot$) of the outer binary
 
 Next, we have six parameters describing the roations axes of each of the inner binary stars:
 
-y[14:17] : Rotation vector of the primary star (1/Myr), only evolved as long as the star is not a compact object
+y[14:17] : Rotation vector of the primary star ($1/\rm Myr$), only evolved as long as the star is not a compact object
 
-y[17:20] : Rotation vector of the secondary star (1/Myr), only evolved as long as the star is not a compact object
+y[17:20] : Rotation vector of the secondary star ($1/\rm Myr$), only evolved as long as the star is not a compact object
 
 And, finally, once we have black holes, spin vectors describing the Kerr parameter. They are zero if the stars have not yet developed a black hole:
 

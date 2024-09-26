@@ -224,3 +224,8 @@ along with the papers about mobse
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[*Giacobbo N., Mapelli M., Spera M., Mon.Not.Roy.Astron.Soc. (2018) 474, 2959–2974*](https://doi.org/10.1093/mnras/stx2933)
 
 [Figure](https://github.com/stegmaja/TSE/blob/main/docs/sketch.png) above is adapted from [*Rodriguez C. & Antonini F., 2018 ApJ 863 7*](https://doi.org/10.3847/1538-4357/aacea4)
+
+### Other useful information
+
+- [Feature requests](https://github.com/stegmaja/TSE/issues/new) - Do you have a suggestion to improve TSE? Create an issue [here](https://github.com/stegmaja/TSE/issues/new) and let us know! Or, make the change yourself and create a [pull request](https://github.com/stegmaja/TSE/pulls)!
+- [Bug reporting](https://github.com/stegmaja/TSE/issues/new) - If you see a bug or encounter any other problem we would love to know about it! Please create an issue [here](https://github.com/stegmaja/TSE/issues/new) or [contact us](mailto:jakob_stegmann@icloud.com) directly!

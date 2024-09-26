@@ -21,7 +21,7 @@ TSE simulates the evolution of hierarchical stellar triples by simultaneously ac
 
 In order to install the code follow these steps to install
 
-1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by going to https://mobse-webpage.netlify.app and downloading the MOBSE directory. In any case, MOBSE should be added to the root directory and be named `mobse`.
+1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by directly [downloading](https://mobse-webpage.netlify.app) the MOBSE directory. In any case, MOBSE should be added to the root directory and be named `mobse`.
 2. Navigate to the `mobse` directory: `cd mobse`.
 3. Implement our changes to `mobse` by `patch -p1 < ../mobse.patch`. This should notify you about patching the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h`.
 4. Navigate to the `mobse/src` directory: `cd src`.
@@ -30,7 +30,7 @@ In order to install the code follow these steps to install
 7. Create two directories where the outcome of the simulation is stored, `mkdir plots data`.
 8. Install all required packages by executing `pip install -r requirements.txt`.
 
-Alternatively, simply execute `install.sh` in the root directory to do all these steps at once. You may need to change the `mobse/src/Makefile` according to the specifications of your fortran compiler.
+Alternatively, simply execute `install.sh` in the root directory to do all these steps at once. You may need to change the `mobse/src/Makefile` according to the specifications of your fortran compiler. A common source of error during the installation is that you do not have [SSH keys to authenticate to the GitLab remote server](https://docs.gitlab.com/ee/user/ssh.html) in step 1. The quickest solution is to simply [download](https://mobse-webpage.netlify.app) the MOBSE directory and add it to the TSE directory.
 
 TSE runs stably with python 3 (you can check the python version on your machine by typing `python -V`) and the package versions listed in `requirements.txt`. Depending on your machine you may have to use `python3` instead of `python` in the following.
 

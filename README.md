@@ -19,7 +19,7 @@ TSE simulates the evolution of hierarchical stellar triples by simultaneously ac
 
 ### Installation
 
-In order to install the code follow these steps to install
+In order to install the code follow these steps:
 
 1. Add MOBSE, e.g., by cloning `git clone git@gitlab.com:mobse/source-code.git mobse` or by directly [downloading](https://mobse-webpage.netlify.app) the MOBSE directory. In any case, MOBSE should be added to the root directory and be named `mobse`.
 2. Navigate to the `mobse` directory: `cd mobse`.

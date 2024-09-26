@@ -223,4 +223,4 @@ along with the papers about mobse
 
 *Giacobbo N., Mapelli M., Spera M., Mon.Not.Roy.Astron.Soc. (2018) 474, 2959–2974* (https://doi.org/10.1093/mnras/stx2933)
 
-[Figure](https://github.com/stegmaja/TSE/blob/main/docs/sketch.png) above adapted from *Rodriguez C. & Antonini F., 2018 ApJ 863 7* (https://doi.org/10.3847/1538-4357/aacea4)
+[Figure](https://github.com/stegmaja/TSE/blob/main/docs/sketch.png) above is adapted from *Rodriguez C. & Antonini F., 2018 ApJ 863 7* (https://doi.org/10.3847/1538-4357/aacea4)

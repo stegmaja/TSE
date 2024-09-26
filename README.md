@@ -160,7 +160,7 @@ The total evolution of the system is plotted in the directory `plots` and stored
 
 ### Parallel runs
 
-If you consider running a large population in parallel, consider using `gnu parallel`, e.g.,
+If you consider running a large population in parallel, consider using [gnu parallel](https://www.gnu.org/software/parallel/), e.g.,
 
 `parallel -j 12 "python tse.py --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 

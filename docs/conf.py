@@ -127,7 +127,7 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "GitHub",
-            "url": "https://github.com/TomWagg/cogsworth",
+            "url": "https://github.com/stegmaja/TSE",
             "icon": "fab fa-github-square",
         },
     ],
@@ -177,7 +177,7 @@ todo_include_todos = True
 nbsphinx_epilog = """
 {% set docname = env.doc2path(env.docname, base=None) %}
 .. note:: This tutorial was generated from a Jupyter notebook that can be
-          `found here <https://github.com/TomWagg/cogsworth/tree/main/docs/{{ docname }}>`_.
+          `found here <https://github.com/stegmaja/TSE/tree/main/docs/{{ docname }}>`_.
 """
 nbsphinx_prompt_width = "0"
 
@@ -216,9 +216,9 @@ def linkcode_resolve(domain, info):
     try:
         file, start, end = find_func()
         # stitch together a github link with specific lines
-        filename = "cogsworth/{}.py#L{}-L{}".format(file, start, end)
+        filename = "TSE/{}.py#L{}-L{}".format(file, start, end)
 
     # if you can't find it in the file then just link to the correct file
     except Exception:
         filename = info['module'].replace('.', '/') + '.py'
-    return "https://github.com/TomWagg/cogsworth/blob/main/{}".format(filename)
+    return "https://github.com/stegmaja/TSE/blob/main/{}".format(filename)

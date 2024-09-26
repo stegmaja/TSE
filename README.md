@@ -164,7 +164,7 @@ If you consider running a large population in parallel, consider using [gnu para
 
 `parallel -j 12 "python tse.py --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 
-which would employ `-j 12` cores to evolve 1000 systems at three different metallicities (0.0002, 0.002, 0.02) in parallel. Note that it is not supported to run other parameters than seed and metallicity in parallel. If you want to explore other parameters you need to run them one after the other, e.g.,
+which would employ `-j 12` cores to evolve 1000 systems at three different metallicities (0.0002, 0.002, 0.02) in parallel. Note that it is not supported to run other parameters than seed and metallicity in parallel (since then, different tasks would access the same output files). If you want to explore other parameters you need to run them one after the other, e.g.,
 
 `parallel -j 12 "python tse.py --alpha1 1.0 --random TRUE --seed {1} --Z {2}" ::: {1..1000} ::: 0.0002 0.002 0.02`
 

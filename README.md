@@ -215,12 +215,12 @@ And, finally, once we have black holes, spin vectors describing the Kerr paramet
 
 When using this code for scientific publications cite
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Stegmann J., Antonini F. & Moe M., Mon.Not.Roy.Astron.Soc. 516 (2022) 1, 1406-1427* (https://doi.org/10.1093/mnras/stac2192)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[*Stegmann J., Antonini F. & Moe M., Mon.Not.Roy.Astron.Soc. 516 (2022) 1, 1406-1427*](https://doi.org/10.1093/mnras/stac2192)
 
 along with the papers about mobse
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Giacobbo N. & Mapelli M., Mon.Not.Roy.Astron.Soc. (2018) 480, 2011–2030* (https://doi.org/10.1093/mnras/sty1999)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[*Giacobbo N. & Mapelli M., Mon.Not.Roy.Astron.Soc. (2018) 480, 2011–2030*](https://doi.org/10.1093/mnras/sty1999)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Giacobbo N., Mapelli M., Spera M., Mon.Not.Roy.Astron.Soc. (2018) 474, 2959–2974* (https://doi.org/10.1093/mnras/stx2933)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[*Giacobbo N., Mapelli M., Spera M., Mon.Not.Roy.Astron.Soc. (2018) 474, 2959–2974*](https://doi.org/10.1093/mnras/stx2933)
 
-[Figure](https://github.com/stegmaja/TSE/blob/main/docs/sketch.png) above is adapted from *Rodriguez C. & Antonini F., 2018 ApJ 863 7* (https://doi.org/10.3847/1538-4357/aacea4)
+[Figure](https://github.com/stegmaja/TSE/blob/main/docs/sketch.png) above is adapted from [*Rodriguez C. & Antonini F., 2018 ApJ 863 7*](https://doi.org/10.3847/1538-4357/aacea4)

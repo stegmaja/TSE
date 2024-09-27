@@ -17,6 +17,16 @@
 
 TSE simulates the evolution of hierarchical stellar triples by simultaneously accounting for the gravitational three-body dynamics and the stellar evolution in time. The dynamics builds upon the secular, i.e., double-averaged Hamiltonian, of hierarchical three-body systems giving rise to, e.g., the [Eccentric von Zeipel-Kozai-Lidov effect](https://www.annualreviews.org/content/journals/10.1146/annurev-astro-081915-023315). Single stellar evolution and binary interactions are modelled using the binary population synthesis code [MOBSE](https://mobse-webpage.netlify.app) which builds upon the code [BSE](https://www.ascl.net/1303.014). Please refer to our [paper](https://doi.org/10.1093/mnras/stac2192) for a full description of the physics implemented to the code. We have slighlty modified the files `mobse/src/evolve.f`, `mobse/src/mobse.f`, and `mobse/input/const_mobse.h` in MOBSE. These changes are provided as a [patch](mobse.patch) ([see below](https://github.com/stegmaja/TSE/blob/main/README.md#installation)) and were only made to ensure compatibility between TSE and MOBSE, e.g., change of array lengths and MOBSE input/output, but the physical prescription of MOBSE remains unaltered.  In order to treat the stellar physics differently, using other versions of MOBSE or BSE-type codes is in general possible (but remains untested), as long as both modified files are maintained.
 
+In this Readme file you will learn how to:
+- [install TSE](https://github.com/stegmaja/TSE/blob/main/README.md#installation)
+- [run TSE](https://github.com/stegmaja/TSE/blob/main/README.md#running)
+- [test if TSE works correctly and learn about the terminal output](https://github.com/stegmaja/TSE/blob/main/README.md#testing-and-terminal-output) describing the most noteworthy events during the triple evolution
+- [interpret additional data products (plots and tables) produced within each run](https://github.com/stegmaja/TSE/blob/main/README.md#running)
+- [get an example how you could evolve a population of triples in parallel, e.g., on an HPC cluster managed with slurm](https://github.com/stegmaja/TSE/blob/main/README.md#parallel-runs)
+- [understand the main integration variables of TSE](https://github.com/stegmaja/TSE/blob/main/README.md#integration-variables)
+- [cite the code when using it for scientific publications](https://github.com/stegmaja/TSE/blob/main/README.md#citation)
+- [request the implementation of new features and report bugs](https://github.com/stegmaja/TSE/blob/main/README.md#other-useful-information)
+
 ### Installation
 
 In order to install the code follow these steps:
@@ -158,6 +168,10 @@ Inner orbit gets unbound.
 
 The total evolution of the system is plotted in the directory `plots` and stored as a csv table in the directory `data`.
 
+### Data products
+
+
+
 ### Parallel runs
 
 If you consider running a large population in parallel, consider using [gnu parallel](https://www.gnu.org/software/parallel/), e.g.,
@@ -178,7 +192,7 @@ and **not**
 
 Otherwise, different threads will use the same mobse input and output files.
 
-`src/serial_batch.sh` and `src/runtask` might be helpful scripts if you want to run the code on an HPC cluster that operates with slurm.
+`src/serial_batch.sh` and `src/runtask` might be helpful scripts if you want to run the code on an HPC cluster that operates with [slurm](https://slurm.schedmd.com/overview.html).
 
 
 ### Integration variables

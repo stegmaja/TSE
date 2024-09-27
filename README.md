@@ -21,7 +21,7 @@ In this Readme file you will learn how to:
 - [install TSE](https://github.com/stegmaja/TSE/blob/main/README.md#installation)
 - [run TSE](https://github.com/stegmaja/TSE/blob/main/README.md#running)
 - [test if TSE works correctly and learn about the terminal output](https://github.com/stegmaja/TSE/blob/main/README.md#testing-and-terminal-output) describing the most noteworthy events during the triple evolution
-- [interpret additional data products (plots and tables) produced within each run](https://github.com/stegmaja/TSE/blob/main/README.md#running)
+- [interpret additional data products (plots and tables) produced within each run](https://github.com/stegmaja/TSE/blob/main/README.md#data-products)
 - [get an example how you could evolve a population of triples in parallel, e.g., on an HPC cluster managed with slurm](https://github.com/stegmaja/TSE/blob/main/README.md#parallel-runs)
 - [understand the main integration variables of TSE](https://github.com/stegmaja/TSE/blob/main/README.md#integration-variables)
 - [cite the code when using it for scientific publications](https://github.com/stegmaja/TSE/blob/main/README.md#citation)

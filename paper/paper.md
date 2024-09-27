@@ -38,10 +38,14 @@ between the dynamics of hierachical triples and their stellar evolution.
 
 # Statement of need
 
-`TSE` is a Python code for hierarchical triple stellar dynamics. At its core, 
+The evolutionary pathways of hierarchical stellar triples is determined by their gravitational
+three-body dynamics and the stellar physics describing the changes in mass, radius, chemical composition, 
+etc. as a function of time. In hierarchical triples, both aspects are closely intertwined. On the one hand, stellar effects such as mass-loss due to stellar winds, tidal forces between the stars, and natal kicks during a supernova explosion may alter the orbital evolution of a triple. On the other hand, the gravitational perturbation from a tertiary companion gives rise to large-amplitude oscillations of the inner binary eccentricity. Thus, by effectively reducing the periapsis of the inner the inner binary stars it may facilitate the occurence of a mass-transfer episode or stellar merger between them, or, if the inner binary stars developed compact remnants (black holes or neutron stars), promotes a gravitational wave-driven inspiral. Various aspectes of this complex interplay between dynamics and stellar physics of triples have been studied in previous work, yet computational tools that aim to recover the evolutionary plethora of stellar triples within one self-consistent framework are sparse.
+
+`TSE` is a Python code to evolve hierarchical stellar triples by simultaneously taking into account the gravitational dynamics and the stellar physics.  At its core, 
 the secular equations of motions for the orbital elements of the inner and outer
 orbits [@Liu:2015] and the spin vectors of the inner binary stars [@Hamers:2021] 
-are evolved using the IVP solver implemented in `scipy.integrate`. Optionally, it
+are evolved using the IVP solver implemented in `scipy.integrate`. Since it is a secular code, i.e., it employs the orbit-averaged equations of motion (as opposed to a direct $N$-body integrator), it is fast enough to be used as a population synthesis code. Optionally, TSE
 follows the trajectory of the triple barycentre throughout the Milky Way and includes 
 the perturbative effect of Galactic tides on the orbital elements of the inner and 
 outer binary [@Bub:2020; @Stegmann:2024]. The evolution of stellar properties such as 

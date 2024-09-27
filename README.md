@@ -52,9 +52,9 @@ to evolve a triple from a random distribution at solar metallicity. Running `tse
 
 If you are interested in triples leading to a particular configuration that you wish to study (e.g., the formation of BH triples) check out the function `CustomEvent` in `src/main.py` (including a working example), which can be used to terminate the integration in the event that such configuration is being achieved.
 
-### Testing and output
+### Testing and terminal output
 
-Let's test the code with specifying some further options and inspect the output by running, e.g., `python tse.py --random TRUE --seed 139 --Z 0.0001 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 1 --nsflag 3 --lamb 0.1 --alpha1 0.2`. This will lead to a terminal output similar as following.
+Let's test the code with specifying some further options and inspect the terminal output by running, e.g., `python tse.py --random TRUE --seed 139 --Z 0.0001 --stellar_tides TRUE --max_time 15000.0 --method DOP853 --bhflag 1 --nsflag 3 --lamb 0.1 --alpha1 0.2`. This will lead to a terminal output similar as following.
 
 First, the sampled initial conditions are printed:
 

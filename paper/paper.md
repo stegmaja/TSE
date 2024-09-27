@@ -39,7 +39,7 @@ between the dynamics of hierachical triples and their stellar evolution.
 # Statement of need
 
 The evolutionary pathways of hierarchical stellar triples is determined by their gravitational
-three-body dynamics and the stellar physics describing the changes in mass, radius, chemical composition, 
+three-body dynamics and the stellar physics which describes the changes in mass, radius, chemical composition, 
 etc. as a function of time. In hierarchical triples, both aspects are closely intertwined. On the one hand, stellar effects such as mass-loss due to stellar winds, tidal forces between the stars, and natal kicks during a supernova explosion may alter the orbital evolution of a triple. On the other hand, the gravitational perturbation from a tertiary companion gives rise to large-amplitude oscillations of the inner binary eccentricity. Thus, by effectively reducing the periapsis of the inner the inner binary stars it may facilitate the occurence of a mass-transfer episode or stellar merger between them, or, if the inner binary stars developed compact remnants (black holes or neutron stars), promotes a gravitational wave-driven inspiral. Various aspectes of this complex interplay between dynamics and stellar physics of triples have been studied in previous work, yet computational tools that aim to recover the evolutionary plethora of stellar triples within one self-consistent framework are sparse.
 
 `TSE` is a Python code to evolve hierarchical stellar triples by simultaneously taking into account the gravitational dynamics and the stellar physics.  At its core, 

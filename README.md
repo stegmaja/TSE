@@ -241,6 +241,8 @@ And, finally, once we have black holes, spin vectors describing the Kerr paramet
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y[23:26] : BH spin vector of the secondary, only evolved when the secondary is a BH (norm 1, i.e., maximally spinning)
 
+The differential equations that govern the evolution of `y` are specified in the function `evolve()` in the file `src/main.py` and used by the the `scipy` function [`scipy.integrate.solve_ivp`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html) to solve the initial value problem (IVP) in the file `bin/tse.py`. Following the API for [`scipy.integrate.solve_ivp`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html) `evolve()` returns the r.h.s. of the differential equations, which we call `yp` and describe the time derivative of `y` at time `t`. The full physical description of the differential equations can be found in our [paper](https://doi.org/10.1093/mnras/stac2192). 
+
 ### Citation
 
 When using this code for scientific publications cite

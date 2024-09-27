@@ -166,7 +166,7 @@ Inner orbit gets unbound.
 
 ```
 
-The total evolution of the system is plotted in the directory `plots` and stored as a csv table in the directory `data`.
+The total evolution of the system is plotted in the directory `plots` and stored as a csv table in the directory `data` ([see below](https://github.com/stegmaja/TSE/blob/main/README.md#data-products)).
 
 ### Data products
 

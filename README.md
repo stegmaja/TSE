@@ -170,6 +170,11 @@ The total evolution of the system is plotted in the directory `plots` and stored
 
 ### Data products
 
+In each run, TSE produces a plot stored in the directory `plots` which gives an overview of some of the most important properties of the stellar triple as a function of time. Additionally, the parameters at each noteworthy event (Roche-love overflow, supernova explosion, etc.) are stored as a csv table in the directory `data`. Both files are named after the random seed and metallicity of the simulated triple, e.g., for the [tested example system](https://github.com/stegmaja/TSE/blob/main/README.md#testing-and-terminal-output) we got two files `plots/139_00001.png` and `data/139_00001.csv` indicating our options `--seed 139` and `--Z 0.0001` (the decimal point in the file names, i.e., `0.0001` becomes `00001`). The plot is constantly updated after each noteworthy event. After the [tested example system](https://github.com/stegmaja/TSE/blob/main/README.md#testing-and-terminal-output) has finished its evolution the plot should look like:
+
+<p align="center">  
+  <img width=500 src="docs/139_00001.png">
+</p>
 
 
 ### Parallel runs

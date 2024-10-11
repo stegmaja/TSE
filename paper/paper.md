@@ -15,7 +15,7 @@ authors:
     orcid: 0000-0003-3138-6199
     affiliation: 2 # (Multiple affiliations must be quoted)
 affiliations:
- - name: Max Planck Institute for Astrophysics, Karl-Schwarzschild-Straße 1, 85741 Garching, Germany
+ - name: Max Planck Research Fellow, Max Planck Institute for Astrophysics, Karl-Schwarzschild-Straße 1, 85741 Garching, Germany
    index: 1
  - name: Gravity Exploration Institute, School of Physics and Astronomy, Cardiff University, Cardiff, CF24 3AA, UK
    index: 2
@@ -67,7 +67,7 @@ the lifetime of the progenitors has been largely neglected. Thus, `TSE` can be
 used to investigate the role of tertiary companions for a range of massive star 
 phenomena, such as X-ray binaries, stellar mergers, and gravitational-wave
 sources. There are only few other codes published which combine the dynamical evolution
-of triples with that of stars in a comparable way than `TSE` (`TrES` 
+of triples with that of stars in a comparable way than `TSE` (`TRES` 
 [@Toonen:2016; @Toonen:2023] and `MSE` [@Hamers:2021]). Comparing the outcomes of the 
 codes will be an essential part in order to understand how different model assumptions
 determine the evolution of stellar triples.

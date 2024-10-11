@@ -29,7 +29,7 @@ bibliography: paper.bib
 Most massive stars are found in hierarchical triples or higher multiplicity systems
 in which a close inner binary is orbited by one or more distant companions [@Moe:2017].
 A distant companion may significantly alter the evolution of the system by causing
-large-amplitude oscillations of the inner binary eccentricity (so-called von Zeipel-Kozai-Lidov oscillations) [@Naoz:2016]. These oscillations determine how close the 
+large-amplitude oscillations of the inner binary eccentricity [so-called von Zeipel-Kozai-Lidov oscillations\; @Naoz:2016]. These oscillations determine how close the 
 inner binary stars pass each other at periapsis and are therefore essential for
 our understanding of interactions between massive binary stars [@Sana:2012] as well as 
 their compact remnants. Understanding the role of tertiary companions for the evolution 
@@ -50,7 +50,7 @@ follows the trajectory of the triple barycentre throughout the Milky Way and inc
 the perturbative effect of Galactic tides on the orbital elements of the inner and 
 outer binary [@Bub:2020; @Stegmann:2024]. The evolution of stellar properties such as 
 masses and radii are followed by using the stellar evolution code `MOBSE` 
-[@Giacobbo:2018; @Giacobbo:2019; @Giacobbo:2023] which builds upon the binary stellar 
+[@Giacobbo:2018a; @Giacobbo:2018b] which builds upon the binary stellar 
 evolution code `BSE` written in Fortran [@Hurley:2000; @Hurley:2002]. While integrating 
 the equations of motion `TSE` constantly checks for events such as Roche-lobe overflow, 
 supernova explosions, stellar or compact object mergers, orbital disruptions and other 
@@ -61,14 +61,14 @@ or terminates the evolution and stores the final outcome.
 `TSE` was designed to study the impact of a tertiary companion on massive stellar
 evolution, and has been already used in a number of scientific publications 
 [@Stegmann:2022a; @Stegmann:2022b]. While previous work mostly focused on the long-term 
-evolution of black hole triples towards gravitational-wave sources (e.g., 
-@Rodriguez:2018), already including the dynamical effect of a tertiary companion during
+evolution of black hole triples towards gravitational-wave sources [e.g., 
+@Rodriguez:2018], already including the dynamical effect of a tertiary companion during
 the lifetime of the progenitors has been largely neglected. Thus, `TSE` can be 
 used to investigate the role of tertiary companions for a range of massive star 
 phenomena, such as X-ray binaries, stellar mergers, and gravitational-wave
 sources. There are only few other codes published which combine the dynamical evolution
-of triples with that of stars in a comparable way than `TSE` (`TRES` 
-[@Toonen:2016; @Toonen:2023] and `MSE` [@Hamers:2021]). Comparing the outcomes of the 
+of triples with that of stars in a comparable way than `TSE` [e.g. `TRES`,
+@Toonen:2016; `MSE`, @Hamers:2021]. Comparing the outcomes of the 
 codes will be an essential part in order to understand how different model assumptions
 determine the evolution of stellar triples.
 

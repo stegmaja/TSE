@@ -4,6 +4,7 @@
   <a href="https://doi.org/10.1093/mnras/stac2192">
       <img src="https://img.shields.io/badge/read-paper-blue.svg?style=flat" alt="Read the article"/>
   </a>
+  <a href="https://joss.theoj.org/papers/3bdcce09d600d2bfd8c02faf6c99a4d6"><img src="https://joss.theoj.org/papers/3bdcce09d600d2bfd8c02faf6c99a4d6/status.svg"></a>
   <a href="mailto:jakob_stegmann@icloud.com">
       <img src="https://img.shields.io/badge/contact-authors-blueviolet.svg?style=flat" alt="Email the authors"/>
   </a>
